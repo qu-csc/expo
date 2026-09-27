@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#063f35">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>شاشة التقييم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+:root{--pri:#0e7c66;--pri-d:#095c4c;--pri-dd:#063f35;--gold:#e0b832;--gold-d:#c9a227;--ink:#1c2b27}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Tajawal',system-ui,sans-serif;color:#fff;background:radial-gradient(circle at 20% 10%,#14977d 0%,var(--pri) 35%,var(--pri-dd) 100%);
+  overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+[hidden]{display:none!important}
+.deco{position:fixed;border-radius:50%;pointer-events:none}
+.deco.a{width:50vmax;height:50vmax;top:-20vmax;left:-18vmax;background:rgba(255,255,255,.05)}
+.deco.b{width:36vmax;height:36vmax;bottom:-14vmax;right:-10vmax;background:rgba(224,184,50,.1)}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vh 5vw;text-align:center;overflow-y:auto}
+.expo{position:fixed;top:3vh;left:0;right:0;text-align:center;font-size:clamp(15px,2vw,22px);opacity:.8;font-weight:700}
+.fs{position:fixed;top:2vh;left:2vw;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);font-size:20px;opacity:.5;z-index:5}
+h1{font-size:clamp(34px,6vw,72px);font-weight:800;line-height:1.25;margin-bottom:1vh;animation:up .6s ease both}
+.sub{font-size:clamp(16px,2.4vw,26px);opacity:.85;margin-bottom:4vh}
+.q{width:100%;max-width:900px;margin-bottom:3vh;animation:up .5s ease both}
+.q p{font-size:clamp(18px,2.8vw,30px);font-weight:700;margin-bottom:1vh}
+.stars{display:flex;justify-content:center;gap:clamp(4px,1.5vw,18px);direction:ltr}
+.stars button{font-size:clamp(56px,11vw,120px);line-height:1;color:rgba(255,255,255,.22);transition:transform .15s,color .15s,text-shadow .2s}
+.stars button.on{color:var(--gold);text-shadow:0 0 30px rgba(224,184,50,.55)}
+.stars button:active{transform:scale(1.2)}
+.word{display:block;min-height:1.6em;font-size:clamp(18px,2.6vw,30px);font-weight:800;color:var(--gold)}
+.noteBtn{font-size:clamp(15px,2vw,20px);opacity:.8;text-decoration:underline;margin-bottom:2vh}
+textarea{width:100%;max-width:760px;min-height:14vh;border-radius:20px;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);padding:16px;font-size:clamp(16px,2vw,22px);margin-bottom:2vh;resize:none;user-select:text;-webkit-user-select:text}
+textarea::placeholder{color:rgba(255,255,255,.55)}
+textarea:focus{outline:none;border-color:var(--gold)}
+.send{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--ink);font-weight:800;font-size:clamp(22px,3.2vw,36px);padding:2vh 9vw;border-radius:24px;box-shadow:0 14px 40px rgba(0,0,0,.25);transition:.2s}
+.send:disabled{opacity:.3;box-shadow:none}
+.send:active{transform:scale(.97)}
+.thx .big{font-size:clamp(90px,16vw,180px);animation:pop .6s ease both}
+.thx h1{margin-top:1vh}
+.ringw{position:relative;width:74px;height:74px;margin-top:4vh;opacity:.85}
+.ringw svg{transform:rotate(-90deg)}
+.ringw b{position:absolute;inset:0;display:grid;place-items:center;font-size:24px}
+.tap{margin-top:1.5vh;opacity:.6;font-size:clamp(14px,1.8vw,18px)}
+.conf{position:fixed;top:-20px;font-size:28px;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.3}}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:0;transform:scale(.4)}70%{transform:scale(1.1)}100%{opacity:1;transform:none}}
+.status{position:fixed;bottom:2vh;left:2vw;font-size:13px;opacity:.5}
+.spin{width:54px;height:54px;border:5px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="deco a"></div><div class="deco b"></div>
+<div class="expo" id="expo"></div>
+<button class="fs" id="fsBtn" title="ملء الشاشة">⛶</button>
+
+<section class="screen" id="sLoad"><div><div class="spin"></div>جارٍ التحميل…</div></section>
+
+<section class="screen" id="sRate" hidden>
+  <h1>⭐ كيف كانت تجربتك؟</h1>
+  <p class="sub" id="rSub">اختر عدد النجوم</p>
+  <div id="qs" style="width:100%;display:flex;flex-direction:column;align-items:center"></div>
+  <button class="noteBtn" id="noteBtn">✍️ إضافة ملاحظة (اختياري)</button>
+  <textarea id="note" maxlength="600" placeholder="اكتب ملاحظتك أو اقتراحك…" hidden></textarea>
+  <button class="send" id="send" disabled>إرسال</button>
+</section>
+
+<section class="screen thx" id="sThx" hidden>
+  <div class="big">🌟</div>
+  <h1>شكرًا لك</h1>
+  <p class="sub">سعدنا بزيارتك، رأيك يساعدنا على التطوير</p>
+  <div class="ringw"><svg width="74" height="74"><circle cx="37" cy="37" r="32" stroke="rgba(255,255,255,.15)" stroke-width="6" fill="none"/>
+    <circle id="ringC" cx="37" cy="37" r="32" stroke="#e0b832" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="201"/></svg><b id="ringN"></b></div>
+  <p class="tap">المس الشاشة للبدء من جديد</p>
+</section>
+
+<div class="status" id="status"></div>
+
+<script>
+const API = (window.EXPO_CONFIG || {}).API_URL || '';
+const Q_TEXT = {
+  overall: 'تجربتك العامة في المعرض',
+  benefit: 'مدى استفادتك من المعرض',
+  organization: 'تنظيم المعرض',
+  content: 'محتوى البوثات'
+};
+const WORDS = ['ضعيف', 'مقبول', 'جيد', 'جيد جدًا', 'ممتاز'];
+const IDLE_MS = 45000;
+
+const $ = s => document.querySelector(s);
+const LS = {
+  get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} }
+};
+
+let EXPO = null, QS = [], ANS = {}, idleT, resetT, cdT;
+
+async function api(action, data) {
+  if (!API || API.indexOf('http') !== 0) throw new Error('config');
+  const res = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(Object.assign({ action }, data || {}))
+  });
+  const j = await res.json();
+  if (!j.ok) throw new Error(j.error || 'خطأ');
+  return j;
+}
+
+function show(id) {
+  ['sLoad', 'sRate', 'sThx'].forEach(s => $('#' + s).hidden = s !== id);
+}
+
+/* تحميل الإعدادات مع إعادة المحاولة */
+async function loadConfig() {
+  try {
+    const c = await api('config');
+    EXPO = c.expo;
+    LS.set('kiosk_cfg', JSON.stringify(EXPO));
+  } catch (e) {
+    try { EXPO = JSON.parse(LS.get('kiosk_cfg') || 'null'); } catch (x) { EXPO = null; }
+    if (!EXPO) { setTimeout(loadConfig, 5000); return; }
+  }
+  $('#expo').textContent = EXPO.name || '';
+  document.title = 'شاشة التقييم — ' + (EXPO.name || '');
+  QS = (EXPO.kioskQuestions || ['overall']).filter(k => Q_TEXT[k]);
+  if (!QS.length) QS = ['overall'];
+  reset();
+}
+
+function reset() {
+  clearTimeout(resetT); clearInterval(cdT); clearTimeout(idleT);
+  ANS = {};
+  const single = QS.length === 1;
+  $('#rSub').textContent = single ? 'اختر عدد النجوم ثم اضغط إرسال' : 'قيّم كل بند بالنجوم ثم اضغط إرسال';
+  $('#qs').innerHTML = QS.map((k, i) => `
+    <div class="q" data-q="${k}" style="animation-delay:${i * .08}s">
+      ${single ? '' : `<p>${Q_TEXT[k]}</p>`}
+      <div class="stars">${[1, 2, 3, 4, 5].map(n => `<button data-n="${n}" aria-label="${n}">★</button>`).join('')}</div>
+      <span class="word">&nbsp;</span>
+    </div>`).join('');
+  $('#note').value = '';
+  $('#note').hidden = true;
+  $('#noteBtn').hidden = false;
+  $('#send').disabled = true;
+  show('sRate');
+}
+
+function poke() {
+  clearTimeout(idleT);
+  idleT = setTimeout(() => { if (!$('#sRate').hidden && Object.keys(ANS).length) reset(); }, IDLE_MS);
+}
+
+$('#qs').onclick = e => {
+  const s = e.target.closest('[data-n]');
+  if (!s) return;
+  const q = s.closest('.q'), n = +s.dataset.n;
+  ANS[q.dataset.q] = n;
+  q.querySelectorAll('[data-n]').forEach(x => x.classList.toggle('on', +x.dataset.n <= n));
+  q.querySelector('.word').textContent = WORDS[n - 1];
+  $('#send').disabled = !QS.every(k => ANS[k]);
+  poke();
+};
+$('#noteBtn').onclick = () => { $('#noteBtn').hidden = true; $('#note').hidden = false; $('#note').focus(); poke(); };
+$('#note').oninput = poke;
+
+$('#send').onclick = () => {
+  const item = { source: 'kiosk', answers: Object.assign({}, ANS), notes: $('#note').value.trim() };
+  thanks();
+  api('rate', item).catch(() => { const q = queue(); q.push(item); saveQueue(q); status(); });
+};
+
+/* شاشة الشكر مع العدّ التنازلي */
+function thanks() {
+  clearTimeout(idleT);
+  show('sThx');
+  confetti();
+  const sec = Math.max(3, EXPO.kioskResetSec || 6);
+  let left = sec;
+  const draw = () => {
+    $('#ringN').textContent = left;
+    $('#ringC').style.strokeDashoffset = 201 - 201 * (left / sec);
+  };
+  draw();
+  cdT = setInterval(() => { left--; if (left >= 0) draw(); }, 1000);
+  resetT = setTimeout(reset, sec * 1000);
+}
+$('#sThx').onclick = () => reset();
+
+function confetti() {
+  const set = ['⭐', '🌟', '✨', '💚', '🎉'];
+  for (let i = 0; i < 22; i++) {
+    const s = document.createElement('span');
+    s.className = 'conf';
+    s.textContent = set[i % set.length];
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.animationDuration = (2 + Math.random() * 2) + 's';
+    s.style.animationDelay = Math.random() * .6 + 's';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 5000);
+  }
+}
+
+/* طابور احتياطي إذا انقطع الإنترنت */
+function queue() { try { return JSON.parse(LS.get('kiosk_q') || '[]'); } catch (e) { return []; } }
+function saveQueue(q) { LS.set('kiosk_q', JSON.stringify(q)); }
+function status() { const n = queue().length; $('#status').textContent = n ? `⏳ ${n} تقييم بانتظار الإرسال` : ''; }
+async function flush() {
+  const q = queue();
+  if (!q.length) return;
+  const keep = [];
+  for (const item of q) {
+    try { await api('rate', item); } catch (e) { keep.push(item); }
+  }
+  saveQueue(keep);
+  status();
+}
+setInterval(flush, 20000);
+
+/* ملء الشاشة */
+$('#fsBtn').onclick = () => {
+  const d = document.documentElement;
+  if (!document.fullscreenElement) (d.requestFullscreen || d.webkitRequestFullscreen || (() => {})).call(d);
+  else document.exitFullscreen && document.exitFullscreen();
+};
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+loadConfig();
+status();
+flush();
+</script>
+</body>
+</html>
