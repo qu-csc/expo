@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#095c4c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>دليل المعرض</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<style>
+:root{
+  --pri:#0e7c66;--pri-d:#095c4c;--pri-dd:#063f35;--pri-l:#e4f3ef;
+  --gold:#c9a227;--gold-d:#a8851a;--gold-l:#fbf4dc;
+  --bg:#f3f6f5;--card:#fff;--ink:#1c2b27;--muted:#6a7b76;--line:#e3eae8;--danger:#c0392b;
+  --r:18px;--safe:env(safe-area-inset-bottom);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);min-height:100%}
+body{font-family:'Tajawal',system-ui,sans-serif;color:var(--ink);font-size:16px;line-height:1.6;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+[hidden]{display:none!important}
+.wrap{max-width:560px;margin:0 auto}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 18px;border-radius:14px;font-weight:800;font-size:16px;background:var(--pri-l);color:var(--pri-d);transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--pri);color:#fff;box-shadow:0 8px 20px rgba(14,124,102,.28)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#fff;box-shadow:0 8px 20px rgba(201,162,39,.3)}
+.btn.white{background:#fff;color:var(--pri-d)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.45;box-shadow:none}
+
+/* بداية */
+#v-start{min-height:100vh;min-height:100dvh;background:linear-gradient(165deg,var(--pri-dd) 0%,var(--pri) 70%,#14977d 100%);color:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.deco{position:absolute;border-radius:50%;background:rgba(255,255,255,.06)}
+.deco.a{width:320px;height:320px;top:-120px;left:-110px}
+.deco.b{width:220px;height:220px;bottom:120px;right:-90px;background:rgba(201,162,39,.14)}
+.st-in{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 26px calc(30px + var(--safe));max-width:560px;margin:0 auto;width:100%}
+.st-logo{width:84px;height:84px;border-radius:26px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:46px;margin-bottom:22px;backdrop-filter:blur(6px);animation:pop .6s ease both}
+.st-in h1{font-size:30px;line-height:1.35;font-weight:800;margin-bottom:10px;animation:up .6s .1s ease both}
+.st-in p.sub{opacity:.85;font-size:17px;margin-bottom:34px;animation:up .6s .2s ease both}
+.steps{display:grid;gap:12px;margin-bottom:36px}
+.step{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.1);border-radius:16px;padding:13px 15px;animation:up .6s ease both}
+.step:nth-child(1){animation-delay:.3s}.step:nth-child(2){animation-delay:.4s}.step:nth-child(3){animation-delay:.5s}
+.step i{font-style:normal;width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:20px;flex:0 0 auto}
+.step b{font-size:15px}
+.st-note{text-align:center;font-size:13px;opacity:.7;margin-top:14px}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+
+/* اختيار النوع */
+.pagehead{padding:26px 22px 8px}
+.pagehead h2{font-size:26px;font-weight:800}
+.pagehead p{color:var(--muted);font-size:15px}
+.backlnk{display:inline-flex;align-items:center;gap:4px;color:var(--pri);font-weight:700;margin-bottom:10px;font-size:15px}
+.pend{margin:10px 22px 0;background:var(--gold-l);color:#7a5f0c;border-radius:14px;padding:12px 14px;font-size:14px;font-weight:600}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px 22px 30px}
+.tcard{background:#fff;border:2px solid var(--line);border-radius:22px;padding:22px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;transition:.15s;animation:up .5s ease both}
+.tcard:active{transform:scale(.96)}
+.tcard.on{border-color:var(--pri);background:var(--pri-l)}
+.tcard span{font-size:42px;line-height:1}
+.tcard b{font-size:16px;line-height:1.4}
+
+/* الرئيسية */
+.hhead{background:linear-gradient(160deg,var(--pri-dd),var(--pri));color:#fff;padding:22px 20px 70px;border-radius:0 0 30px 30px}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hhead h2{font-size:24px;font-weight:800}
+.hhead .expo{font-size:13px;opacity:.75}
+.icbtn{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.14);color:#fff;font-size:18px;font-weight:800;flex:0 0 auto}
+.tchip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border-radius:30px;padding:5px 12px;margin-top:10px;font-size:14px}
+.tchip button{color:var(--gold-l);font-weight:700;font-size:13px;text-decoration:underline}
+.prog{margin:-50px 16px 0;background:#fff;border-radius:22px;padding:16px 18px;display:flex;align-items:center;gap:16px;box-shadow:0 10px 30px rgba(9,92,76,.12);position:relative}
+.ring{width:76px;height:76px;flex:0 0 auto;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .n{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:20px;color:var(--pri-d)}
+.prog b{font-size:18px;display:block}
+.prog small{color:var(--muted);font-size:14px}
+.ratecard{margin:14px 16px 0;border-radius:20px;padding:16px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#fff8e1,var(--gold-l));border:1.5px solid #efdc9a;text-align:right;width:calc(100% - 32px)}
+.ratecard .ri{font-size:30px}
+.ratecard b{display:block;font-size:16px;color:#6d540a}
+.ratecard small{color:#8a6d16;font-size:13px}
+.ratecard.lock{opacity:.7;filter:grayscale(.4)}
+.ratecard .arrow{margin-right:auto;font-size:20px;color:var(--gold-d)}
+.sec{padding:22px 16px 0}
+.sec h3{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}
+.sec > p{color:var(--muted);font-size:14px;margin-bottom:12px}
+.filters{display:flex;gap:8px;margin:4px 0 12px;overflow-x:auto}
+.filters button{padding:7px 14px;border-radius:30px;background:#fff;border:1.5px solid var(--line);font-weight:700;font-size:14px;color:var(--muted);white-space:nowrap}
+.filters button.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.blist{display:grid;gap:10px}
+.bcard{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:13px;text-align:right;width:100%;transition:.15s;animation:up .4s ease both}
+.bcard:active{transform:scale(.98)}
+.bcard.rec{border-color:#ecd98f;background:linear-gradient(90deg,#fff,#fffbeb)}
+.bcard.done{background:#f6fbf9;border-color:#bfe3d8}
+.bic{width:52px;height:52px;border-radius:15px;background:var(--pri-l);display:grid;place-items:center;font-size:28px;flex:0 0 auto;position:relative}
+.bcard.rec .bic{background:var(--gold-l)}
+.bcard.done .bic::after{content:'✓';position:absolute;bottom:-4px;left:-4px;width:22px;height:22px;border-radius:50%;background:var(--pri);color:#fff;font-size:13px;display:grid;place-items:center;border:2px solid #fff;font-weight:800}
+.bt{flex:1;min-width:0}
+.bt b{display:block;font-size:16px;line-height:1.4}
+.bt small{display:block;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bst{font-size:12px;font-weight:800;border-radius:20px;padding:4px 10px;white-space:nowrap}
+.bst.ok{background:var(--pri-l);color:var(--pri-d)}
+.bst.no{background:var(--bg);color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:24px;font-size:14px}
+.spacer{height:calc(110px + var(--safe))}
+
+.dock{position:fixed;bottom:0;left:0;right:0;z-index:30;padding:12px 16px calc(12px + var(--safe));background:linear-gradient(to top,var(--bg) 70%,rgba(243,246,245,0))}
+.dock .btn{max-width:528px;margin:0 auto;padding:17px;font-size:18px;border-radius:18px}
+
+/* تقييم */
+.qwrap{padding:8px 16px 20px}
+.q{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px;text-align:center}
+.q p{font-weight:700;font-size:16px;margin-bottom:8px}
+.stars{display:flex;justify-content:center;gap:4px;direction:ltr}
+.stars button{font-size:40px;color:#d9dfdd;line-height:1;padding:2px 3px;transition:transform .15s,color .15s}
+.stars button.on{color:var(--gold)}
+.stars button:active{transform:scale(1.25)}
+.qw{display:block;color:var(--gold-d);font-weight:700;font-size:14px;min-height:22px}
+textarea.notes{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:14px;min-height:110px;resize:vertical;background:#fff}
+textarea.notes:focus{outline:none;border-color:var(--pri)}
+.lbl{font-weight:700;margin:6px 4px 8px}
+
+/* شكر + هدية */
+.thx{padding:30px 20px calc(30px + var(--safe));text-align:center}
+.thx .big{font-size:64px;animation:pop .6s ease both}
+.thx h2{font-size:28px;font-weight:800;margin:6px 0}
+.thx > p{color:var(--muted);margin-bottom:22px}
+.gift{position:relative;overflow:hidden;border-radius:26px;padding:26px 20px;color:#fff;text-align:center;background:linear-gradient(120deg,#0a5c4c,#0e7c66,#1aa184,#c9a227,#0e7c66);background-size:300% 300%;animation:flow 6s ease infinite;box-shadow:0 18px 40px rgba(9,92,76,.3);margin-bottom:16px}
+@keyframes flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.gift::before{content:'';position:absolute;top:0;bottom:0;width:60%;left:-70%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);animation:shine 2.6s linear infinite}
+@keyframes shine{to{left:120%}}
+.gift > *{position:relative}
+.gtop{font-size:15px;opacity:.9;font-weight:700}
+.gname{font-size:19px;font-weight:800;margin:4px 0 14px}
+.gcode{display:inline-block;background:rgba(255,255,255,.18);border-radius:14px;padding:8px 20px;font-size:28px;font-weight:800;letter-spacing:4px;direction:ltr}
+.gclock{font-size:34px;font-weight:800;margin:14px 0 4px;direction:ltr;font-variant-numeric:tabular-nums}
+.gdot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#7CFFB2;margin-left:6px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+.gmsg{font-size:15px;font-weight:700;margin-top:6px}
+.gift.given{background:linear-gradient(120deg,#8a9591,#6f7b77);animation:none}
+.gift.given::before{display:none}
+.gift.given .gmsg{font-size:22px}
+.stafflnk{color:var(--muted);font-size:14px;text-decoration:underline;margin-top:6px}
+
+/* طبقات */
+.ovl{position:fixed;inset:0;z-index:60;background:rgba(10,30,26,.55);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.sheet{background:#fff;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;border-radius:26px 26px 0 0;padding:22px 20px calc(20px + var(--safe));animation:slide .28s ease}
+@keyframes slide{from{transform:translateY(100%)}}
+.grab{width:44px;height:5px;border-radius:5px;background:var(--line);margin:-8px auto 14px}
+.dhead{text-align:center}
+.dic{width:78px;height:78px;border-radius:22px;background:var(--pri-l);display:grid;place-items:center;font-size:42px;margin:0 auto 10px}
+.dhead h3{font-size:22px;font-weight:800;margin-bottom:6px}
+.pill{display:inline-block;font-size:13px;font-weight:800;border-radius:20px;padding:3px 11px;margin:2px}
+.pill.gold{background:var(--gold-l);color:#7a5f0c}
+.pill.ok{background:var(--pri-l);color:var(--pri-d)}
+.ddesc{margin:14px 0;color:#34443f;line-height:1.8}
+.dloc{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:12px}
+.dtypes{font-size:13px;color:var(--muted);margin-bottom:16px}
+.dnote{text-align:center;color:var(--pri-d);font-weight:700;background:var(--pri-l);border-radius:12px;padding:12px;margin-bottom:10px}
+.sheet .btn + .btn{margin-top:8px}
+.pinin{width:100%;padding:16px;border:2px solid var(--line);border-radius:14px;text-align:center;font-size:26px;letter-spacing:8px;margin:12px 0}
+.pinin:focus{outline:none;border-color:var(--pri)}
+.help li{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;list-style:none}
+.help li i{font-style:normal;width:38px;height:38px;border-radius:12px;background:var(--pri-l);display:grid;place-items:center;flex:0 0 auto;font-size:18px}
+
+/* الماسح */
+.scan{position:fixed;inset:0;z-index:70;background:#000;color:#fff;display:flex;flex-direction:column}
+.scan-top{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:3}
+.scan-top b{font-size:18px}
+.scan-top button{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:20px}
+#reader{flex:1;position:relative;overflow:hidden}
+#reader video{width:100%!important;height:100%!important;object-fit:cover}
+.scan-hint{position:absolute;bottom:0;left:0;right:0;z-index:3;text-align:center;padding:22px 20px calc(26px + var(--safe));background:linear-gradient(to top,rgba(0,0,0,.8),transparent);font-size:16px;font-weight:600}
+.scan-err{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px;text-align:center;background:#101816}
+.scan-err .e{font-size:50px}
+
+/* النتيجة */
+.res{position:fixed;inset:0;z-index:80;background:rgba(10,30,26,.6);display:flex;align-items:center;justify-content:center;padding:22px;animation:fade .2s}
+.rbox{background:#fff;border-radius:28px;padding:30px 22px 22px;width:100%;max-width:400px;text-align:center;animation:pop .35s ease}
+.rbox .ico{width:92px;height:92px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;font-size:48px}
+.rbox .ico.ok{background:var(--pri-l);animation:pulse 1.2s ease 2}
+.rbox .ico.info{background:#e8f0fb}
+.rbox .ico.bad{background:#fdecea}
+@keyframes pulse{50%{box-shadow:0 0 0 18px rgba(14,124,102,0)}0%{box-shadow:0 0 0 0 rgba(14,124,102,.35)}}
+.rbox h3{font-size:21px;font-weight:800}
+.rbox .bn{font-size:18px;font-weight:700;color:var(--pri-d);margin:6px 0 14px}
+.rbox .cnt{background:var(--bg);border-radius:14px;padding:12px;margin-bottom:16px}
+.rbox .cnt b{font-size:17px}
+.pbar{height:10px;border-radius:10px;background:var(--line);overflow:hidden;margin-top:8px}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--pri),#1fb592);border-radius:10px;transition:width .8s ease}
+.rbox p.m{color:var(--muted);margin-bottom:16px}
+.rbox .btn + .btn{margin-top:8px}
+.spin{width:44px;height:44px;border:4px solid var(--pri-l);border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite;margin:10px auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.toast{position:fixed;top:calc(16px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-150%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:14px;z-index:95;transition:.3s;max-width:90vw;text-align:center;font-weight:700;font-size:15px}
+.toast.show{transform:translate(-50%,0)}
+.toast.bad{background:var(--danger)}
+.busy{position:fixed;inset:0;z-index:90;background:rgba(255,255,255,.55);display:grid;place-items:center}
+.loading{min-height:100vh;display:grid;place-items:center;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body data-view="loading">
+
+<div class="loading view" id="v-loading"><div><div class="spin"></div>جارٍ التحميل…</div></div>
+
+<div class="loading view" id="v-error" hidden>
+  <div style="padding:30px">
+    <div style="font-size:50px">📡</div>
+    <h3 style="margin:10px 0 6px">تعذر الاتصال</h3>
+    <p style="margin-bottom:18px">تأكد من اتصال الإنترنت ثم حاول مرة أخرى</p>
+    <button class="btn pri block" onclick="location.reload()">إعادة المحاولة</button>
+  </div>
+</div>
+
+<!-- 1) البداية -->
+<section class="view" id="v-start" hidden>
+  <div class="deco a"></div><div class="deco b"></div>
+  <div class="st-in">
+    <div class="st-logo">🏛️</div>
+    <h1 id="stName">المعرض</h1>
+    <p class="sub" id="stSub"></p>
+    <div class="steps">
+      <div class="step"><i>👤</i><b>اختر فئتك لنقترح عليك الخدمات الأنسب</b></div>
+      <div class="step"><i>📷</i><b>امسح رمز QR في كل بوث تزوره</b></div>
+      <div class="step"><i>⭐</i><b>شاركنا رأيك في نهاية جولتك</b></div>
+    </div>
+    <button class="btn white block" id="goTypes">ابدأ الجولة ←</button>
+    <p class="st-note">بدون تسجيل دخول أو تحميل تطبيق</p>
+  </div>
+</section>
+
+<!-- 2) اختيار النوع -->
+<section class="view wrap" id="v-types" hidden>
+  <div class="pagehead">
+    <button class="backlnk" id="typesBack" hidden>→ رجوع</button>
+    <h2>عرّفنا بنفسك</h2>
+    <p>سنبرز لك الخدمات الأقرب لك، ويمكنك زيارة جميع البوثات.</p>
+  </div>
+  <div class="pend" id="pendNote" hidden></div>
+  <div class="tgrid" id="typeGrid"></div>
+</section>
+
+<!-- 3) الرئيسية -->
+<section class="view wrap" id="v-home" hidden>
+  <div class="hhead">
+    <div class="hrow">
+      <div><div class="expo" id="hExpo"></div><h2>أهلًا بك 👋</h2></div>
+      <button class="icbtn" id="helpBtn" aria-label="مساعدة">؟</button>
+    </div>
+    <div class="tchip" id="tChip"></div>
+  </div>
+  <div class="prog">
+    <div class="ring">
+      <svg width="76" height="76"><circle cx="38" cy="38" r="32" stroke="#e4f3ef" stroke-width="8" fill="none"/>
+        <circle id="ringC" cx="38" cy="38" r="32" stroke="#0e7c66" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="201" style="transition:stroke-dashoffset .8s"/></svg>
+      <div class="n" id="ringN">0</div>
+    </div>
+    <div><b id="progT"></b><small id="progS"></small></div>
+  </div>
+  <button class="ratecard" id="rateCard"></button>
+
+  <div class="sec" id="recSec">
+    <h3>⭐ بوثات ننصحك بزيارتها</h3>
+    <p>هذه البوثات مرتبطة بشكل مباشر بنوع الزائر الذي اخترته.</p>
+    <div class="blist" id="recList"></div>
+  </div>
+  <div class="sec">
+    <h3>🏢 جميع البوثات</h3>
+    <div class="filters" id="filters">
+      <button data-f="all" class="on">الكل</button>
+      <button data-f="todo">لم أزرها</button>
+      <button data-f="done">زرتها</button>
+    </div>
+    <div class="blist" id="allList"></div>
+  </div>
+  <div class="spacer"></div>
+</section>
+
+<!-- 4) التقييم -->
+<section class="view wrap" id="v-rate" hidden>
+  <div class="pagehead">
+    <button class="backlnk" data-home>→ رجوع</button>
+    <h2>⭐ شاركنا رأيك</h2>
+    <p>أسئلة سريعة تساعدنا على التطوير</p>
+  </div>
+  <div class="qwrap">
+    <div id="rateQs"></div>
+    <div class="lbl">ملاحظاتك أو مقترحاتك (اختياري)</div>
+    <textarea class="notes" id="notes" maxlength="1000" placeholder="اكتب ملاحظتك هنا…"></textarea>
+    <div style="height:16px"></div>
+    <button class="btn pri block" id="sendRate" disabled>إرسال التقييم</button>
+  </div>
+</section>
+
+<!-- 5) الشكر والهدية -->
+<section class="view wrap" id="v-thanks" hidden>
+  <div class="thx">
+    <div class="big">🌟</div>
+    <h2>شكرًا لك</h2>
+    <p id="thxSub">تم استلام تقييمك، رأيك يهمنا</p>
+    <div id="giftBox" hidden>
+      <div class="gift" id="gift">
+        <div class="gtop">🎁 بطاقة هدية الزائر</div>
+        <div class="gname" id="gName"></div>
+        <div class="gcode" id="gCode"></div>
+        <div class="gclock"><span class="gdot"></span><span id="gClock">--:--:--</span></div>
+        <div class="gmsg" id="gMsg"></div>
+      </div>
+      <button class="stafflnk" id="staffBtn">للموظف: تأكيد تسليم الهدية</button>
+    </div>
+    <div style="height:22px"></div>
+    <button class="btn block" data-home>العودة للبوثات</button>
+  </div>
+</section>
+
+<div class="dock" id="dock" hidden><button class="btn pri" id="scanBtn" style="width:100%">📷 مسح QR البوث</button></div>
+
+<div class="ovl" id="ovl" hidden><div class="sheet" id="sheet"></div></div>
+
+<div class="scan" id="scan" hidden>
+  <div class="scan-top"><b>📷 امسح رمز البوث</b><button id="scanClose" aria-label="إغلاق">✕</button></div>
+  <div id="reader"></div>
+  <div class="scan-hint">وجّه الكاميرا نحو رمز QR الموجود في البوث</div>
+  <div class="scan-err" id="scanErr" hidden>
+    <div class="e">📷</div>
+    <b id="scanErrT"></b>
+    <button class="btn white" id="scanRetry">حاول مرة أخرى</button>
+    <button class="btn ghost" id="scanBack" style="color:#ccc">رجوع</button>
+  </div>
+</div>
+
+<div class="res" id="res" hidden><div class="rbox" id="rbox"></div></div>
+<div class="toast" id="toast"></div>
+<div class="busy" id="busy" hidden><div class="spin"></div></div>
+
+<script>
+const API = (window.EXPO_CONFIG || {}).API_URL || '';
+const Q_TEXT = {
+  overall: 'كيف تقيّم تجربتك بشكل عام في المعرض؟',
+  benefit: 'ما مدى استفادتك من المعرض؟',
+  organization: 'كيف تقيّم تنظيم المعرض؟',
+  content: 'كيف تقيّم محتوى البوثات؟'
+};
+const WORDS = ['ضعيف', 'مقبول', 'جيد', 'جيد جدًا', 'ممتاز'];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const LS = {
+  get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} },
+  del: k => { try { localStorage.removeItem(k); } catch (e) {} }
+};
+const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+
+let CFG = null;      // { expo, types, booths }
+let ME = null;       // { id, type, visited[], rated, ratingId, giftGiven }
+let pending = null;  // { b, k } زيارة قادمة من رابط مباشر
+let filter = 'all';
+let ANS = {};
+
+/* ---------- الاتصال ---------- */
+async function api(action, data) {
+  if (!API || API.indexOf('http') !== 0) throw new Error('لم يتم ضبط رابط النظام في config.js');
+  let res;
+  try {
+    res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action }, data || {}))
+    });
+  } catch (e) { throw new Error('تعذر الاتصال، تحقق من الإنترنت'); }
+  const j = await res.json();
+  if (!j.ok) throw new Error(j.error || 'حدث خطأ');
+  return j;
+}
+let tT;
+function toast(m, bad) {
+  const t = $('#toast');
+  t.textContent = m;
+  t.className = 'toast show' + (bad ? ' bad' : '');
+  clearTimeout(tT);
+  tT = setTimeout(() => t.className = 'toast', 2800);
+}
+function lostVisitor() {
+  ME = null;
+  LS.del('expo_vid');
+  toast('يرجى اختيار نوع الزائر من جديد', true);
+  openTypes();
+}
+async function run(fn) {
+  $('#busy').hidden = false;
+  try { await fn(); }
+  catch (e) { e.message === 'NO_VISITOR' ? lostVisitor() : toast(e.message, true); }
+  finally { $('#busy').hidden = true; }
+}
+
+/* ---------- العرض ---------- */
+function show(v) {
+  document.querySelectorAll('.view').forEach(x => x.hidden = x.id !== 'v-' + v);
+  document.body.dataset.view = v;
+  $('#dock').hidden = v !== 'home';
+  window.scrollTo(0, 0);
+}
+const typeOf = id => CFG.types.find(t => t.id === id);
+const boothOf = id => CFG.booths.find(b => b.id === id);
+
+/* ---------- البدء ---------- */
+(async function init() {
+  const p = new URLSearchParams(location.search);
+  if (p.get('b') && p.get('k')) {
+    pending = { b: p.get('b'), k: p.get('k') };
+    history.replaceState(null, '', location.pathname);
+  }
+  try { CFG = JSON.parse(LS.get('expo_cfg') || 'null'); } catch (e) { CFG = null; }
+  const vid = LS.get('expo_vid');
+  try {
+    const [c, v] = await Promise.all([
+      api('config'),
+      vid ? api('visitor', { vid }) : Promise.resolve({ visitor: null })
+    ]);
+    CFG = { expo: c.expo, types: c.types, booths: c.booths };
+    LS.set('expo_cfg', JSON.stringify(CFG));
+    ME = v.visitor;
+    if (!ME) LS.del('expo_vid');
+  } catch (e) {
+    if (!CFG) { show('error'); return; }
+    toast(e.message, true);
+  }
+  brand();
+  if (ME) {
+    goHome();
+    if (pending) { const x = pending; pending = null; doVisit(x, 'link'); }
+  } else if (pending) {
+    openTypes();
+  } else {
+    show('start');
+  }
+})();
+
+function brand() {
+  const e = CFG.expo || {};
+  document.title = e.name || 'دليل المعرض';
+  $('#stName').textContent = e.name || 'المعرض';
+  $('#stSub').textContent = e.subtitle || '';
+  $('#hExpo').textContent = e.name || '';
+  $('#gName').textContent = e.name || '';
+}
+
+/* ---------- اختيار النوع ---------- */
+$('#goTypes').onclick = () => openTypes();
+$('#typesBack').onclick = () => goHome();
+function openTypes() {
+  $('#typeGrid').innerHTML = CFG.types.map((t, i) =>
+    `<button class="tcard ${ME && ME.type === t.id ? 'on' : ''}" data-t="${esc(t.id)}" style="animation-delay:${i * .06}s">
+       <span>${esc(t.icon)}</span><b>${esc(t.name)}</b></button>`).join('');
+  const b = pending && boothOf(pending.b);
+  $('#pendNote').hidden = !pending;
+  if (pending) $('#pendNote').textContent = `📍 لتسجيل زيارتك${b ? ' لبوث «' + b.name + '»' : ''} اختر نوعك أولًا`;
+  $('#typesBack').hidden = !ME;
+  show('types');
+}
+$('#typeGrid').onclick = e => {
+  const c = e.target.closest('[data-t]');
+  if (!c) return;
+  const type = c.dataset.t;
+  run(async () => {
+    if (ME) {
+      if (ME.type !== type) ME = (await api('setType', { vid: ME.id, type })).visitor;
+    } else {
+      ME = (await api('register', { type, device: navigator.userAgent })).visitor;
+      LS.set('expo_vid', ME.id);
+    }
+    goHome();
+    if (pending) { const x = pending; pending = null; doVisit(x, 'link'); }
+  });
+};
+
+/* ---------- الرئيسية ---------- */
+function goHome() { renderHome(); show('home'); }
+
+function card(b, i) {
+  const v = ME.visited.includes(b.id);
+  const rec = b.types.includes(ME.type);
+  return `<button class="bcard ${v ? 'done' : ''} ${rec ? 'rec' : ''}" data-b="${esc(b.id)}" style="animation-delay:${Math.min(i, 10) * .04}s">
+    <div class="bic">${esc(b.icon)}</div>
+    <div class="bt"><b>${esc(b.name)}</b><small>${rec ? '⭐ خدمات تهمك' : esc(b.description || b.location || '')}</small></div>
+    <span class="bst ${v ? 'ok' : 'no'}">${v ? '✓ تمت الزيارة' : 'لم تُزر'}</span></button>`;
+}
+
+function renderHome() {
+  const t = typeOf(ME.type) || { name: 'زائر', icon: '👤' };
+  const canChange = !ME.visited.length;
+  $('#tChip').innerHTML = `نوع الزائر: <b>${esc(t.icon)} ${esc(t.name)}</b>${canChange ? ' · <button id="chgType">تغيير</button>' : ''}`;
+  if (canChange) $('#chgType').onclick = openTypes;
+
+  const total = CFG.booths.length;
+  const done = CFG.booths.filter(b => ME.visited.includes(b.id)).length;
+  $('#ringN').textContent = done;
+  $('#ringC').style.strokeDashoffset = 201 - 201 * (total ? done / total : 0);
+  $('#progT').textContent = `زرت ${done} من ${total} بوث`;
+  $('#progS').textContent = done === 0 ? 'ابدأ بزيارة أول بوث ومسح رمزه'
+    : done === total ? 'أحسنت! زرت جميع البوثات 👏' : 'استمر في جولتك، يمكنك زيارة أي بوث';
+
+  renderRateCard();
+
+  const rec = CFG.booths.filter(b => b.types.includes(ME.type));
+  const others = CFG.booths.filter(b => !b.types.includes(ME.type));
+  $('#recSec').hidden = !rec.length;
+  $('#recList').innerHTML = rec.map(card).join('');
+  const list = others.filter(b => filter === 'all' || (filter === 'done') === ME.visited.includes(b.id));
+  $('#allList').innerHTML = list.map(card).join('') ||
+    `<div class="empty">${filter === 'done' ? 'لم تزر أي بوث من هذا القسم بعد' : filter === 'todo' ? 'زرت جميع بوثات هذا القسم 👏' : 'لا توجد بوثات أخرى'}</div>`;
+}
+
+function renderRateCard() {
+  const e = CFG.expo, c = $('#rateCard');
+  const min = e.ratingMinVisits || 0;
+  const locked = !ME.rated && ME.visited.length < min;
+  c.classList.toggle('lock', locked);
+  if (ME.rated) {
+    c.innerHTML = e.giftEnabled
+      ? `<span class="ri">🎁</span><div><b>${ME.giftGiven ? 'تم استلام هديتك' : 'بطاقة الهدية'}</b><small>${ME.giftGiven ? 'شكرًا لمشاركتك رأيك' : 'اعرضها لموظف الهدايا عند الخروج'}</small></div><span class="arrow">‹</span>`
+      : `<span class="ri">✅</span><div><b>شكرًا لتقييمك</b><small>تم استلام رأيك</small></div>`;
+  } else {
+    c.innerHTML = `<span class="ri">⭐</span><div><b>شاركنا رأيك${e.giftEnabled ? ' واستلم هديتك' : ''}</b>
+      <small>${locked ? `يُفتح بعد زيارة ${min} بوث` : 'أسئلة سريعة في نهاية جولتك'}</small></div><span class="arrow">‹</span>`;
+  }
+}
+$('#rateCard').onclick = () => openRate();
+
+$('#filters').onclick = e => {
+  const b = e.target.closest('[data-f]');
+  if (!b) return;
+  filter = b.dataset.f;
+  document.querySelectorAll('#filters button').forEach(x => x.classList.toggle('on', x === b));
+  renderHome();
+};
+document.addEventListener('click', e => {
+  const c = e.target.closest('.bcard');
+  if (c) openBooth(c.dataset.b);
+  if (e.target.closest('[data-home]')) goHome();
+});
+
+/* ---------- تفاصيل البوث والمساعدة ---------- */
+function sheet(html) { $('#sheet').innerHTML = '<div class="grab"></div>' + html; $('#ovl').hidden = false; }
+function closeSheet() { $('#ovl').hidden = true; }
+$('#ovl').onclick = e => {
+  if (e.target.id === 'ovl' || e.target.closest('[data-act=close]')) return closeSheet();
+  if (e.target.closest('[data-act=scan]')) { closeSheet(); openScanner(); }
+};
+
+function openBooth(id) {
+  const b = boothOf(id);
+  if (!b) return;
+  const v = ME.visited.includes(id), rec = b.types.includes(ME.type);
+  const tl = b.types.map(t => typeOf(t)).filter(Boolean).map(t => t.icon + ' ' + t.name).join('، ');
+  sheet(`
+    <div class="dhead"><div class="dic">${esc(b.icon)}</div><h3>${esc(b.name)}</h3>
+      ${rec ? '<span class="pill gold">⭐ خدمات تهمك</span>' : ''}${v ? '<span class="pill ok">✓ تمت الزيارة</span>' : ''}</div>
+    ${b.description ? `<p class="ddesc">${esc(b.description)}</p>` : '<div style="height:14px"></div>'}
+    ${b.location ? `<div class="dloc">📍 ${esc(b.location)}</div>` : ''}
+    ${tl ? `<div class="dtypes">يهم: ${esc(tl)}</div>` : ''}
+    ${v ? '<div class="dnote">سبق لك زيارة هذا البوث ✓</div>'
+        : '<button class="btn pri block" data-act="scan">📷 مسح QR هذا البوث</button>'}
+    <button class="btn ghost block" data-act="close">إغلاق</button>`);
+}
+
+$('#helpBtn').onclick = () => sheet(`
+  <h3 style="font-size:20px;margin-bottom:14px">كيف أستخدم دليل المعرض؟</h3>
+  <ul class="help">
+    <li><i>⭐</i><div><b>خدمات تهمك</b><br><small>البوثات المقترحة لك حسب فئتك، ويمكنك زيارة أي بوث آخر.</small></div></li>
+    <li><i>📷</i><div><b>سجّل زيارتك</b><br><small>عند كل بوث اضغط «مسح QR البوث» ووجّه الكاميرا نحو الرمز. يمكنك أيضًا مسحه بكاميرا جوالك مباشرة.</small></div></li>
+    <li><i>✓</i><div><b>تابع جولتك</b><br><small>تظهر علامة «تمت الزيارة» على كل بوث زرته، ولا تُحتسب الزيارة مرتين.</small></div></li>
+    <li><i>🎁</i><div><b>شاركنا رأيك</b><br><small>في نهاية جولتك قيّم تجربتك${CFG.expo.giftEnabled ? ' واعرض بطاقة الهدية عند الخروج' : ''}.</small></div></li>
+  </ul>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:14px">📷 إذا لم تفتح الكاميرا: اسمح للمتصفح باستخدامها من إعدادات الجوال.</p>
+  <button class="btn pri block" data-act="close">فهمت</button>`);
+
+/* ---------- الماسح ---------- */
+let scanner = null, scanning = false;
+$('#scanBtn').onclick = () => openScanner();
+$('#scanClose').onclick = $('#scanBack').onclick = () => closeScanner();
+$('#scanRetry').onclick = () => { closeScanner().then(openScanner); };
+
+async function openScanner() {
+  $('#scan').hidden = false;
+  $('#scanErr').hidden = true;
+  if (typeof Html5Qrcode === 'undefined') return scanError('تعذر تحميل الماسح. امسح رمز البوث بكاميرا جوالك مباشرة.');
+  try {
+    if (!scanner) scanner = new Html5Qrcode('reader');
+    scanning = true;
+    await scanner.start(
+      { facingMode: 'environment' },
+      { fps: 10, qrbox: (w, h) => { const s = Math.floor(Math.min(w, h) * 0.72); return { width: s, height: s }; } },
+      onScan, () => {}
+    );
+  } catch (e) {
+    scanning = false;
+    scanError('لم نتمكن من فتح الكاميرا. اسمح للمتصفح باستخدام الكاميرا، أو امسح رمز البوث بكاميرا جوالك مباشرة.');
+  }
+}
+function scanError(m) { $('#scanErrT').textContent = m; $('#scanErr').hidden = false; }
+async function closeScanner() {
+  scanning = false;
+  try { if (scanner && scanner.isScanning) await scanner.stop(); } catch (e) {}
+  $('#scan').hidden = true;
+}
+function parseQR(text) {
+  try {
+    const u = new URL(String(text).trim());
+    const b = u.searchParams.get('b'), k = u.searchParams.get('k');
+    if (b && k) return { b, k };
+  } catch (e) {}
+  return null;
+}
+function onScan(text) {
+  if (!scanning) return;
+  scanning = false;
+  vib(40);
+  const p = parseQR(text);
+  closeScanner();
+  if (!p) return result('bad', { msg: 'هذا الرمز لا يخص بوثات المعرض' });
+  doVisit(p, 'scan');
+}
+
+/* ---------- تسجيل الزيارة ---------- */
+async function doVisit(p, source) {
+  result('loading');
+  try {
+    const r = await api('visit', { vid: ME.id, b: p.b, k: p.k, source });
+    ME.visited = r.visited;
+    renderHome();
+    result(r.status, r);
+    vib(r.status === 'new' ? [60, 40, 90] : 80);
+  } catch (e) {
+    $('#res').hidden = true;
+    if (e.message === 'NO_VISITOR') { pending = p; return lostVisitor(); }
+    result('bad', { msg: e.message });
+  }
+}
+
+function result(kind, r) {
+  const box = $('#rbox');
+  $('#res').hidden = false;
+  if (kind === 'loading') { box.innerHTML = '<div class="spin"></div><b>جارٍ تسجيل الزيارة…</b>'; return; }
+  const back = '<button class="btn pri block" data-close-res>العودة للبوثات</button>';
+  const again = '<button class="btn block" data-scan-again>📷 مسح بوث آخر</button>';
+  if (kind === 'new') {
+    const pct = r.total ? Math.round(100 * r.count / r.total) : 0;
+    const min = CFG.expo.ratingMinVisits || 0;
+    const unlock = !ME.rated && r.count === Math.max(min, 1);
+    box.innerHTML = `<div class="ico ok">✅</div><h3>تمت زيارة البوث بنجاح</h3>
+      <div class="bn">${esc(r.booth.icon)} ${esc(r.booth.name)}</div>
+      <div class="cnt"><b>أكملت زيارة ${r.count} من ${r.total} بوثًا</b><div class="pbar"><i style="width:0%" id="pb"></i></div></div>
+      ${unlock ? `<p class="m">⭐ يمكنك الآن مشاركة رأيك متى ما أنهيت جولتك</p>` : ''}
+      ${back}${again}`;
+    requestAnimationFrame(() => setTimeout(() => { const pb = $('#pb'); if (pb) pb.style.width = pct + '%'; }, 60));
+  } else if (kind === 'duplicate') {
+    box.innerHTML = `<div class="ico info">ℹ️</div><h3>سبق لك زيارة هذا البوث</h3>
+      <div class="bn">${esc(r.booth.icon)} ${esc(r.booth.name)}</div>
+      <p class="m">لم تُحتسب زيارة جديدة. زرت ${r.count} من ${r.total} بوثًا.</p>${back}${again}`;
+  } else {
+    box.innerHTML = `<div class="ico bad">⚠️</div><h3>لم يتم تسجيل الزيارة</h3>
+      <p class="m">${esc(r.msg || 'حدث خطأ')}</p>
+      <button class="btn pri block" data-scan-again>حاول مرة أخرى</button>
+      <button class="btn block" data-close-res>رجوع</button>`;
+  }
+}
+$('#res').onclick = e => {
+  if (e.target.closest('[data-close-res]')) { $('#res').hidden = true; goHome(); }
+  else if (e.target.closest('[data-scan-again]')) { $('#res').hidden = true; openScanner(); }
+};
+
+/* ---------- التقييم ---------- */
+function rateQs() { return (CFG.expo.phoneQuestions || []).filter(k => Q_TEXT[k]); }
+function openRate() {
+  if (ME.rated) return openThanks();
+  const min = CFG.expo.ratingMinVisits || 0;
+  if (ME.visited.length < min) return toast(`يُفتح التقييم بعد زيارة ${min} بوث — امسح رمز أي بوث تزوره`);
+  ANS = {};
+  $('#rateQs').innerHTML = rateQs().map(k => `
+    <div class="q" data-q="${k}"><p>${Q_TEXT[k]}</p>
+      <div class="stars">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-n="${n}" aria-label="${n}">★</button>`).join('')}</div>
+      <small class="qw">&nbsp;</small></div>`).join('');
+  $('#notes').value = '';
+  $('#sendRate').disabled = true;
+  show('rate');
+}
+$('#rateQs').onclick = e => {
+  const s = e.target.closest('[data-n]');
+  if (!s) return;
+  const q = s.closest('.q'), n = +s.dataset.n;
+  ANS[q.dataset.q] = n;
+  q.querySelectorAll('[data-n]').forEach(x => x.classList.toggle('on', +x.dataset.n <= n));
+  q.querySelector('.qw').textContent = WORDS[n - 1];
+  vib(15);
+  $('#sendRate').disabled = !rateQs().every(k => ANS[k]);
+};
+$('#sendRate').onclick = () => run(async () => {
+  const r = await api('rate', { vid: ME.id, source: 'phone', answers: ANS, notes: $('#notes').value });
+  ME.rated = true;
+  ME.ratingId = r.ratingId;
+  vib([50, 30, 80]);
+  openThanks();
+});
+
+/* ---------- الشكر والهدية ---------- */
+function openThanks() {
+  const g = CFG.expo.giftEnabled;
+  $('#giftBox').hidden = !g;
+  $('#thxSub').textContent = g ? 'تم استلام تقييمك، هذه بطاقتك لاستلام الهدية' : 'تم استلام تقييمك، رأيك يهمنا';
+  if (g) renderGift();
+  show('thanks');
+}
+function renderGift() {
+  $('#gift').classList.toggle('given', ME.giftGiven);
+  $('#gCode').textContent = String(ME.id).slice(-5);
+  $('#gMsg').textContent = ME.giftGiven ? '✅ تم استلام الهدية' : 'اعرض هذه البطاقة لموظف الهدايا عند الخروج';
+  $('#staffBtn').hidden = ME.giftGiven;
+}
+setInterval(() => {
+  const d = new Date(), p = n => String(n).padStart(2, '0');
+  $('#gClock').textContent = `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+}, 1000);
+
+$('#staffBtn').onclick = () => {
+  sheet(`<h3 style="font-size:20px;text-align:center">🎁 تأكيد تسليم الهدية</h3>
+    <p style="text-align:center;color:var(--muted);font-size:14px">يُدخل الرمز من قِبل موظف الهدايا فقط</p>
+    <form id="pinForm"><input class="pinin" id="pin" type="password" inputmode="numeric" autocomplete="off" required>
+    <button class="btn pri block" type="submit">تأكيد التسليم</button></form>
+    <button class="btn ghost block" data-act="close">إلغاء</button>`);
+  setTimeout(() => $('#pin') && $('#pin').focus(), 300);
+  $('#pinForm').onsubmit = e => {
+    e.preventDefault();
+    run(async () => {
+      const r = await api('gift', { vid: ME.id, pin: $('#pin').value });
+      ME.giftGiven = true;
+      closeSheet();
+      renderGift();
+      vib([60, 40, 100]);
+      toast(r.status === 'already' ? 'سبق تسليم الهدية لهذا الزائر' : 'تم تأكيد التسليم ✅', r.status === 'already');
+    });
+  };
+};
+</script>
+</body>
+</html>
