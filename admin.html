@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>إدارة المعرض</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{
+  --pri:#0e7c66;--pri-d:#095c4c;--pri-l:#e4f3ef;--gold:#c9a227;--gold-l:#fbf4dc;
+  --bg:#f3f6f5;--card:#fff;--ink:#1c2b27;--muted:#6a7b76;--line:#e1e9e6;--danger:#c0392b;--r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg)}
+body{font-family:'Tajawal',system-ui,sans-serif;color:var(--ink);font-size:15px;line-height:1.6;-webkit-tap-highlight-color:transparent}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+[hidden]{display:none!important}
+
+/* دخول */
+.login{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(160deg,var(--pri-d),var(--pri))}
+.login form{background:#fff;border-radius:22px;padding:32px 24px;width:100%;max-width:360px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.2)}
+.login .logo{font-size:44px}
+.login h1{font-size:22px;margin:6px 0 4px}
+.login p{color:var(--muted);font-size:14px;margin-bottom:20px}
+.login input{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:12px;text-align:center;font-size:20px;letter-spacing:4px;margin-bottom:14px}
+.login input:focus{outline:none;border-color:var(--pri)}
+
+/* عام */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:11px;font-weight:700;font-size:14px;background:var(--pri-l);color:var(--pri-d);white-space:nowrap}
+.btn.pri{background:var(--pri);color:#fff}
+.btn.gold{background:var(--gold);color:#fff}
+.btn.danger{background:#fdecea;color:var(--danger)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--muted)}
+.btn.block{width:100%;padding:14px}
+.btn:disabled{opacity:.45;cursor:default}
+.top{position:sticky;top:0;z-index:20;background:var(--pri-d);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.top b{display:block;font-size:17px}
+.top small{opacity:.75;font-size:12px}
+.top .btn{background:rgba(255,255,255,.14);color:#fff}
+.tabs{position:sticky;top:62px;z-index:19;background:#fff;border-bottom:1px solid var(--line);display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;padding:13px 16px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;font-size:14px}
+.tabs button.on{color:var(--pri);border-color:var(--pri)}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.bar h2{font-size:18px}
+.hint{color:var(--muted);font-size:13px;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.card h3{font-size:16px;margin-bottom:10px}
+.empty{text-align:center;color:var(--muted);padding:30px}
+
+/* البوثات */
+.booth{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-bottom:10px}
+.booth.off{opacity:.55}
+.booth .ord{display:flex;flex-direction:column;gap:4px}
+.booth .ord button{width:30px;height:26px;border-radius:8px;background:var(--bg);color:var(--muted);font-size:11px}
+.booth .ord button:disabled{opacity:.3}
+.booth .ic{font-size:28px;width:48px;height:48px;border-radius:12px;background:var(--pri-l);display:grid;place-items:center;flex:0 0 auto}
+.booth .info{flex:1;min-width:0}
+.booth .info b{display:block}
+.booth .info small{color:var(--muted);font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.chips span{font-size:11px;background:var(--gold-l);color:#7a5f0c;border-radius:20px;padding:1px 8px}
+.booth .acts{display:flex;flex-direction:column;gap:6px}
+.booth .acts .btn{padding:6px 12px;font-size:13px}
+.tag-off{color:var(--danger);font-weight:700}
+
+/* المصفوفة */
+.mx{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
+.mx table{border-collapse:collapse;width:100%;min-width:520px}
+.mx th,.mx td{padding:10px 8px;text-align:center;border-bottom:1px solid var(--line)}
+.mx th{background:var(--pri-l);font-size:13px;line-height:1.4;position:sticky;top:0}
+.mx td:first-child,.mx th:first-child{text-align:right;position:sticky;right:0;background:#fff;min-width:150px;font-weight:600}
+.mx th:first-child{background:var(--pri-l)}
+.mx tr.off td{opacity:.5}
+.star{font-size:24px;color:#d6dcda;width:44px;height:40px;border-radius:10px;transition:.15s}
+.star.on{color:var(--gold);background:var(--gold-l)}
+.mx tr.foot td{font-weight:800;color:var(--pri-d);background:var(--bg)}
+
+/* QR */
+.links{display:grid;gap:10px}
+.lnk{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.lnk .t{flex:1;min-width:0}
+.lnk .t b{display:block;font-size:14px}
+.lnk .t code{display:block;font-size:12px;color:var(--muted);direction:ltr;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lnk .btn{padding:6px 10px;font-size:12px}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center}
+.qcard.off{opacity:.5}
+.qimg{background:#fff;border-radius:10px;padding:6px;margin-bottom:8px}
+.qimg svg{width:100%;height:auto;display:block}
+.qcard b{display:block}
+.qcard small{display:block;color:var(--muted);font-size:12px;direction:ltr;margin-bottom:10px}
+.qcard .row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.qcard .row .btn{padding:6px 10px;font-size:12px}
+.mainqr{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.mainqr .qimg{width:170px;border:1px solid var(--line)}
+
+/* الإحصاءات */
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.kpi small{color:var(--muted);font-size:12px;display:block}
+.kpi b{font-size:26px;color:var(--pri-d);font-weight:800}
+.tbl{overflow-x:auto}
+.tbl table{width:100%;border-collapse:collapse;min-width:560px;font-size:14px}
+.tbl th,.tbl td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:center}
+.tbl th{background:var(--bg);font-size:12px;color:var(--muted)}
+.tbl td:first-child,.tbl th:first-child{text-align:right}
+.tops{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.tops ol{padding-right:18px;font-size:14px}
+.barln{height:8px;border-radius:6px;background:var(--pri-l);overflow:hidden;margin-top:3px}
+.barln i{display:block;height:100%;background:var(--pri)}
+.note{border-bottom:1px solid var(--line);padding:10px 0}
+.note:last-child{border:0}
+.note small{color:var(--muted);font-size:12px}
+
+/* الإعدادات */
+.fld{display:block;margin-bottom:14px}
+.fld span{display:block;font-weight:700;font-size:14px;margin-bottom:4px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--pri)}
+.fld small{color:var(--muted);font-size:12px}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:10px;padding:7px 11px;font-size:14px;cursor:pointer}
+.checks input{width:18px;height:18px;accent-color:var(--pri)}
+.trow{display:grid;grid-template-columns:64px 1fr auto;gap:8px;align-items:center;margin-bottom:8px}
+.trow input[type=text]{padding:10px;border:1.5px solid var(--line);border-radius:10px;width:100%}
+.trow .ico{text-align:center;font-size:20px}
+
+/* نافذة */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(15,30,26,.5);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;border-radius:22px 22px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+@media(min-width:700px){.modal{align-items:center}.sheet{border-radius:22px}}
+.sheet h3{font-size:18px;margin-bottom:14px}
+.icons{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.icons button{width:38px;height:38px;border-radius:10px;background:var(--bg);font-size:20px}
+.sheet .foot{display:flex;gap:10px;margin-top:8px}
+.sheet .foot .btn{flex:1;padding:13px}
+
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;z-index:90;transition:.3s;max-width:90vw;text-align:center;font-weight:600}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.bad{background:var(--danger)}
+.busy{position:fixed;inset:0;z-index:80;background:rgba(255,255,255,.55);display:grid;place-items:center}
+.spin{width:42px;height:42px;border:4px solid var(--pri-l);border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* طباعة */
+#printArea{display:none}
+@media print{
+  body.printing > *:not(#printArea){display:none!important}
+  body.printing #printArea{display:block}
+  .pcard{page-break-after:always;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Tajawal',sans-serif}
+  .pcard:last-child{page-break-after:auto}
+  .pexpo{font-size:20px;color:#555;margin-bottom:10px}
+  .ptitle{font-size:40px;font-weight:800;margin-bottom:24px}
+  .pqr{width:12cm}
+  .pqr svg{width:100%;height:auto}
+  .psub{font-size:22px;margin-top:20px;font-weight:700}
+}
+</style>
+</head>
+<body>
+
+<div id="loginView" class="login">
+  <form id="loginForm">
+    <div class="logo">🏛️</div>
+    <h1>لوحة إدارة المعرض</h1>
+    <p>أدخل رمز الإدارة</p>
+    <input id="pw" type="password" inputmode="numeric" autocomplete="current-password" required>
+    <button class="btn pri block" type="submit">دخول</button>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <header class="top">
+    <div><b id="expoName">لوحة الإدارة</b><small>إدارة البوثات والإحصاءات</small></div>
+    <button class="btn" id="logout">خروج</button>
+  </header>
+  <nav class="tabs">
+    <button data-tab="booths" class="on">🏢 البوثات</button>
+    <button data-tab="matrix">⭐ الارتباط بالفئات</button>
+    <button data-tab="qr">🔳 رموز QR</button>
+    <button data-tab="stats">📊 الإحصاءات</button>
+    <button data-tab="settings">⚙️ الإعدادات</button>
+  </nav>
+  <main>
+
+    <section id="tab-booths">
+      <div class="bar">
+        <h2>البوثات</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn gold" id="saveOrder" hidden>💾 حفظ الترتيب</button>
+          <button class="btn pri" id="addBooth">+ إضافة بوث</button>
+        </div>
+      </div>
+      <p class="hint">استخدم الأسهم لتغيير ترتيب ظهور البوثات للزوار. البوث الذي له زيارات مسجلة يُعطَّل بدل حذفه حفاظًا على الإحصاءات.</p>
+      <div id="boothList"></div>
+    </section>
+
+    <section id="tab-matrix" hidden>
+      <div class="bar">
+        <h2>ارتباط البوثات بأنواع الزوار</h2>
+        <button class="btn pri" id="saveMatrix">💾 حفظ الارتباطات</button>
+      </div>
+      <p class="hint">اضغط النجمة لتحديد البوثات التي تظهر في قسم «خدمات تهمك» لكل فئة. جميع البوثات تظهر لكل الزوار في كل الأحوال.</p>
+      <div class="mx" id="matrix"></div>
+    </section>
+
+    <section id="tab-qr" hidden>
+      <div class="card">
+        <h3>روابط النظام</h3>
+        <div class="links" id="links"></div>
+      </div>
+      <div class="card">
+        <h3>QR مدخل المعرض</h3>
+        <div class="mainqr">
+          <div class="qimg" id="mainQr"></div>
+          <div>
+            <p class="hint">يُطبع ويوضع عند مدخل المعرض. يفتح للزائر صفحة اختيار نوعه.</p>
+            <button class="btn pri" id="printMain">🖨️ طباعة QR المدخل</button>
+          </div>
+        </div>
+      </div>
+      <div class="bar">
+        <h2>رموز البوثات</h2>
+        <button class="btn pri" id="printAll">🖨️ طباعة الكل</button>
+      </div>
+      <p class="hint">لكل بوث رمز سري داخل الـQR. «تجديد الرمز» يُبطل الـQR المطبوع سابقًا لهذا البوث.</p>
+      <div class="qgrid" id="qrGrid"></div>
+    </section>
+
+    <section id="tab-stats" hidden>
+      <div class="bar">
+        <h2>الإحصاءات التفصيلية</h2>
+        <button class="btn pri" id="reloadStats">🔄 تحديث</button>
+      </div>
+      <div id="statsBox"></div>
+    </section>
+
+    <section id="tab-settings" hidden>
+      <form class="card" id="setForm"></form>
+      <div class="card">
+        <h3>أنواع الزوار</h3>
+        <p class="hint">يمكن تعديل الاسم والأيقونة، أو إيقاف نوع، أو إضافة نوع جديد.</p>
+        <div id="typesBox"></div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn" id="addType">+ نوع جديد</button>
+          <button class="btn pri" id="saveTypes">💾 حفظ الأنواع</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <form class="sheet" id="boothForm">
+    <h3 id="mTitle">إضافة بوث</h3>
+    <input type="hidden" id="fId">
+    <label class="fld"><span>اسم البوث *</span><input id="fName" required maxlength="80"></label>
+    <label class="fld"><span>الأيقونة</span><input id="fIcon" maxlength="8" style="font-size:22px;width:90px;text-align:center">
+      <div class="icons" id="iconPick"></div></label>
+    <label class="fld"><span>الوصف</span><textarea id="fDesc" rows="3" maxlength="400"></textarea></label>
+    <label class="fld"><span>الموقع داخل المعرض (اختياري)</span><input id="fLoc" maxlength="60" placeholder="مثال: الجناح A — يمين المدخل"></label>
+    <div class="fld"><span>أنواع الزوار المرتبطة (خدمات تهمك)</span><div class="checks" id="fTypes"></div></div>
+    <div class="fld"><div class="checks"><label><input type="checkbox" id="fActive"> البوث نشط ويظهر للزوار</label></div></div>
+    <div class="foot">
+      <button type="button" class="btn ghost" id="mClose">إلغاء</button>
+      <button type="submit" class="btn pri">حفظ</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="busy" id="busy" hidden><div class="spin"></div></div>
+<div id="printArea"></div>
+
+<script>
+const API = (window.EXPO_CONFIG || {}).API_URL || '';
+const BASE = location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/, '');
+const Q_LABELS = { overall: 'التجربة العامة', benefit: 'الاستفادة', organization: 'التنظيم', content: 'محتوى البوثات' };
+const SET_LABELS = {
+  expo_name: 'اسم المعرض', expo_subtitle: 'العبارة التعريفية', admin_password: 'رمز الإدارة',
+  gift_pin: 'رمز موظف الهدايا', gift_enabled: 'بطاقة الهدية بعد التقييم', rating_min_visits: 'أقل عدد زيارات لفتح التقييم',
+  phone_questions: 'أسئلة تقييم الجوال', kiosk_questions: 'أسئلة شاشة التقييم',
+  kiosk_reset_sec: 'ثواني رجوع شاشة التقييم', dashboard_refresh_sec: 'ثواني تحديث الـDashboard'
+};
+const ICONS = ['🏢','🎓','🧑‍🎓','📚','💻','🌐','👥','💰','🔬','🤝','🎭','💬','📈','🏘️','🏥','📝','🏛️','🧭','📢','🛠️'];
+
+let PASS = sessionStorage.getItem('expo_pass') || '';
+let DATA = { booths: [], types: [], settings: [] };
+let MX = {};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const typeOf = id => DATA.types.find(t => t.id === id);
+const setVal = k => (DATA.settings.find(s => s.key === k) || {}).value || '';
+
+async function api(action, data) {
+  if (!API || API.indexOf('http') !== 0) throw new Error('ضع رابط Web App في ملف config.js');
+  const res = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(Object.assign({ action, pass: PASS }, data || {}))
+  });
+  const j = await res.json();
+  if (!j.ok) throw new Error(j.error || 'حدث خطأ');
+  return j;
+}
+
+let toastT;
+function toast(msg, bad) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (bad ? ' bad' : '');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.className = 'toast', 2800);
+}
+function busy(on) { $('#busy').hidden = !on; }
+async function run(fn) {
+  busy(true);
+  try { await fn(); } catch (e) { toast(e.message, true); } finally { busy(false); }
+}
+
+/* ---------- الدخول ---------- */
+$('#loginForm').onsubmit = e => {
+  e.preventDefault();
+  PASS = $('#pw').value.trim();
+  run(async () => {
+    try { await api('login'); } catch (err) { PASS = ''; throw err; }
+    sessionStorage.setItem('expo_pass', PASS);
+    enterApp();
+  });
+};
+$('#logout').onclick = () => { sessionStorage.removeItem('expo_pass'); location.reload(); };
+
+async function enterApp() {
+  $('#loginView').hidden = true;
+  $('#app').hidden = false;
+  await load();
+}
+async function load() {
+  const d = await api('adminData');
+  DATA = { booths: d.booths, types: d.types, settings: d.settings };
+  $('#expoName').textContent = setVal('expo_name') || 'لوحة الإدارة';
+  renderBooths(); renderMatrix(); renderQR(); renderSettings();
+}
+if (PASS) run(async () => {
+  try { await api('login'); await enterApp(); }
+  catch (e) { PASS = ''; sessionStorage.removeItem('expo_pass'); throw e; }
+});
+
+/* ---------- التبويبات ---------- */
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+  const t = b.dataset.tab;
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('main > section').forEach(s => s.hidden = s.id !== 'tab-' + t);
+  if (t === 'stats') loadStats();
+  window.scrollTo(0, 0);
+});
+
+/* ---------- البوثات ---------- */
+function renderBooths() {
+  const a = DATA.booths;
+  if (!a.length) { $('#boothList').innerHTML = '<div class="empty">لا توجد بوثات بعد — أضف أول بوث</div>'; return; }
+  $('#boothList').innerHTML = a.map((b, i) => `
+    <div class="booth ${b.active ? '' : 'off'}">
+      <div class="ord">
+        <button data-up="${i}" ${i === 0 ? 'disabled' : ''}>▲</button>
+        <button data-down="${i}" ${i === a.length - 1 ? 'disabled' : ''}>▼</button>
+      </div>
+      <div class="ic">${esc(b.icon)}</div>
+      <div class="info">
+        <b>${esc(b.name)}</b>
+        <small>${esc(b.id)}${b.location ? ' · ' + esc(b.location) : ''}${b.active ? '' : ' · <span class="tag-off">معطل</span>'}</small>
+        <div class="chips">${b.types.map(t => typeOf(t) ? `<span>${esc(typeOf(t).icon)} ${esc(typeOf(t).name)}</span>` : '').join('')}</div>
+      </div>
+      <div class="acts">
+        <button class="btn" data-edit="${esc(b.id)}">تعديل</button>
+        <button class="btn danger" data-del="${esc(b.id)}">حذف</button>
+      </div>
+    </div>`).join('');
+}
+$('#boothList').onclick = e => {
+  const t = e.target.closest('button');
+  if (!t) return;
+  if ('up' in t.dataset) move(+t.dataset.up, -1);
+  else if ('down' in t.dataset) move(+t.dataset.down, 1);
+  else if (t.dataset.edit) openBooth(t.dataset.edit);
+  else if (t.dataset.del) delBooth(t.dataset.del);
+};
+function move(i, d) {
+  const a = DATA.booths, j = i + d;
+  if (j < 0 || j >= a.length) return;
+  [a[i], a[j]] = [a[j], a[i]];
+  $('#saveOrder').hidden = false;
+  renderBooths();
+}
+$('#saveOrder').onclick = () => run(async () => {
+  await api('reorder', { ids: DATA.booths.map(b => b.id) });
+  $('#saveOrder').hidden = true;
+  toast('تم حفظ الترتيب');
+  await load();
+});
+function delBooth(id) {
+  const b = DATA.booths.find(x => x.id === id);
+  if (!confirm('حذف البوث «' + b.name + '»؟\nإذا كانت له زيارات مسجلة سيتم تعطيله فقط.')) return;
+  run(async () => {
+    const r = await api('deleteBooth', { id });
+    toast(r.mode === 'disabled' ? 'البوث له زيارات، تم تعطيله' : 'تم حذف البوث');
+    await load();
+  });
+}
+
+/* نافذة البوث */
+$('#iconPick').innerHTML = ICONS.map(i => `<button type="button">${i}</button>`).join('');
+$('#iconPick').onclick = e => { const b = e.target.closest('button'); if (b) $('#fIcon').value = b.textContent; };
+$('#addBooth').onclick = () => openBooth('');
+$('#mClose').onclick = () => $('#modal').hidden = true;
+$('#modal').onclick = e => { if (e.target.id === 'modal') $('#modal').hidden = true; };
+
+function openBooth(id) {
+  const b = DATA.booths.find(x => x.id === id) || { id: '', name: '', icon: '🏢', description: '', location: '', active: true, types: [] };
+  $('#mTitle').textContent = id ? 'تعديل بوث' : 'إضافة بوث';
+  $('#fId').value = b.id;
+  $('#fName').value = b.name;
+  $('#fIcon').value = b.icon;
+  $('#fDesc').value = b.description;
+  $('#fLoc').value = b.location;
+  $('#fActive').checked = b.active;
+  $('#fTypes').innerHTML = DATA.types.filter(t => t.active).map(t =>
+    `<label><input type="checkbox" value="${esc(t.id)}" ${b.types.includes(t.id) ? 'checked' : ''}> ${esc(t.icon)} ${esc(t.name)}</label>`).join('');
+  $('#modal').hidden = false;
+}
+$('#boothForm').onsubmit = e => {
+  e.preventDefault();
+  const booth = {
+    id: $('#fId').value,
+    name: $('#fName').value,
+    icon: $('#fIcon').value,
+    description: $('#fDesc').value,
+    location: $('#fLoc').value,
+    active: $('#fActive').checked,
+    types: [...document.querySelectorAll('#fTypes input:checked')].map(c => c.value)
+  };
+  run(async () => {
+    await api('saveBooth', { booth });
+    $('#modal').hidden = true;
+    toast('تم الحفظ');
+    await load();
+  });
+};
+
+/* ---------- المصفوفة ---------- */
+function renderMatrix() {
+  MX = {};
+  DATA.booths.forEach(b => MX[b.id] = new Set(b.types));
+  drawMatrix();
+}
+function drawMatrix() {
+  const types = DATA.types.filter(t => t.active);
+  if (!DATA.booths.length) { $('#matrix').innerHTML = '<div class="empty">أضف بوثات أولًا</div>'; return; }
+  const head = '<tr><th>البوث</th>' + types.map(t => `<th>${esc(t.icon)}<br>${esc(t.name)}</th>`).join('') + '</tr>';
+  const rows = DATA.booths.map(b => `<tr class="${b.active ? '' : 'off'}"><td>${esc(b.icon)} ${esc(b.name)}</td>` +
+    types.map(t => `<td><button class="star ${MX[b.id].has(t.id) ? 'on' : ''}" data-b="${esc(b.id)}" data-t="${esc(t.id)}">★</button></td>`).join('') + '</tr>').join('');
+  const foot = '<tr class="foot"><td>عدد البوثات الموصى بها</td>' +
+    types.map(t => `<td>${DATA.booths.filter(b => b.active && MX[b.id].has(t.id)).length}</td>`).join('') + '</tr>';
+  $('#matrix').innerHTML = `<table>${head}${rows}${foot}</table>`;
+}
+$('#matrix').onclick = e => {
+  const s = e.target.closest('.star');
+  if (!s) return;
+  const set = MX[s.dataset.b];
+  set.has(s.dataset.t) ? set.delete(s.dataset.t) : set.add(s.dataset.t);
+  drawMatrix();
+};
+$('#saveMatrix').onclick = () => run(async () => {
+  const map = {};
+  Object.keys(MX).forEach(k => map[k] = [...MX[k]]);
+  await api('saveMatrix', { map });
+  toast('تم حفظ الارتباطات');
+  await load();
+});
+
+/* ---------- QR ---------- */
+const hasQR = () => typeof qrcode !== 'undefined';
+function qrSvg(text) {
+  if (!hasQR()) return '<div class="empty">تعذر تحميل مكتبة QR</div>';
+  const q = qrcode(0, 'M');
+  q.addData(text);
+  q.make();
+  return q.createSvgTag({ cellSize: 8, margin: 2, scalable: true });
+}
+const boothUrl = b => `${BASE}?b=${encodeURIComponent(b.id)}&k=${encodeURIComponent(b.token)}`;
+
+function renderQR() {
+  const links = [
+    ['🏁 صفحة الزوار (مدخل المعرض)', BASE],
+    ['⭐ شاشة التقييم المستقلة', BASE + 'kiosk.html'],
+    ['📊 شاشة Dashboard', BASE + 'dashboard.html'],
+    ['⚙️ لوحة الإدارة', BASE + 'admin.html']
+  ];
+  $('#links').innerHTML = links.map(l => `
+    <div class="lnk"><div class="t"><b>${l[0]}</b><code>${esc(l[1])}</code></div>
+    <button class="btn" data-copy="${esc(l[1])}">نسخ</button>
+    <a class="btn" href="${esc(l[1])}" target="_blank">فتح</a></div>`).join('');
+  $('#mainQr').innerHTML = qrSvg(BASE);
+  $('#qrGrid').innerHTML = DATA.booths.map(b => `
+    <div class="qcard ${b.active ? '' : 'off'}">
+      <div class="qimg">${qrSvg(boothUrl(b))}</div>
+      <b>${esc(b.icon)} ${esc(b.name)}</b>
+      <small>${esc(b.id)} · ${esc(b.token)}${b.active ? '' : ' · معطل'}</small>
+      <div class="row">
+        <button class="btn pri" data-print="${esc(b.id)}">🖨️ طباعة</button>
+        <a class="btn" href="${esc(boothUrl(b))}" target="_blank">🔗 تجربة</a>
+        <button class="btn ghost" data-regen="${esc(b.id)}">تجديد الرمز</button>
+      </div>
+    </div>`).join('') || '<div class="empty">لا توجد بوثات</div>';
+}
+$('#links').onclick = e => {
+  const b = e.target.closest('[data-copy]');
+  if (!b) return;
+  navigator.clipboard.writeText(b.dataset.copy).then(() => toast('تم نسخ الرابط'), () => toast('تعذر النسخ', true));
+};
+$('#qrGrid').onclick = e => {
+  const t = e.target.closest('button');
+  if (!t) return;
+  if (t.dataset.print) {
+    const b = DATA.booths.find(x => x.id === t.dataset.print);
+    printCards([boothCard(b)]);
+  } else if (t.dataset.regen) {
+    if (!confirm('تجديد الرمز سيُبطل الـQR المطبوع سابقًا لهذا البوث. متابعة؟')) return;
+    run(async () => { await api('regenToken', { id: t.dataset.regen }); toast('تم تجديد الرمز — اطبع الـQR الجديد'); await load(); });
+  }
+};
+const boothCard = b => ({ title: b.icon + ' ' + b.name, sub: 'امسح الرمز لتسجيل زيارتك لهذا البوث', url: boothUrl(b) });
+$('#printAll').onclick = () => printCards(DATA.booths.filter(b => b.active).map(boothCard));
+$('#printMain').onclick = () => printCards([{ title: '👋 أهلًا بك', sub: 'امسح الرمز وابدأ جولتك في المعرض', url: BASE }]);
+
+function printCards(items) {
+  if (!items.length) return toast('لا توجد بوثات نشطة', true);
+  const name = setVal('expo_name');
+  $('#printArea').innerHTML = items.map(it => `
+    <div class="pcard"><div class="pexpo">${esc(name)}</div><div class="ptitle">${esc(it.title)}</div>
+    <div class="pqr">${qrSvg(it.url)}</div><div class="psub">${esc(it.sub)}</div></div>`).join('');
+  document.body.classList.add('printing');
+  setTimeout(() => window.print(), 150);
+}
+window.addEventListener('afterprint', () => document.body.classList.remove('printing'));
+
+/* ---------- الإحصاءات ---------- */
+$('#reloadStats').onclick = () => loadStats();
+async function loadStats() {
+  $('#statsBox').innerHTML = '<div class="empty"><div class="spin" style="margin:auto"></div></div>';
+  try {
+    const { stats: s } = await api('stats');
+    renderStats(s);
+  } catch (e) {
+    $('#statsBox').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+  }
+}
+function renderStats(s) {
+  const T = s.totals, tName = id => { const t = typeOf(id); return t ? t.icon + ' ' + t.name : '—'; };
+  const types = s.byType;
+  const maxB = Math.max(1, ...s.booths.map(b => b.visits));
+  const R = s.ratings;
+  const kpi = (l, v) => `<div class="kpi"><small>${l}</small><b>${v}</b></div>`;
+
+  $('#statsBox').innerHTML = `
+    <div class="kpis">
+      ${kpi('إجمالي الزوار', T.visitors)}
+      ${kpi('زوار سجلوا زيارة', T.engaged)}
+      ${kpi('إجمالي زيارات البوثات', T.visits)}
+      ${kpi('متوسط البوثات لكل زائر', T.avgBooths)}
+      ${kpi('محاولات مكررة', T.duplicates)}
+      ${kpi('عدد التقييمات', T.ratings)}
+      ${kpi('متوسط التقييم العام', T.avgRating ? T.avgRating + ' / 5' : '—')}
+      ${kpi('هدايا مسلّمة', R.gifts)}
+    </div>
+
+    <div class="card"><h3>الزوار حسب النوع وقياس التوصيات</h3><div class="tbl"><table>
+      <tr><th>الفئة</th><th>الزوار</th><th>الزيارات</th><th>متوسط البوثات</th><th>البوثات الموصى بها</th><th>متوسط ما زاره منها</th><th>تغطية التوصيات</th><th>نسبة الزيارات للموصى بها</th></tr>
+      ${types.map(t => `<tr><td>${esc(t.icon)} ${esc(t.name)}</td><td>${t.visitors}</td><td>${t.visits}</td><td>${t.avgBooths}</td>
+        <td>${t.recTotal}</td><td>${t.avgRecVisited} من ${t.recTotal}</td><td>${t.recCoverage}%</td><td>${t.recShare}%</td></tr>`).join('')}
+    </table></div>
+    <p class="hint" style="margin:10px 0 0">«تغطية التوصيات» = نسبة ما زاره زوار الفئة من البوثات الموصى بها لهم. «نسبة الزيارات للموصى بها» = كم من زياراتهم كانت لبوثات موصى بها.</p></div>
+
+    <div class="card"><h3>زيارات كل بوث حسب نوع الزائر</h3><div class="tbl"><table>
+      <tr><th>البوث</th><th>الإجمالي</th>${types.map(t => `<th>${esc(t.icon)} ${esc(t.name)}</th>`).join('')}</tr>
+      ${s.booths.map((b, i) => `<tr><td>${i + 1}. ${esc(b.icon)} ${esc(b.name)}${b.active ? '' : ' <small class="tag-off">معطل</small>'}
+        <div class="barln"><i style="width:${Math.round(100 * b.visits / maxB)}%"></i></div></td>
+        <td><b>${b.visits}</b></td>${types.map(t => `<td>${b.byType[t.id] || 0}</td>`).join('')}</tr>`).join('')}
+    </table></div></div>
+
+    <div class="card"><h3>أكثر البوثات زيارة لكل فئة</h3><div class="tops">
+      ${types.map(t => `<div><b>${esc(t.icon)} ${esc(t.name)}</b>${t.top.length
+        ? '<ol>' + t.top.map(x => `<li>${esc(x.name)} — ${x.visits}</li>`).join('') + '</ol>'
+        : '<p class="hint">لا توجد زيارات بعد</p>'}</div>`).join('')}
+    </div></div>
+
+    <div class="card"><h3>التقييمات</h3><div class="tbl"><table>
+      <tr><th>السؤال</th><th>المتوسط</th></tr>
+      ${Object.keys(Q_LABELS).map(k => `<tr><td>${Q_LABELS[k]}</td><td>${R.avg[k] || '—'}</td></tr>`).join('')}
+      <tr><td>تقييمات جوال الزائر (المتوسط العام)</td><td>${R.phone} تقييم — ${R.avgPhone || '—'}</td></tr>
+      <tr><td>تقييمات شاشة التقييم (المتوسط العام)</td><td>${R.kiosk} تقييم — ${R.avgKiosk || '—'}</td></tr>
+      <tr><td>توزيع التقييم العام</td><td>${R.dist.map((n, i) => `${i + 1}★: ${n}`).join(' · ')}</td></tr>
+    </table></div></div>
+
+    <div class="card"><h3>الزيارات حسب الساعة</h3>
+      ${s.hours.length ? s.hours.map(h => `<div style="display:flex;gap:10px;align-items:center;margin-bottom:6px"><span style="width:44px;direction:ltr">${h.h}:00</span>
+        <div class="barln" style="flex:1;height:14px"><i style="width:${Math.round(100 * h.n / Math.max(...s.hours.map(x => x.n)))}%"></i></div><b style="width:40px">${h.n}</b></div>`).join('')
+        : '<p class="hint">لا توجد زيارات بعد</p>'}
+    </div>
+
+    <div class="card"><h3>ملاحظات ومقترحات الزوار (${(s.notes || []).length})</h3>
+      ${(s.notes || []).map(n => `<div class="note">${esc(n.text)}<br><small>${esc(n.source)} · ${esc(tName(n.type))} · ${n.overall ? n.overall + '★' : ''} · ${esc(n.time)}</small></div>`).join('') || '<p class="hint">لا توجد ملاحظات بعد</p>'}
+    </div>
+    <p class="hint">آخر تحديث: ${esc(s.updated)} — جميع البيانات الخام في Google Sheet ويمكن تنزيلها Excel.</p>`;
+}
+
+/* ---------- الإعدادات ---------- */
+function renderSettings() {
+  const f = $('#setForm');
+  f.innerHTML = '<h3>إعدادات المعرض</h3>' + DATA.settings.map(s => {
+    const label = `<span>${esc(SET_LABELS[s.key] || s.key)}</span>`;
+    const note = s.note ? `<small>${esc(s.note)}</small>` : '';
+    if (s.key === 'phone_questions' || s.key === 'kiosk_questions') {
+      const on = s.value.split(',').map(x => x.trim());
+      return `<div class="fld">${label}<div class="checks">${Object.keys(Q_LABELS).map(k =>
+        `<label><input type="checkbox" data-q="${s.key}" value="${k}" ${on.includes(k) ? 'checked' : ''}> ${Q_LABELS[k]}</label>`).join('')}</div>${note}</div>`;
+    }
+    if (s.key === 'gift_enabled') {
+      return `<label class="fld">${label}<select name="${s.key}"><option ${s.value === 'نعم' ? 'selected' : ''}>نعم</option><option ${s.value !== 'نعم' ? 'selected' : ''}>لا</option></select>${note}</label>`;
+    }
+    const num = /_sec$|_visits$/.test(s.key);
+    return `<label class="fld">${label}<input name="${esc(s.key)}" value="${esc(s.value)}" ${num ? 'type="number" min="0" inputmode="numeric"' : ''}>${note}</label>`;
+  }).join('') + '<button class="btn pri block" type="submit">💾 حفظ الإعدادات</button>';
+  renderTypes();
+}
+$('#setForm').onsubmit = e => {
+  e.preventDefault();
+  const f = e.target, obj = {};
+  DATA.settings.forEach(s => {
+    if (s.key === 'phone_questions' || s.key === 'kiosk_questions') {
+      obj[s.key] = [...f.querySelectorAll(`[data-q="${s.key}"]:checked`)].map(c => c.value).join(',');
+    } else if (f.elements[s.key]) obj[s.key] = f.elements[s.key].value;
+  });
+  if (!obj.phone_questions || !obj.kiosk_questions) return toast('اختر سؤالًا واحدًا على الأقل لكل نوع تقييم', true);
+  run(async () => {
+    await api('saveSettings', { settings: obj });
+    if (obj.admin_password && obj.admin_password !== PASS) { PASS = obj.admin_password.trim(); sessionStorage.setItem('expo_pass', PASS); }
+    toast('تم حفظ الإعدادات');
+    await load();
+  });
+};
+
+function renderTypes() {
+  $('#typesBox').innerHTML = DATA.types.map((t, i) => `
+    <div class="trow" data-i="${i}">
+      <input type="text" class="ico" value="${esc(t.icon)}" maxlength="8">
+      <input type="text" class="nm" value="${esc(t.name)}" placeholder="اسم النوع">
+      <div class="checks"><label><input type="checkbox" class="ac" ${t.active ? 'checked' : ''}> نشط</label></div>
+    </div>`).join('');
+}
+function collectTypes() {
+  document.querySelectorAll('#typesBox .trow').forEach(r => {
+    const t = DATA.types[+r.dataset.i];
+    t.icon = r.querySelector('.ico').value;
+    t.name = r.querySelector('.nm').value;
+    t.active = r.querySelector('.ac').checked;
+  });
+}
+$('#addType').onclick = () => { collectTypes(); DATA.types.push({ id: '', name: '', icon: '👤', active: true }); renderTypes(); };
+$('#saveTypes').onclick = () => {
+  collectTypes();
+  run(async () => {
+    await api('saveTypes', { types: DATA.types });
+    toast('تم حفظ أنواع الزوار');
+    await load();
+  });
+};
+</script>
+</body>
+</html>
