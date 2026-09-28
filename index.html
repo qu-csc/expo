@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#0d5237">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>دليل المعرض</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="icons.js"></script>
 <script src="config.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
-:root{
+:root{color-scheme:light;
   --pri:#13704d;--pri-d:#0d5237;--pri-dd:#093b28;--pri-l:#e6f1ec;
   --acc:#1aa6a2;--acc-d:#128784;--acc-l:#e2f4f3;--blue:#0b57a4;
   --gold:#d4a72c;--gold-d:#b08a1c;--gold-l:#fbf4dc;
@@ -20,8 +21,12 @@
   --r:18px;--safe:env(safe-area-inset-bottom);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.ti{display:inline-block;width:1em;height:1em;line-height:1;vertical-align:-.15em;flex:0 0 auto}
+.ti svg{display:block;width:100%;height:100%}
+button,input[type=text],input[type=password],input[type=number],textarea{-webkit-appearance:none;appearance:none}
 html,body{background:var(--bg);min-height:100%}
-body{font-family:'Tajawal',system-ui,sans-serif;color:var(--ink);font-size:16px;line-height:1.6;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+body{font-family:'Tajawal',-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,'Noto Sans Arabic',Arial,sans-serif;color:var(--ink);font-size:16px;line-height:1.6;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 [hidden]{display:none!important}
@@ -82,7 +87,7 @@ button{cursor:pointer;border:0;background:none}
 .prog{margin:-50px 16px 0;background:#fff;border-radius:22px;padding:16px 18px;display:flex;align-items:center;gap:16px;box-shadow:0 10px 30px rgba(13,82,55,.12);position:relative}
 .ring{width:76px;height:76px;flex:0 0 auto;position:relative}
 .ring svg{transform:rotate(-90deg)}
-.ring .n{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:20px;color:var(--pri-d)}
+.ring .n{position:absolute;top:0;right:0;bottom:0;left:0;display:grid;place-items:center;font-weight:800;font-size:20px;color:var(--pri-d)}
 .prog b{font-size:18px;display:block}
 .prog small{color:var(--muted);font-size:14px}
 .ratecard{margin:14px 16px 0;border-radius:20px;padding:16px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#fff8e1,var(--gold-l));border:1.5px solid #efdc9a;text-align:right;width:calc(100% - 32px)}
@@ -156,7 +161,7 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 .stafflnk{color:var(--muted);font-size:14px;text-decoration:underline;margin-top:6px}
 
 /* طبقات */
-.ovl{position:fixed;inset:0;z-index:60;background:rgba(10,30,26,.55);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+.ovl{position:fixed;top:0;right:0;bottom:0;left:0;z-index:60;background:rgba(10,30,26,.55);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
 @keyframes fade{from{opacity:0}}
 .sheet{background:#fff;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;border-radius:26px 26px 0 0;padding:22px 20px calc(20px + var(--safe));animation:slide .28s ease}
 @keyframes slide{from{transform:translateY(100%)}}
@@ -178,18 +183,18 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 .help li i{font-style:normal;width:38px;height:38px;border-radius:12px;background:var(--pri-l);color:var(--pri);display:grid;place-items:center;flex:0 0 auto;font-size:20px}
 
 /* الماسح */
-.scan{position:fixed;inset:0;z-index:70;background:#000;color:#fff;display:flex;flex-direction:column}
+.scan{position:fixed;top:0;right:0;bottom:0;left:0;z-index:70;background:#000;color:#fff;display:flex;flex-direction:column}
 .scan-top{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:3}
 .scan-top b{font-size:18px}
 .scan-top button{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:20px}
 #reader{flex:1;position:relative;overflow:hidden}
 #reader video{width:100%!important;height:100%!important;object-fit:cover}
 .scan-hint{position:absolute;bottom:0;left:0;right:0;z-index:3;text-align:center;padding:22px 20px calc(26px + var(--safe));background:linear-gradient(to top,rgba(0,0,0,.8),transparent);font-size:16px;font-weight:600}
-.scan-err{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px;text-align:center;background:#101816}
+.scan-err{position:absolute;top:0;right:0;bottom:0;left:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px;text-align:center;background:#101816}
 .scan-err .e{font-size:50px}
 
 /* النتيجة */
-.res{position:fixed;inset:0;z-index:80;background:rgba(10,30,26,.6);display:flex;align-items:center;justify-content:center;padding:22px;animation:fade .2s}
+.res{position:fixed;top:0;right:0;bottom:0;left:0;z-index:80;background:rgba(10,30,26,.6);display:flex;align-items:center;justify-content:center;padding:22px;animation:fade .2s}
 .rbox{background:#fff;border-radius:28px;padding:30px 22px 22px;width:100%;max-width:400px;text-align:center;animation:pop .35s ease}
 .rbox .ico{width:92px;height:92px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;font-size:48px}
 .rbox .ico.ok{background:var(--pri-l);animation:pulse 1.2s ease 2}
@@ -212,7 +217,7 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 .toast{position:fixed;top:calc(16px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-150%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:14px;z-index:95;transition:.3s;max-width:90vw;text-align:center;font-weight:700;font-size:15px}
 .toast.show{transform:translate(-50%,0)}
 .toast.bad{background:var(--danger)}
-.busy{position:fixed;inset:0;z-index:90;background:rgba(255,255,255,.55);display:grid;place-items:center}
+.busy{position:fixed;top:0;right:0;bottom:0;left:0;z-index:90;background:rgba(255,255,255,.55);display:grid;place-items:center}
 .loading{min-height:100vh;display:grid;place-items:center;text-align:center;color:var(--muted)}
 </style>
 </head>
@@ -339,7 +344,7 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 <div class="scan" id="scan" hidden>
   <div class="scan-top"><b><i class="ti ti-scan"></i> امسح رمز البوث</b><button id="scanClose" aria-label="إغلاق"><i class="ti ti-x"></i></button></div>
   <div id="reader"></div>
-  <div class="scan-hint">وجّه الكاميرا نحو رمز QR الموجود في البوث</div>
+  <div class="scan-hint" id="scanHint">وجّه الكاميرا نحو رمز QR الموجود في البوث</div>
   <div class="scan-err" id="scanErr" hidden>
     <div class="e"><i class="ti ti-camera"></i></div>
     <b id="scanErrT"></b>
@@ -363,7 +368,7 @@ const Q_TEXT = {
 const WORDS = ['ضعيف', 'مقبول', 'جيد', 'جيد جدًا', 'ممتاز'];
 
 const $ = s => document.querySelector(s);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 /* أيقونة خطية من اسمها (مثل school) أو نص/إيموجي كما هو */
 const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"></i>` : esc(n || '');
 const LS = {
@@ -380,20 +385,28 @@ let filter = 'all';
 let ANS = {};
 
 /* ---------- الاتصال ---------- */
-async function api(action, data) {
+async function api(action, data, timeoutMs) {
   if (!API || API.indexOf('http') !== 0) throw new Error('لم يتم ضبط رابط النظام في config.js');
-  let res;
+  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs || 20000) : 0;
+  let j;
   try {
-    res = await fetch(API, {
+    const res = await fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(Object.assign({ action }, data || {}))
+      body: JSON.stringify(Object.assign({ action }, data || {})),
+      signal: ctl ? ctl.signal : undefined
     });
-  } catch (e) { throw new Error('تعذر الاتصال، تحقق من الإنترنت'); }
-  const j = await res.json();
+    j = await res.json();
+  } catch (e) {
+    const err = new Error(e && e.name === 'AbortError' ? 'الاتصال بطيء، حاول مرة أخرى' : 'تعذر الاتصال، تحقق من الإنترنت');
+    err.network = true;
+    throw err;
+  } finally { clearTimeout(timer); }
   if (!j.ok) throw new Error(j.error || 'حدث خطأ');
   return j;
 }
+function saveMe() { if (ME) LS.set('expo_me', JSON.stringify(ME)); }
 let tT;
 function toast(m, bad) {
   const t = $('#toast');
@@ -405,6 +418,7 @@ function toast(m, bad) {
 function lostVisitor() {
   ME = null;
   LS.del('expo_vid');
+  LS.del('expo_me');
   toast('يرجى اختيار نوع الزائر من جديد', true);
   openTypes();
 }
@@ -434,6 +448,19 @@ const boothOf = id => CFG.booths.find(b => b.id === id);
   }
   try { CFG = JSON.parse(LS.get('expo_cfg') || 'null'); } catch (e) { CFG = null; }
   const vid = LS.get('expo_vid');
+  try { ME = JSON.parse(LS.get('expo_me') || 'null'); } catch (e) { ME = null; }
+  if (!vid || !ME || ME.id !== vid) ME = null;
+
+  /* المسار السريع: الزائر معروف والبيانات محفوظة في الجوال → اعرض فورًا وسجّل الزيارة مباشرة،
+     وحدّث البيانات من الخادم في الخلفية */
+  const fast = !!(CFG && ME);
+  if (fast) {
+    brand();
+    goHome();
+    if (pending) { const x = pending; pending = null; doVisit(x, 'link'); }
+    preloadScanner();
+  }
+
   try {
     const [c, v] = await Promise.all([
       api('config'),
@@ -441,13 +468,26 @@ const boothOf = id => CFG.booths.find(b => b.id === id);
     ]);
     CFG = { expo: c.expo, types: c.types, booths: c.booths };
     LS.set('expo_cfg', JSON.stringify(CFG));
-    ME = v.visitor;
-    if (!ME) LS.del('expo_vid');
+    if (v.visitor) {
+      const old = ME && ME.visited ? ME.visited : [];
+      ME = v.visitor;
+      old.forEach(b => { if (ME.visited.indexOf(b) < 0) ME.visited.push(b); });
+      saveMe();
+    } else if (vid) {
+      ME = null;
+      LS.del('expo_vid');
+      LS.del('expo_me');
+    }
   } catch (e) {
     if (!CFG) { show('error'); return; }
-    toast(e.message, true);
+    if (!fast) toast(e.message, true);
   }
   brand();
+  if (fast) {
+    if (ME && document.body.dataset.view === 'home') renderHome();
+    else if (!ME && document.body.dataset.view === 'home') show('start');
+    return;
+  }
   if (ME) {
     goHome();
     if (pending) { const x = pending; pending = null; doVisit(x, 'link'); }
@@ -456,6 +496,7 @@ const boothOf = id => CFG.booths.find(b => b.id === id);
   } else {
     show('start');
   }
+  preloadScanner();
 })();
 
 function brand() {
@@ -492,6 +533,7 @@ $('#typeGrid').onclick = e => {
     } else {
       ME = (await api('register', { type, device: navigator.userAgent })).visitor;
       LS.set('expo_vid', ME.id);
+      saveMe();
     }
     goHome();
     if (pending) { const x = pending; pending = null; doVisit(x, 'link'); }
@@ -511,6 +553,7 @@ function card(b, i) {
 }
 
 function renderHome() {
+  saveMe();
   const t = typeOf(ME.type) || { name: 'زائر', icon: 'user' };
   const canChange = !ME.visited.length;
   $('#tChip').innerHTML = `نوع الزائر: <b>${ico(t.icon)} ${esc(t.name)}</b>${canChange ? ' · <button id="chgType">تغيير</button>' : ''}`;
@@ -600,7 +643,29 @@ $('#helpBtn').onclick = () => sheet(`
   <button class="btn pri block" data-act="close">فهمت</button>`);
 
 /* ---------- الماسح ---------- */
-let scanner = null, scanning = false;
+let scanner = null, scanning = false, scanLib = null;
+const SCAN_LIB = 'https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js';
+/* مكتبة الماسح تُحمَّل في الخلفية بعد ظهور الصفحة، فلا تؤخر فتح الموقع */
+function loadScanner() {
+  if (typeof Html5Qrcode !== 'undefined') return Promise.resolve();
+  if (!scanLib) scanLib = new Promise((ok, bad) => {
+    const s = document.createElement('script');
+    s.src = SCAN_LIB;
+    s.async = true;
+    s.onload = ok;
+    s.onerror = () => { scanLib = null; bad(new Error('lib')); };
+    document.head.appendChild(s);
+  });
+  return scanLib;
+}
+function preloadScanner() { setTimeout(() => loadScanner().catch(() => {}), 1200); }
+const IN_APP = /FBAN|FBAV|Instagram|Snapchat|Line\/|TikTok|musical_ly|MicroMessenger|GSA\//i.test(navigator.userAgent);
+const IS_IOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+function cameraHelp() {
+  if (IN_APP) return 'هذا المتصفح داخل تطبيق آخر ولا يسمح بالكاميرا. افتح الرابط في ' + (IS_IOS ? 'Safari' : 'Chrome') + '، أو امسح رمز البوث بكاميرا جوالك مباشرة.';
+  if (IS_IOS) return 'اسمح للمتصفح باستخدام الكاميرا (الإعدادات ← Safari ← الكاميرا ← السماح)، أو امسح رمز البوث بكاميرا جوالك مباشرة.';
+  return 'اسمح للمتصفح باستخدام الكاميرا من إعدادات الموقع، أو امسح رمز البوث بكاميرا جوالك مباشرة.';
+}
 $('#scanBtn').onclick = () => openScanner();
 $('#scanClose').onclick = $('#scanBack').onclick = () => closeScanner();
 $('#scanRetry').onclick = () => { closeScanner().then(openScanner); };
@@ -608,18 +673,26 @@ $('#scanRetry').onclick = () => { closeScanner().then(openScanner); };
 async function openScanner() {
   $('#scan').hidden = false;
   $('#scanErr').hidden = true;
-  if (typeof Html5Qrcode === 'undefined') return scanError('تعذر تحميل الماسح. امسح رمز البوث بكاميرا جوالك مباشرة.');
+  $('#scanHint').textContent = 'جارٍ تشغيل الكاميرا…';
+  try { await loadScanner(); }
+  catch (e) { return scanError('تعذر تحميل الماسح. تحقق من الإنترنت، أو امسح رمز البوث بكاميرا جوالك مباشرة.'); }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return scanError(cameraHelp());
   try {
-    if (!scanner) scanner = new Html5Qrcode('reader');
+    if (!scanner) scanner = new Html5Qrcode('reader', {
+      verbose: false,
+      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],      // قراءة QR فقط = أسرع
+      experimentalFeatures: { useBarCodeDetectorIfSupported: true } // القارئ المدمج في المتصفح إن وُجد
+    });
     scanning = true;
     await scanner.start(
       { facingMode: 'environment' },
-      { fps: 10, qrbox: (w, h) => { const s = Math.floor(Math.min(w, h) * 0.72); return { width: s, height: s }; } },
+      { fps: 15, qrbox: (w, h) => { const s = Math.floor(Math.min(w, h) * 0.75); return { width: s, height: s }; } },
       onScan, () => {}
     );
+    $('#scanHint').textContent = 'وجّه الكاميرا نحو رمز QR الموجود في البوث';
   } catch (e) {
     scanning = false;
-    scanError('لم نتمكن من فتح الكاميرا. اسمح للمتصفح باستخدام الكاميرا، أو امسح رمز البوث بكاميرا جوالك مباشرة.');
+    scanError('لم نتمكن من فتح الكاميرا. ' + cameraHelp());
   }
 }
 function scanError(m) { $('#scanErrT').textContent = m; $('#scanErr').hidden = false; }
@@ -650,7 +723,14 @@ function onScan(text) {
 async function doVisit(p, source) {
   result('loading');
   try {
-    const r = await api('visit', { vid: ME.id, b: p.b, k: p.k, source });
+    let r;
+    try { r = await api('visit', { vid: ME.id, b: p.b, k: p.k, source }, 15000); }
+    catch (e) {
+      if (!e.network) throw e;
+      // إعادة المحاولة مرة واحدة تلقائيًا؛ إن كانت المحاولة الأولى قد سُجّلت فعلًا تُعرض كنجاح
+      r = await api('visit', { vid: ME.id, b: p.b, k: p.k, source }, 20000);
+      if (r.status === 'duplicate' && ME.visited.indexOf(r.booth.id) < 0) r.status = 'new';
+    }
     ME.visited = r.visited;
     renderHome();
     result(r.status, r);
@@ -723,6 +803,7 @@ $('#sendRate').onclick = () => run(async () => {
   const r = await api('rate', { vid: ME.id, source: 'phone', answers: ANS, notes: $('#notes').value });
   ME.rated = true;
   ME.ratingId = r.ratingId;
+  saveMe();
   vib([50, 30, 80]);
   openThanks();
 });
@@ -758,6 +839,7 @@ $('#staffBtn').onclick = () => {
     run(async () => {
       const r = await api('gift', { vid: ME.id, pin: $('#pin').value });
       ME.giftGiven = true;
+      saveMe();
       closeSheet();
       renderGift();
       vib([60, 40, 100]);

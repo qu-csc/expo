@@ -3,21 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="only light">
 <title>إدارة المعرض</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="icons.js"></script>
 <script src="config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
-:root{
+:root{color-scheme:light;
   --pri:#13704d;--pri-d:#0d5237;--pri-l:#e6f1ec;--acc:#1aa6a2;--acc-d:#128784;--acc-l:#e2f4f3;
   --gold:#d4a72c;--gold-l:#fbf4dc;
   --bg:#f4f7f5;--card:#fff;--ink:#1b2a24;--muted:#66776f;--line:#e2e9e5;--danger:#c0392b;--r:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.ti{display:inline-block;width:1em;height:1em;line-height:1;vertical-align:-.15em;flex:0 0 auto}
+.ti svg{display:block;width:100%;height:100%}
+button,input[type=text],input[type=password],input[type=number],textarea{-webkit-appearance:none;appearance:none}
 html,body{background:var(--bg)}
-body{font-family:'Tajawal',system-ui,sans-serif;color:var(--ink);font-size:15px;line-height:1.6;-webkit-tap-highlight-color:transparent}
+body{font-family:'Tajawal',-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,'Noto Sans Arabic',Arial,sans-serif;color:var(--ink);font-size:15px;line-height:1.6;-webkit-tap-highlight-color:transparent}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 [hidden]{display:none!important}
@@ -130,7 +136,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 /* الإعدادات */
 .fld{display:block;margin-bottom:14px}
 .fld span{display:block;font-weight:700;font-size:14px;margin-bottom:4px}
-.fld input,.fld select,.fld textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+.fld input,.fld select,.fld textarea{width:100%;font-size:16px;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
 .fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--pri)}
 .fld small{color:var(--muted);font-size:12px}
 .checks{display:flex;flex-wrap:wrap;gap:8px}
@@ -138,11 +144,11 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 .checks input{width:18px;height:18px;accent-color:var(--pri)}
 .trow{display:grid;grid-template-columns:40px 110px 1fr auto;gap:8px;align-items:center;margin-bottom:8px}
 .trow .pv{font-size:24px;color:var(--pri);text-align:center}
-.trow input[type=text]{padding:10px;border:1.5px solid var(--line);border-radius:10px;width:100%}
-.trow .ico{direction:ltr;font-size:13px}
+.trow input[type=text]{font-size:16px;padding:10px;border:1.5px solid var(--line);border-radius:10px;width:100%}
+.trow .ico{direction:ltr;font-size:16px}
 
 /* نافذة */
-.modal{position:fixed;inset:0;z-index:50;background:rgba(15,30,26,.5);display:flex;align-items:flex-end;justify-content:center}
+.modal{position:fixed;top:0;right:0;bottom:0;left:0;z-index:50;background:rgba(15,30,26,.5);display:flex;align-items:flex-end;justify-content:center}
 .sheet{background:#fff;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;border-radius:22px 22px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
 @media(min-width:700px){.modal{align-items:center}.sheet{border-radius:22px}}
 .sheet h3{font-size:18px;margin-bottom:14px}
@@ -157,7 +163,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;z-index:90;transition:.3s;max-width:90vw;text-align:center;font-weight:600}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.bad{background:var(--danger)}
-.busy{position:fixed;inset:0;z-index:80;background:rgba(255,255,255,.55);display:grid;place-items:center}
+.busy{position:fixed;top:0;right:0;bottom:0;left:0;z-index:80;background:rgba(255,255,255,.55);display:grid;place-items:center}
 .spin{width:42px;height:42px;border:4px solid var(--pri-l);border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 
@@ -166,7 +172,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 @media print{
   body.printing > *:not(#printArea){display:none!important}
   body.printing #printArea{display:block}
-  .pcard{page-break-after:always;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Tajawal',sans-serif}
+  .pcard{page-break-after:always;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Tajawal',Tahoma,Arial,sans-serif}
   .pcard:last-child{page-break-after:auto}
   .plogo{height:2.4cm;width:auto;margin-bottom:14px}
   .pexpo{font-size:20px;color:#0d5237;margin-bottom:10px;font-weight:700}
@@ -261,7 +267,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
       <form class="card" id="setForm"></form>
       <div class="card">
         <h3>أنواع الزوار</h3>
-        <p class="hint">يمكن تعديل الاسم والأيقونة، أو إيقاف نوع، أو إضافة نوع جديد. الأيقونة تُكتب باسمها الإنجليزي من مكتبة Tabler مثل: school ، briefcase ، user.</p>
+        <p class="hint">يمكن تعديل الاسم والأيقونة، أو إيقاف نوع، أو إضافة نوع جديد. الأيقونة تُكتب باسمها الإنجليزي مثل: school ، briefcase ، user (الأسماء المتاحة هي نفسها الظاهرة في نافذة إضافة البوث).</p>
         <div id="typesBox"></div>
         <div style="display:flex;gap:8px;margin-top:10px">
           <button class="btn" id="addType"><i class="ti ti-plus"></i> نوع جديد</button>
@@ -279,7 +285,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
     <input type="hidden" id="fId">
     <label class="fld"><span>اسم البوث *</span><input id="fName" required maxlength="80"></label>
     <div class="fld"><span>الأيقونة</span><div class="icrow"><div class="icprev" id="fIconPrev"></div><input id="fIcon" maxlength="40" dir="ltr" placeholder="building" style="flex:1"></div>
-      <div class="icons" id="iconPick"></div><small>اختر من الأيقونات أو اكتب اسم أي أيقونة من مكتبة Tabler Icons</small></div>
+      <div class="icons" id="iconPick"></div><small>اختر أيقونة من القائمة</small></div>
     <label class="fld"><span>الوصف</span><textarea id="fDesc" rows="3" maxlength="400"></textarea></label>
     <label class="fld"><span>الموقع داخل المعرض (اختياري)</span><input id="fLoc" maxlength="60" placeholder="مثال: الجناح A — يمين المدخل"></label>
     <div class="fld"><span>أنواع الزوار المرتبطة (خدمات تهمك)</span><div class="checks" id="fTypes"></div></div>
@@ -308,14 +314,25 @@ const SET_LABELS = {
 const ICONS = ['building', 'building-hospital', 'school', 'friends', 'certificate', 'device-laptop', 'users', 'heart-handshake',
   'chart-infographic', 'disabled', 'bus', 'car', 'paw', 'bulb', 'books', 'library', 'world', 'headset', 'id-badge-2',
   'stethoscope', 'heartbeat', 'building-bank', 'building-community', 'coin', 'microscope', 'flask', 'trophy', 'palette',
-  'shield-check', 'leaf', 'news', 'speakerphone', 'message-circle', 'phone', 'mail', 'compass', 'route', 'briefcase', 'user', 'star'];
+  'shield-check', 'leaf', 'news', 'speakerphone', 'message-circle', 'phone', 'mail', 'compass', 'route', 'briefcase', 'user', 'star',
+  'building-store', 'building-arch', 'building-estate', 'calendar-event', 'clipboard-list', 'file-text', 'help', 'info-circle', 'award',
+  'medal', 'school-bell', 'brain', 'dna', 'pill', 'first-aid-kit', 'wheelchair', 'accessible', 'map-2', 'plane', 'truck', 'tools',
+  'device-desktop', 'cloud', 'database', 'lock', 'key', 'shopping-cart', 'gavel', 'scale', 'world-www', 'home-2', 'book-2', 'notebook',
+  'pencil', 'camera', 'video', 'microphone', 'music', 'ball-football', 'run', 'tree', 'plant-2', 'recycle', 'sun', 'droplet', 'globe',
+  'mood-happy', 'user-check', 'users-group', 'baby-carriage', 'chart-line', 'report-analytics', 'presentation', 'calculator', 'receipt',
+  'credit-card', 'wallet'].filter(n => !window.tiHas || window.tiHas(n));
 
-let PASS = sessionStorage.getItem('expo_pass') || '';
+const SS = {
+  get: k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+  set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (e) {} },
+  del: k => { try { sessionStorage.removeItem(k); } catch (e) {} }
+};
+let PASS = SS.get('expo_pass') || '';
 let DATA = { booths: [], types: [], settings: [] };
 let MX = {};
 
 const $ = s => document.querySelector(s);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const typeOf = id => DATA.types.find(t => t.id === id);
 const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"></i>` : esc(n || '');
 const setVal = k => (DATA.settings.find(s => s.key === k) || {}).value || '';
@@ -352,11 +369,11 @@ $('#loginForm').onsubmit = e => {
   PASS = $('#pw').value.trim();
   run(async () => {
     try { await api('login'); } catch (err) { PASS = ''; throw err; }
-    sessionStorage.setItem('expo_pass', PASS);
+    SS.set('expo_pass', PASS);
     enterApp();
   });
 };
-$('#logout').onclick = () => { sessionStorage.removeItem('expo_pass'); location.reload(); };
+$('#logout').onclick = () => { SS.del('expo_pass'); location.reload(); };
 
 async function enterApp() {
   $('#loginView').hidden = true;
@@ -371,7 +388,7 @@ async function load() {
 }
 if (PASS) run(async () => {
   try { await api('login'); await enterApp(); }
-  catch (e) { PASS = ''; sessionStorage.removeItem('expo_pass'); throw e; }
+  catch (e) { PASS = ''; SS.del('expo_pass'); throw e; }
 });
 
 /* ---------- التبويبات ---------- */
@@ -551,7 +568,18 @@ function renderQR() {
 $('#links').onclick = e => {
   const b = e.target.closest('[data-copy]');
   if (!b) return;
-  navigator.clipboard.writeText(b.dataset.copy).then(() => toast('تم نسخ الرابط'), () => toast('تعذر النسخ', true));
+  const text = b.dataset.copy;
+  const fallback = () => {
+    const t = document.createElement('textarea');
+    t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    t.remove();
+    toast(ok ? 'تم نسخ الرابط' : 'تعذر النسخ — انسخ الرابط يدويًا', !ok);
+  };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(() => toast('تم نسخ الرابط'), fallback);
+  else fallback();
 };
 $('#qrGrid').onclick = e => {
   const t = e.target.closest('button');
@@ -679,7 +707,7 @@ $('#setForm').onsubmit = e => {
   if (!obj.phone_questions || !obj.kiosk_questions) return toast('اختر سؤالًا واحدًا على الأقل لكل نوع تقييم', true);
   run(async () => {
     await api('saveSettings', { settings: obj });
-    if (obj.admin_password && obj.admin_password !== PASS) { PASS = obj.admin_password.trim(); sessionStorage.setItem('expo_pass', PASS); }
+    if (obj.admin_password && obj.admin_password !== PASS) { PASS = obj.admin_password.trim(); SS.set('expo_pass', PASS); }
     toast('تم حفظ الإعدادات');
     await load();
   });

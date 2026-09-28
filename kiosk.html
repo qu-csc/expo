@@ -3,18 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#093b28">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>شاشة التقييم</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="icons.js"></script>
 <script src="config.js"></script>
 <style>
-:root{--pri:#13704d;--pri-d:#0d5237;--pri-dd:#093b28;--acc:#1aa6a2;--gold:#e0b832;--gold-d:#c9a227;--ink:#1b2a24}
+:root{color-scheme:light;--pri:#13704d;--pri-d:#0d5237;--pri-dd:#093b28;--acc:#1aa6a2;--gold:#e0b832;--gold-d:#c9a227;--ink:#1b2a24}
 *{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.ti{display:inline-block;width:1em;height:1em;line-height:1;vertical-align:-.15em;flex:0 0 auto}
+.ti svg{display:block;width:100%;height:100%}
+button,input[type=text],input[type=password],input[type=number],textarea{-webkit-appearance:none;appearance:none}
 html,body{height:100%}
-body{font-family:'Tajawal',system-ui,sans-serif;color:#fff;background:radial-gradient(circle at 20% 10%,var(--pri) 0%,var(--pri-d) 40%,var(--pri-dd) 100%);
+body{font-family:'Tajawal',-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,'Noto Sans Arabic',Arial,sans-serif;color:#fff;background:radial-gradient(circle at 20% 10%,var(--pri) 0%,var(--pri-d) 40%,var(--pri-dd) 100%);
   overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 button,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
@@ -22,7 +28,7 @@ button{cursor:pointer;border:0;background:none}
 .deco{position:fixed;border-radius:50%;pointer-events:none}
 .deco.a{width:50vmax;height:50vmax;top:-20vmax;left:-18vmax;background:rgba(255,255,255,.05)}
 .deco.b{width:36vmax;height:36vmax;bottom:-14vmax;right:-10vmax;background:rgba(26,166,162,.14)}
-.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vh 5vw;text-align:center;overflow-y:auto}
+.screen{position:fixed;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vh 5vw;text-align:center;overflow-y:auto}
 .brand{position:fixed;top:3vh;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:.6vh;pointer-events:none}
 .brand img{height:clamp(40px,6vh,70px);width:auto}
 .expo{font-size:clamp(15px,2vw,22px);opacity:.85;font-weight:700}
@@ -49,7 +55,7 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .thx h1{margin-top:1vh}
 .ringw{position:relative;width:74px;height:74px;margin-top:4vh;opacity:.85}
 .ringw svg{transform:rotate(-90deg)}
-.ringw b{position:absolute;inset:0;display:grid;place-items:center;font-size:24px}
+.ringw b{position:absolute;top:0;right:0;bottom:0;left:0;display:grid;place-items:center;font-size:24px}
 .tap{margin-top:1.5vh;opacity:.6;font-size:clamp(14px,1.8vw,18px)}
 .conf{position:fixed;top:-20px;font-size:28px;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.3}}
@@ -109,12 +115,18 @@ let EXPO = null, QS = [], ANS = {}, idleT, resetT, cdT;
 
 async function api(action, data) {
   if (!API || API.indexOf('http') !== 0) throw new Error('config');
-  const res = await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(Object.assign({ action }, data || {}))
-  });
-  const j = await res.json();
+  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const timer = ctl ? setTimeout(() => ctl.abort(), 15000) : 0;
+  let j;
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action }, data || {})),
+      signal: ctl ? ctl.signal : undefined
+    });
+    j = await res.json();
+  } finally { clearTimeout(timer); }
   if (!j.ok) throw new Error(j.error || 'خطأ');
   return j;
 }

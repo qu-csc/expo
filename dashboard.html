@@ -3,21 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="only dark">
 <meta name="theme-color" content="#05231a">
 <title>لوحة المعرض المباشرة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="icons.js"></script>
 <script src="config.js"></script>
 <style>
-:root{
+:root{color-scheme:dark;
   --bg:#05231a;--panel:rgba(255,255,255,.055);--line:rgba(255,255,255,.09);
   --ink:#eaf5f0;--muted:#8fb2a4;--pri:#2fbf7f;--acc:#22b8b3;--gold:#e0b832;
   --c1:#2fbf7f;--c2:#22b8b3;--c3:#e0b832;--c4:#4d8fe0;--c5:#ff8a65;--c6:#b388ff;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.ti{display:inline-block;width:1em;height:1em;line-height:1;vertical-align:-.15em;flex:0 0 auto}
+.ti svg{display:block;width:100%;height:100%}
+button,input[type=text],input[type=password],input[type=number],textarea{-webkit-appearance:none;appearance:none}
 html,body{height:100%}
-body{font-family:'Tajawal',system-ui,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 85% -10%,#0f5a3c 0%,transparent 55%),radial-gradient(ellipse at 0% 110%,#0b3f52 0%,transparent 50%),var(--bg);overflow-x:hidden}
+body{font-family:'Tajawal',-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,'Noto Sans Arabic',Arial,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 85% -10%,#0f5a3c 0%,transparent 55%),radial-gradient(ellipse at 0% 110%,#0b3f52 0%,transparent 50%),var(--bg);overflow-x:hidden}
 .app{min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;gap:1.4vh;padding:2vh 1.8vw}
 
 header{display:flex;align-items:center;justify-content:space-between;gap:20px}
@@ -35,7 +41,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:2vh 1.5vw;position:relative;overflow:hidden;transition:box-shadow .4s}
-.kpi::after{content:'';position:absolute;inset:auto -30% -60% auto;width:60%;aspect-ratio:1;border-radius:50%;background:var(--glow);opacity:.14}
+.kpi::after{content:'';position:absolute;top:auto;right:-30%;bottom:-60%;left:auto;width:60%;padding-bottom:60%;border-radius:50%;background:var(--glow);opacity:.14}
 .kpi .l{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:clamp(14px,1.15vw,22px);font-weight:700}
 .kpi .l .ti{font-size:1.5em;color:var(--glow)}
 .kpi .v{font-size:clamp(40px,4.6vw,88px);font-weight:800;line-height:1.1;margin-top:.6vh;font-variant-numeric:tabular-nums}
@@ -50,9 +56,9 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 
 /* توزيع الأنواع */
 .donutw{display:flex;align-items:center;gap:1.4vw;flex:1}
-.donut{width:clamp(130px,11vw,220px);aspect-ratio:1;border-radius:50%;position:relative;flex:0 0 auto;transition:background .8s}
-.donut::after{content:'';position:absolute;inset:22%;border-radius:50%;background:#072a1f}
-.donut b{position:absolute;inset:0;display:grid;place-items:center;z-index:1;font-size:clamp(24px,2.2vw,42px);font-weight:800;line-height:1;text-align:center}
+.donut{width:clamp(130px,11vw,220px);height:clamp(130px,11vw,220px);aspect-ratio:1;border-radius:50%;position:relative;flex:0 0 auto;transition:background .8s}
+.donut::after{content:'';position:absolute;top:22%;right:22%;bottom:22%;left:22%;border-radius:50%;background:#072a1f}
+.donut b{position:absolute;top:0;right:0;bottom:0;left:0;display:grid;place-items:center;align-content:center;gap:.3em;z-index:1;font-size:clamp(24px,2.2vw,42px);font-weight:800;line-height:1;text-align:center}
 .donut b small{display:block;font-size:.4em;color:var(--muted);font-weight:500}
 .legend{flex:1;display:grid;gap:1.1vh}
 .lg{display:flex;align-items:center;gap:10px;font-size:clamp(14px,1.1vw,21px)}
@@ -63,7 +69,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 /* أكثر البوثات */
 .bars{display:grid;gap:1.25vh;flex:1;align-content:start}
 .bar{display:grid;grid-template-columns:clamp(26px,2vw,40px) 1fr auto;align-items:center;gap:12px}
-.rank{width:clamp(26px,2vw,40px);aspect-ratio:1;border-radius:10px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-weight:800;font-size:clamp(13px,1vw,19px)}
+.rank{width:clamp(26px,2vw,40px);height:clamp(26px,2vw,40px);aspect-ratio:1;border-radius:10px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-weight:800;font-size:clamp(13px,1vw,19px)}
 .bar:nth-child(1) .rank{background:var(--gold);color:#241c02}
 .bar:nth-child(2) .rank{background:#c9d6d2;color:#15241f}
 .bar:nth-child(3) .rank{background:#c98a4b;color:#241402}
@@ -160,14 +166,19 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 const API = (window.EXPO_CONFIG || {}).API_URL || '';
 const COLORS = ['#2fbf7f', '#22b8b3', '#e0b832', '#4d8fe0', '#ff8a65', '#b388ff'];
 const $ = s => document.querySelector(s);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"></i>` : esc(n || '');
 const fmt = (n, dec) => dec ? Number(n).toFixed(1) : Math.round(n).toLocaleString('en-US');
 let REFRESH = 10, lastRecent = '', TYPES = {};
 
 async function api(action) {
-  const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action }) });
-  const j = await res.json();
+  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const timer = ctl ? setTimeout(() => ctl.abort(), 20000) : 0;
+  let j;
+  try {
+    const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action }), signal: ctl ? ctl.signal : undefined });
+    j = await res.json();
+  } finally { clearTimeout(timer); }
   if (!j.ok) throw new Error(j.error);
   return j;
 }
