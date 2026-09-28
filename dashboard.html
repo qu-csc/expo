@@ -3,40 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#04211c">
+<meta name="theme-color" content="#05231a">
 <title>لوحة المعرض المباشرة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="config.js"></script>
 <style>
 :root{
-  --bg:#04211c;--panel:rgba(255,255,255,.055);--line:rgba(255,255,255,.09);
-  --ink:#eaf6f2;--muted:#8fb3aa;--pri:#1fb592;--gold:#e0b832;
-  --c1:#1fb592;--c2:#e0b832;--c3:#5aa9ff;--c4:#ff8a65;--c5:#b388ff;--c6:#4dd0e1;
+  --bg:#05231a;--panel:rgba(255,255,255,.055);--line:rgba(255,255,255,.09);
+  --ink:#eaf5f0;--muted:#8fb2a4;--pri:#2fbf7f;--acc:#22b8b3;--gold:#e0b832;
+  --c1:#2fbf7f;--c2:#22b8b3;--c3:#e0b832;--c4:#4d8fe0;--c5:#ff8a65;--c6:#b388ff;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{font-family:'Tajawal',system-ui,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 85% -10%,#0e5e4f 0%,transparent 55%),radial-gradient(ellipse at 0% 110%,#2b2a0c 0%,transparent 50%),var(--bg);overflow-x:hidden}
+body{font-family:'Tajawal',system-ui,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 85% -10%,#0f5a3c 0%,transparent 55%),radial-gradient(ellipse at 0% 110%,#0b3f52 0%,transparent 50%),var(--bg);overflow-x:hidden}
 .app{min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;gap:1.4vh;padding:2vh 1.8vw}
 
 header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{display:flex;align-items:center;gap:16px}
-.logo{width:clamp(48px,4.2vw,72px);height:clamp(48px,4.2vw,72px);border-radius:20px;background:linear-gradient(135deg,var(--pri),#0e7c66);display:grid;place-items:center;font-size:clamp(26px,2.3vw,40px);box-shadow:0 10px 30px rgba(31,181,146,.3)}
+.logo{height:clamp(44px,4.6vw,84px);width:auto;padding-left:18px;border-left:1px solid var(--line)}
 .brand h1{font-size:clamp(22px,2.2vw,40px);font-weight:800;line-height:1.2}
 .brand small{color:var(--muted);font-size:clamp(13px,1vw,18px)}
 .hright{display:flex;align-items:center;gap:18px}
-.live{display:flex;align-items:center;gap:8px;background:rgba(31,181,146,.14);color:var(--pri);border-radius:40px;padding:8px 16px;font-weight:800;font-size:clamp(13px,1vw,18px)}
-.live i{width:10px;height:10px;border-radius:50%;background:var(--pri);box-shadow:0 0 0 0 rgba(31,181,146,.6);animation:ping 1.6s infinite}
-.live.off{background:rgba(255,138,101,.14);color:var(--c4)}
-.live.off i{background:var(--c4);animation:none}
-@keyframes ping{70%{box-shadow:0 0 0 12px rgba(31,181,146,0)}100%{box-shadow:0 0 0 0 rgba(31,181,146,0)}}
+.live{display:flex;align-items:center;gap:8px;background:rgba(47,191,127,.14);color:var(--pri);border-radius:40px;padding:8px 16px;font-weight:800;font-size:clamp(13px,1vw,18px)}
+.live i{width:10px;height:10px;border-radius:50%;background:var(--pri);box-shadow:0 0 0 0 rgba(47,191,127,.6);animation:ping 1.6s infinite}
+.live.off{background:rgba(255,138,101,.14);color:var(--c5)}
+.live.off i{background:var(--c5);animation:none}
+@keyframes ping{70%{box-shadow:0 0 0 12px rgba(47,191,127,0)}100%{box-shadow:0 0 0 0 rgba(47,191,127,0)}}
 .clock{font-size:clamp(24px,2.4vw,44px);font-weight:800;direction:ltr;font-variant-numeric:tabular-nums}
 
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:2vh 1.5vw;position:relative;overflow:hidden;transition:box-shadow .4s}
 .kpi::after{content:'';position:absolute;inset:auto -30% -60% auto;width:60%;aspect-ratio:1;border-radius:50%;background:var(--glow);opacity:.14}
 .kpi .l{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:clamp(14px,1.15vw,22px);font-weight:700}
-.kpi .l span{font-size:1.4em}
+.kpi .l .ti{font-size:1.5em;color:var(--glow)}
 .kpi .v{font-size:clamp(40px,4.6vw,88px);font-weight:800;line-height:1.1;margin-top:.6vh;font-variant-numeric:tabular-nums}
 .kpi .s{color:var(--muted);font-size:clamp(12px,.95vw,18px)}
 .kpi.flash{box-shadow:0 0 0 2px var(--glow),0 0 40px -6px var(--glow)}
@@ -44,12 +45,13 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 .grid{display:grid;grid-template-columns:1fr 1.45fr 1fr;grid-template-rows:auto auto;gap:1.2vw;min-height:0}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:2vh 1.4vw;min-height:0;display:flex;flex-direction:column}
 .panel h2{font-size:clamp(16px,1.35vw,26px);font-weight:800;margin-bottom:1.6vh;display:flex;align-items:center;gap:8px}
+.panel h2 .ti{color:var(--acc);font-size:1.2em}
 .span2{grid-row:span 2}
 
 /* توزيع الأنواع */
 .donutw{display:flex;align-items:center;gap:1.4vw;flex:1}
 .donut{width:clamp(130px,11vw,220px);aspect-ratio:1;border-radius:50%;position:relative;flex:0 0 auto;transition:background .8s}
-.donut::after{content:'';position:absolute;inset:22%;border-radius:50%;background:#062b24}
+.donut::after{content:'';position:absolute;inset:22%;border-radius:50%;background:#072a1f}
 .donut b{position:absolute;inset:0;display:grid;place-items:center;z-index:1;font-size:clamp(24px,2.2vw,42px);font-weight:800;line-height:1;text-align:center}
 .donut b small{display:block;font-size:.4em;color:var(--muted);font-weight:500}
 .legend{flex:1;display:grid;gap:1.1vh}
@@ -67,7 +69,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 .bar:nth-child(3) .rank{background:#c98a4b;color:#241402}
 .bn{font-size:clamp(14px,1.15vw,22px);font-weight:700;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .track{height:clamp(8px,.8vh,14px);border-radius:10px;background:rgba(255,255,255,.07);overflow:hidden}
-.track i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,var(--pri),#7be3c8);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.track i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,var(--pri),var(--acc));transition:width 1s cubic-bezier(.2,.8,.2,1)}
 .bar:nth-child(1) .track i{background:linear-gradient(90deg,var(--gold),#ffe38a)}
 .bv{font-size:clamp(18px,1.5vw,30px);font-weight:800;font-variant-numeric:tabular-nums;min-width:3ch;text-align:left}
 
@@ -98,14 +100,14 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 /* حسب الساعة */
 .hours{display:flex;align-items:flex-end;gap:.6vw;flex:1;min-height:14vh;padding-top:3vh}
 .hc{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
-.hc i{width:100%;max-width:46px;border-radius:10px 10px 4px 4px;background:linear-gradient(to top,#0e7c66,var(--pri));transition:height 1s cubic-bezier(.2,.8,.2,1);position:relative;min-height:3px}
+.hc i{width:100%;max-width:46px;border-radius:10px 10px 4px 4px;background:linear-gradient(to top,#13704d,var(--acc));transition:height 1s cubic-bezier(.2,.8,.2,1);position:relative;min-height:3px}
 .hc i b{position:absolute;top:-2.6vh;left:50%;transform:translateX(-50%);font-size:clamp(11px,.85vw,16px);font-style:normal}
 .hc small{color:var(--muted);font-size:clamp(11px,.85vw,16px);direction:ltr}
 .hc.now i{background:linear-gradient(to top,#a8851a,var(--gold))}
 
 /* الشريط */
 .ticker{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.2vh 1.2vw;overflow:hidden}
-.ticker > b{white-space:nowrap;color:var(--pri);font-size:clamp(14px,1.05vw,20px)}
+.ticker > b{white-space:nowrap;color:var(--acc);font-size:clamp(14px,1.05vw,20px)}
 .tk{display:flex;gap:10px;overflow:hidden;flex:1}
 .chip{white-space:nowrap;background:rgba(255,255,255,.06);border-radius:30px;padding:6px 14px;font-size:clamp(13px,1vw,18px);animation:slin .6s ease both}
 .chip small{color:var(--muted);margin-right:6px}
@@ -125,40 +127,41 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 <body>
 <div class="app">
   <header>
-    <div class="brand"><div class="logo">🏛️</div><div><h1 id="expo">المعرض</h1><small>لوحة المعرض المباشرة</small></div></div>
+    <div class="brand"><img class="logo" src="logo-white.png" alt="جامعة القصيم"><div><h1 id="expo">المعرض</h1><small id="org">لوحة المعرض المباشرة</small></div></div>
     <div class="hright"><div class="live" id="live"><i></i><span>مباشر</span></div><div class="clock" id="clock"></div></div>
   </header>
 
   <section class="kpis">
-    <div class="kpi" style="--glow:var(--c1)"><div class="l"><span>👥</span>إجمالي الزوار</div><div class="v" id="kV">0</div><div class="s" id="kVs">زائر</div></div>
-    <div class="kpi" style="--glow:var(--c3)"><div class="l"><span>📍</span>إجمالي زيارات البوثات</div><div class="v" id="kB">0</div><div class="s" id="kBs">زيارة</div></div>
-    <div class="kpi" style="--glow:var(--c2)"><div class="l"><span>🧭</span>متوسط البوثات لكل زائر</div><div class="v" id="kA">0</div><div class="s">بوث لكل زائر</div></div>
-    <div class="kpi" style="--glow:var(--c4)"><div class="l"><span>⭐</span>متوسط التقييم</div><div class="v" id="kR">0</div><div class="s" id="kRs">من 5</div></div>
+    <div class="kpi" style="--glow:var(--c1)"><div class="l"><i class="ti ti-users"></i>إجمالي الزوار</div><div class="v" id="kV">0</div><div class="s" id="kVs">زائر</div></div>
+    <div class="kpi" style="--glow:var(--c3)"><div class="l"><i class="ti ti-map-pin"></i>إجمالي زيارات البوثات</div><div class="v" id="kB">0</div><div class="s" id="kBs">زيارة</div></div>
+    <div class="kpi" style="--glow:var(--c2)"><div class="l"><i class="ti ti-route"></i>متوسط البوثات لكل زائر</div><div class="v" id="kA">0</div><div class="s">بوث لكل زائر</div></div>
+    <div class="kpi" style="--glow:var(--c4)"><div class="l"><i class="ti ti-star"></i>متوسط التقييم</div><div class="v" id="kR">0</div><div class="s" id="kRs">من 5</div></div>
   </section>
 
   <section class="grid">
-    <div class="panel"><h2>🎓 توزيع الزوار حسب النوع</h2>
+    <div class="panel"><h2><i class="ti ti-chart-pie"></i> توزيع الزوار حسب النوع</h2>
       <div class="donutw"><div class="donut" id="donut"><b id="donutN">0<small>زائر</small></b></div><div class="legend" id="legend"></div></div>
     </div>
-    <div class="panel span2"><h2>🏆 أكثر البوثات زيارة</h2><div class="bars" id="bars"></div></div>
-    <div class="panel span2"><h2>⭐ رضا الزوار</h2>
+    <div class="panel span2"><h2><i class="ti ti-trophy"></i> أكثر البوثات زيارة</h2><div class="bars" id="bars"></div></div>
+    <div class="panel span2"><h2><i class="ti ti-mood-smile"></i> رضا الزوار</h2>
       <div class="rate"><div class="avg" id="rAvg">0</div><div><div class="st" id="rStars"></div><small id="rCnt">0 تقييم</small></div></div>
       <div class="dist" id="dist"></div>
-      <div class="src"><div><small>📱 من الجوال</small><b id="rPh">0</b></div><div><small>🖥️ شاشة التقييم</small><b id="rKi">0</b></div></div>
+      <div class="src"><div><small><i class="ti ti-device-mobile"></i> من الجوال</small><b id="rPh">0</b></div><div><small><i class="ti ti-device-tablet"></i> شاشة التقييم</small><b id="rKi">0</b></div></div>
     </div>
-    <div class="panel"><h2>🕐 الزيارات حسب الساعة</h2><div class="hours" id="hours"></div></div>
+    <div class="panel"><h2><i class="ti ti-clock"></i> الزيارات حسب الساعة</h2><div class="hours" id="hours"></div></div>
   </section>
 
-  <section class="panel"><h2>🎯 أكثر البوثات زيارة حسب نوع الزائر</h2><div class="types" id="types"></div></section>
+  <section class="panel"><h2><i class="ti ti-target-arrow"></i> أكثر البوثات زيارة حسب نوع الزائر</h2><div class="types" id="types"></div></section>
 
-  <div class="ticker"><b>⚡ آخر الزيارات</b><div class="tk" id="tk"></div><div class="upd" id="upd"></div></div>
+  <div class="ticker"><b><i class="ti ti-bolt"></i> آخر الزيارات</b><div class="tk" id="tk"></div><div class="upd" id="upd"></div></div>
 </div>
 
 <script>
 const API = (window.EXPO_CONFIG || {}).API_URL || '';
-const COLORS = ['#1fb592', '#e0b832', '#5aa9ff', '#ff8a65', '#b388ff', '#4dd0e1'];
+const COLORS = ['#2fbf7f', '#22b8b3', '#e0b832', '#4d8fe0', '#ff8a65', '#b388ff'];
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"></i>` : esc(n || '');
 const fmt = (n, dec) => dec ? Number(n).toFixed(1) : Math.round(n).toLocaleString('en-US');
 let REFRESH = 10, lastRecent = '', TYPES = {};
 
@@ -190,6 +193,7 @@ function countTo(el, to, dec) {
 
 function render(s, expo) {
   $('#expo').textContent = expo.name || 'المعرض';
+  $('#org').textContent = expo.organizer ? expo.organizer + ' — لوحة المعرض المباشرة' : 'لوحة المعرض المباشرة';
   document.title = 'لوحة المعرض — ' + (expo.name || '');
   REFRESH = Math.max(5, expo.dashboardRefreshSec || 10);
   const T = s.totals;
@@ -214,7 +218,7 @@ function render(s, expo) {
   $('#donut').style.background = tot ? `conic-gradient(${parts.join(',')})` : 'rgba(255,255,255,.08)';
   $('#donutN').innerHTML = `${fmt(tot)}<small>زائر</small>`;
   $('#legend').innerHTML = s.byType.map((t, i) =>
-    `<div class="lg"><i style="background:${COLORS[i % COLORS.length]}"></i><span>${esc(t.icon)} ${esc(t.name)}</span><b>${fmt(t.visitors)}</b></div>`).join('');
+    `<div class="lg"><i style="background:${COLORS[i % COLORS.length]}"></i><span>${ico(t.icon)} ${esc(t.name)}</span><b>${fmt(t.visitors)}</b></div>`).join('');
 
   /* أكثر البوثات */
   const top = s.booths.filter(b => b.visits > 0).slice(0, 8);
@@ -226,7 +230,7 @@ function render(s, expo) {
     if (bars.dataset.key !== key) {
       bars.dataset.key = key;
       bars.innerHTML = top.map((b, i) => `<div class="bar" data-id="${esc(b.id)}"><div class="rank">${i + 1}</div>
-        <div><div class="bn">${esc(b.icon)} ${esc(b.name)}</div><div class="track"><i style="width:0"></i></div></div><div class="bv" data-v="0">0</div></div>`).join('');
+        <div><div class="bn">${ico(b.icon)} ${esc(b.name)}</div><div class="track"><i style="width:0"></i></div></div><div class="bv" data-v="0">0</div></div>`).join('');
     }
     requestAnimationFrame(() => top.forEach(b => {
       const row = bars.querySelector(`[data-id="${CSS.escape(b.id)}"]`);
@@ -250,7 +254,7 @@ function render(s, expo) {
   /* حسب الفئة */
   $('#types').style.setProperty('--n', Math.min(4, s.byType.length) || 1);
   $('#types').innerHTML = s.byType.map((t, i) => `<div class="tc" style="--c:${COLORS[i % COLORS.length]}">
-    <h3>${esc(t.icon)} ${esc(t.name)}</h3>
+    <h3>${ico(t.icon)} ${esc(t.name)}</h3>
     ${t.top.length ? '<ol>' + t.top.slice(0, 4).map(x => `<li><span>${esc(x.name)}</span><b>${fmt(x.visits)}</b></li>`).join('') + '</ol>'
       : '<div class="em">لا توجد زيارات بعد</div>'}</div>`).join('');
 
@@ -276,8 +280,8 @@ function render(s, expo) {
   if (rk !== lastRecent) {
     lastRecent = rk;
     $('#tk').innerHTML = s.recent.length ? s.recent.map(r => {
-      const t = TYPES[r.type] || { icon: '👤', name: '' };
-      return `<span class="chip">${esc(t.icon)} ${esc(t.name)} زار <b>${esc(r.booth)}</b><small>${esc(r.time)}</small></span>`;
+      const t = TYPES[r.type] || { icon: 'user', name: '' };
+      return `<span class="chip">${ico(t.icon)} ${esc(t.name)} زار <b>${esc(r.booth)}</b><small>${esc(r.time)}</small></span>`;
     }).join('') : '<span class="chip">بانتظار أول زيارة…</span>';
   }
   $('#upd').textContent = 'آخر تحديث ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });

@@ -3,27 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#063f35">
+<meta name="theme-color" content="#093b28">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>شاشة التقييم</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="config.js"></script>
 <style>
-:root{--pri:#0e7c66;--pri-d:#095c4c;--pri-dd:#063f35;--gold:#e0b832;--gold-d:#c9a227;--ink:#1c2b27}
+:root{--pri:#13704d;--pri-d:#0d5237;--pri-dd:#093b28;--acc:#1aa6a2;--gold:#e0b832;--gold-d:#c9a227;--ink:#1b2a24}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{font-family:'Tajawal',system-ui,sans-serif;color:#fff;background:radial-gradient(circle at 20% 10%,#14977d 0%,var(--pri) 35%,var(--pri-dd) 100%);
+body{font-family:'Tajawal',system-ui,sans-serif;color:#fff;background:radial-gradient(circle at 20% 10%,var(--pri) 0%,var(--pri-d) 40%,var(--pri-dd) 100%);
   overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 button,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 [hidden]{display:none!important}
 .deco{position:fixed;border-radius:50%;pointer-events:none}
 .deco.a{width:50vmax;height:50vmax;top:-20vmax;left:-18vmax;background:rgba(255,255,255,.05)}
-.deco.b{width:36vmax;height:36vmax;bottom:-14vmax;right:-10vmax;background:rgba(224,184,50,.1)}
+.deco.b{width:36vmax;height:36vmax;bottom:-14vmax;right:-10vmax;background:rgba(26,166,162,.14)}
 .screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vh 5vw;text-align:center;overflow-y:auto}
-.expo{position:fixed;top:3vh;left:0;right:0;text-align:center;font-size:clamp(15px,2vw,22px);opacity:.8;font-weight:700}
-.fs{position:fixed;top:2vh;left:2vw;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);font-size:20px;opacity:.5;z-index:5}
+.brand{position:fixed;top:3vh;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:.6vh;pointer-events:none}
+.brand img{height:clamp(40px,6vh,70px);width:auto}
+.expo{font-size:clamp(15px,2vw,22px);opacity:.85;font-weight:700}
+.org{position:fixed;bottom:2vh;left:0;right:0;text-align:center;font-size:clamp(12px,1.4vw,16px);opacity:.6;pointer-events:none}
+.fs{position:fixed;top:2vh;left:2vw;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);font-size:22px;opacity:.5;z-index:5;display:grid;place-items:center}
+.screen{padding-top:16vh!important}
 h1{font-size:clamp(34px,6vw,72px);font-weight:800;line-height:1.25;margin-bottom:1vh;animation:up .6s ease both}
 .sub{font-size:clamp(16px,2.4vw,26px);opacity:.85;margin-bottom:4vh}
 .q{width:100%;max-width:900px;margin-bottom:3vh;animation:up .5s ease both}
@@ -40,7 +45,7 @@ textarea:focus{outline:none;border-color:var(--gold)}
 .send{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--ink);font-weight:800;font-size:clamp(22px,3.2vw,36px);padding:2vh 9vw;border-radius:24px;box-shadow:0 14px 40px rgba(0,0,0,.25);transition:.2s}
 .send:disabled{opacity:.3;box-shadow:none}
 .send:active{transform:scale(.97)}
-.thx .big{font-size:clamp(90px,16vw,180px);animation:pop .6s ease both}
+.thx .big{font-size:clamp(90px,16vw,180px);color:var(--gold);animation:pop .6s ease both}
 .thx h1{margin-top:1vh}
 .ringw{position:relative;width:74px;height:74px;margin-top:4vh;opacity:.85}
 .ringw svg{transform:rotate(-90deg)}
@@ -50,29 +55,30 @@ textarea:focus{outline:none;border-color:var(--gold)}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.3}}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @keyframes pop{0%{opacity:0;transform:scale(.4)}70%{transform:scale(1.1)}100%{opacity:1;transform:none}}
-.status{position:fixed;bottom:2vh;left:2vw;font-size:13px;opacity:.5}
+.status{position:fixed;bottom:5vh;left:2vw;font-size:13px;opacity:.6}
 .spin{width:54px;height:54px;border:5px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
 @keyframes sp{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 <div class="deco a"></div><div class="deco b"></div>
-<div class="expo" id="expo"></div>
-<button class="fs" id="fsBtn" title="ملء الشاشة">⛶</button>
+<div class="brand"><img src="logo-white.png" alt="جامعة القصيم"><div class="expo" id="expo"></div></div>
+<div class="org" id="org"></div>
+<button class="fs" id="fsBtn" title="ملء الشاشة"><i class="ti ti-maximize"></i></button>
 
 <section class="screen" id="sLoad"><div><div class="spin"></div>جارٍ التحميل…</div></section>
 
 <section class="screen" id="sRate" hidden>
-  <h1>⭐ كيف كانت تجربتك؟</h1>
+  <h1>كيف كانت تجربتك؟</h1>
   <p class="sub" id="rSub">اختر عدد النجوم</p>
   <div id="qs" style="width:100%;display:flex;flex-direction:column;align-items:center"></div>
-  <button class="noteBtn" id="noteBtn">✍️ إضافة ملاحظة (اختياري)</button>
+  <button class="noteBtn" id="noteBtn"><i class="ti ti-writing"></i> إضافة ملاحظة (اختياري)</button>
   <textarea id="note" maxlength="600" placeholder="اكتب ملاحظتك أو اقتراحك…" hidden></textarea>
   <button class="send" id="send" disabled>إرسال</button>
 </section>
 
 <section class="screen thx" id="sThx" hidden>
-  <div class="big">🌟</div>
+  <div class="big"><i class="ti ti-star-filled"></i></div>
   <h1>شكرًا لك</h1>
   <p class="sub">سعدنا بزيارتك، رأيك يساعدنا على التطوير</p>
   <div class="ringw"><svg width="74" height="74"><circle cx="37" cy="37" r="32" stroke="rgba(255,255,255,.15)" stroke-width="6" fill="none"/>
@@ -128,6 +134,7 @@ async function loadConfig() {
     if (!EXPO) { setTimeout(loadConfig, 5000); return; }
   }
   $('#expo').textContent = EXPO.name || '';
+  $('#org').textContent = EXPO.organizer || '';
   document.title = 'شاشة التقييم — ' + (EXPO.name || '');
   QS = (EXPO.kioskQuestions || ['overall']).filter(k => Q_TEXT[k]);
   if (!QS.length) QS = ['overall'];
@@ -194,7 +201,7 @@ function thanks() {
 $('#sThx').onclick = () => reset();
 
 function confetti() {
-  const set = ['⭐', '🌟', '✨', '💚', '🎉'];
+  const set = ['⭐', '🌟', '✨', '💚', '💙'];
   for (let i = 0; i < 22; i++) {
     const s = document.createElement('span');
     s.className = 'conf';

@@ -3,18 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
-<meta name="theme-color" content="#095c4c">
+<meta name="theme-color" content="#0d5237">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>دليل المعرض</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
 :root{
-  --pri:#0e7c66;--pri-d:#095c4c;--pri-dd:#063f35;--pri-l:#e4f3ef;
-  --gold:#c9a227;--gold-d:#a8851a;--gold-l:#fbf4dc;
-  --bg:#f3f6f5;--card:#fff;--ink:#1c2b27;--muted:#6a7b76;--line:#e3eae8;--danger:#c0392b;
+  --pri:#13704d;--pri-d:#0d5237;--pri-dd:#093b28;--pri-l:#e6f1ec;
+  --acc:#1aa6a2;--acc-d:#128784;--acc-l:#e2f4f3;--blue:#0b57a4;
+  --gold:#d4a72c;--gold-d:#b08a1c;--gold-l:#fbf4dc;
+  --bg:#f4f7f5;--card:#fff;--ink:#1b2a24;--muted:#66776f;--line:#e2e9e5;--danger:#c0392b;
   --r:18px;--safe:env(safe-area-inset-bottom);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -27,7 +29,8 @@ button{cursor:pointer;border:0;background:none}
 
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 18px;border-radius:14px;font-weight:800;font-size:16px;background:var(--pri-l);color:var(--pri-d);transition:transform .12s}
 .btn:active{transform:scale(.97)}
-.btn.pri{background:var(--pri);color:#fff;box-shadow:0 8px 20px rgba(14,124,102,.28)}
+.btn.pri{background:var(--pri);color:#fff;box-shadow:0 8px 20px rgba(13,82,55,.28)}
+.btn .ti{font-size:1.25em}
 .btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#fff;box-shadow:0 8px 20px rgba(201,162,39,.3)}
 .btn.white{background:#fff;color:var(--pri-d)}
 .btn.ghost{background:transparent;color:var(--muted)}
@@ -35,18 +38,19 @@ button{cursor:pointer;border:0;background:none}
 .btn:disabled{opacity:.45;box-shadow:none}
 
 /* بداية */
-#v-start{min-height:100vh;min-height:100dvh;background:linear-gradient(165deg,var(--pri-dd) 0%,var(--pri) 70%,#14977d 100%);color:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column}
+#v-start{min-height:100vh;min-height:100dvh;background:linear-gradient(165deg,var(--pri-dd) 0%,var(--pri-d) 55%,var(--pri) 100%);color:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column}
 .deco{position:absolute;border-radius:50%;background:rgba(255,255,255,.06)}
 .deco.a{width:320px;height:320px;top:-120px;left:-110px}
-.deco.b{width:220px;height:220px;bottom:120px;right:-90px;background:rgba(201,162,39,.14)}
+.deco.b{width:220px;height:220px;bottom:120px;right:-90px;background:rgba(26,166,162,.18)}
 .st-in{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 26px calc(30px + var(--safe));max-width:560px;margin:0 auto;width:100%}
-.st-logo{width:84px;height:84px;border-radius:26px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:46px;margin-bottom:22px;backdrop-filter:blur(6px);animation:pop .6s ease both}
+.st-logo{width:190px;max-width:60%;height:auto;margin-bottom:26px;animation:pop .6s ease both}
+.org{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border-radius:30px;padding:5px 14px;font-size:13px;font-weight:700;margin-bottom:12px;align-self:flex-start;animation:up .6s .05s ease both}
 .st-in h1{font-size:30px;line-height:1.35;font-weight:800;margin-bottom:10px;animation:up .6s .1s ease both}
 .st-in p.sub{opacity:.85;font-size:17px;margin-bottom:34px;animation:up .6s .2s ease both}
 .steps{display:grid;gap:12px;margin-bottom:36px}
 .step{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.1);border-radius:16px;padding:13px 15px;animation:up .6s ease both}
 .step:nth-child(1){animation-delay:.3s}.step:nth-child(2){animation-delay:.4s}.step:nth-child(3){animation-delay:.5s}
-.step i{font-style:normal;width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:20px;flex:0 0 auto}
+.step i{font-style:normal;width:40px;height:40px;border-radius:12px;background:rgba(26,166,162,.35);display:grid;place-items:center;font-size:22px;flex:0 0 auto}
 .step b{font-size:15px}
 .st-note{text-align:center;font-size:13px;opacity:.7;margin-top:14px}
 @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
@@ -57,36 +61,39 @@ button{cursor:pointer;border:0;background:none}
 .pagehead h2{font-size:26px;font-weight:800}
 .pagehead p{color:var(--muted);font-size:15px}
 .backlnk{display:inline-flex;align-items:center;gap:4px;color:var(--pri);font-weight:700;margin-bottom:10px;font-size:15px}
-.pend{margin:10px 22px 0;background:var(--gold-l);color:#7a5f0c;border-radius:14px;padding:12px 14px;font-size:14px;font-weight:600}
+.pend{margin:10px 22px 0;background:var(--acc-l);color:var(--acc-d);border-radius:14px;padding:12px 14px;font-size:14px;font-weight:600}
 .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px 22px 30px}
 .tcard{background:#fff;border:2px solid var(--line);border-radius:22px;padding:22px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;transition:.15s;animation:up .5s ease both}
 .tcard:active{transform:scale(.96)}
 .tcard.on{border-color:var(--pri);background:var(--pri-l)}
-.tcard span{font-size:42px;line-height:1}
+.tcard span{width:64px;height:64px;border-radius:20px;background:var(--pri-l);color:var(--pri);display:grid;place-items:center;font-size:34px;line-height:1}
+.tcard.on span{background:var(--pri);color:#fff}
 .tcard b{font-size:16px;line-height:1.4}
 
 /* الرئيسية */
-.hhead{background:linear-gradient(160deg,var(--pri-dd),var(--pri));color:#fff;padding:22px 20px 70px;border-radius:0 0 30px 30px}
+.hhead{background:linear-gradient(160deg,var(--pri-dd),var(--pri-d) 60%,var(--pri));color:#fff;padding:22px 20px 70px;border-radius:0 0 30px 30px}
 .hrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .hhead h2{font-size:24px;font-weight:800}
-.hhead .expo{font-size:13px;opacity:.75}
-.icbtn{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.14);color:#fff;font-size:18px;font-weight:800;flex:0 0 auto}
+.hhead .expo{font-size:13px;opacity:.8}
+.hlogo{height:34px;width:auto;display:block;margin-bottom:12px;opacity:.95}
+.icbtn{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.14);color:#fff;font-size:22px;flex:0 0 auto;display:grid;place-items:center}
 .tchip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border-radius:30px;padding:5px 12px;margin-top:10px;font-size:14px}
-.tchip button{color:var(--gold-l);font-weight:700;font-size:13px;text-decoration:underline}
-.prog{margin:-50px 16px 0;background:#fff;border-radius:22px;padding:16px 18px;display:flex;align-items:center;gap:16px;box-shadow:0 10px 30px rgba(9,92,76,.12);position:relative}
+.tchip button{color:#bdf0ee;font-weight:700;font-size:13px;text-decoration:underline}
+.prog{margin:-50px 16px 0;background:#fff;border-radius:22px;padding:16px 18px;display:flex;align-items:center;gap:16px;box-shadow:0 10px 30px rgba(13,82,55,.12);position:relative}
 .ring{width:76px;height:76px;flex:0 0 auto;position:relative}
 .ring svg{transform:rotate(-90deg)}
 .ring .n{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:20px;color:var(--pri-d)}
 .prog b{font-size:18px;display:block}
 .prog small{color:var(--muted);font-size:14px}
 .ratecard{margin:14px 16px 0;border-radius:20px;padding:16px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#fff8e1,var(--gold-l));border:1.5px solid #efdc9a;text-align:right;width:calc(100% - 32px)}
-.ratecard .ri{font-size:30px}
+.ratecard .ri{font-size:26px;width:48px;height:48px;border-radius:14px;background:#fff;color:var(--gold-d);display:grid;place-items:center;flex:0 0 auto}
 .ratecard b{display:block;font-size:16px;color:#6d540a}
 .ratecard small{color:#8a6d16;font-size:13px}
 .ratecard.lock{opacity:.7;filter:grayscale(.4)}
 .ratecard .arrow{margin-right:auto;font-size:20px;color:var(--gold-d)}
 .sec{padding:22px 16px 0}
-.sec h3{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}
+.sec h3{font-size:19px;font-weight:800;display:flex;align-items:center;gap:8px}
+.sec h3 .ti{color:var(--acc);font-size:22px}
 .sec > p{color:var(--muted);font-size:14px;margin-bottom:12px}
 .filters{display:flex;gap:8px;margin:4px 0 12px;overflow-x:auto}
 .filters button{padding:7px 14px;border-radius:30px;background:#fff;border:1.5px solid var(--line);font-weight:700;font-size:14px;color:var(--muted);white-space:nowrap}
@@ -94,10 +101,11 @@ button{cursor:pointer;border:0;background:none}
 .blist{display:grid;gap:10px}
 .bcard{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:13px;text-align:right;width:100%;transition:.15s;animation:up .4s ease both}
 .bcard:active{transform:scale(.98)}
-.bcard.rec{border-color:#ecd98f;background:linear-gradient(90deg,#fff,#fffbeb)}
+.bcard.rec{border-color:#b6e2df;background:linear-gradient(90deg,#fff,#f1fbfa)}
 .bcard.done{background:#f6fbf9;border-color:#bfe3d8}
-.bic{width:52px;height:52px;border-radius:15px;background:var(--pri-l);display:grid;place-items:center;font-size:28px;flex:0 0 auto;position:relative}
-.bcard.rec .bic{background:var(--gold-l)}
+.bic{width:52px;height:52px;border-radius:15px;background:var(--pri-l);color:var(--pri);display:grid;place-items:center;font-size:28px;flex:0 0 auto;position:relative}
+.bcard.rec .bic{background:var(--acc-l);color:var(--acc-d)}
+.recl{color:var(--acc-d);font-weight:700}
 .bcard.done .bic::after{content:'✓';position:absolute;bottom:-4px;left:-4px;width:22px;height:22px;border-radius:50%;background:var(--pri);color:#fff;font-size:13px;display:grid;place-items:center;border:2px solid #fff;font-weight:800}
 .bt{flex:1;min-width:0}
 .bt b{display:block;font-size:16px;line-height:1.4}
@@ -129,7 +137,8 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 .thx .big{font-size:64px;animation:pop .6s ease both}
 .thx h2{font-size:28px;font-weight:800;margin:6px 0}
 .thx > p{color:var(--muted);margin-bottom:22px}
-.gift{position:relative;overflow:hidden;border-radius:26px;padding:26px 20px;color:#fff;text-align:center;background:linear-gradient(120deg,#0a5c4c,#0e7c66,#1aa184,#c9a227,#0e7c66);background-size:300% 300%;animation:flow 6s ease infinite;box-shadow:0 18px 40px rgba(9,92,76,.3);margin-bottom:16px}
+.gift{position:relative;overflow:hidden;border-radius:26px;padding:26px 20px;color:#fff;text-align:center;background:linear-gradient(120deg,#093b28,#13704d,#1aa6a2,#0b57a4,#13704d);background-size:300% 300%;animation:flow 6s ease infinite;box-shadow:0 18px 40px rgba(13,82,55,.3);margin-bottom:16px}
+.glogo{height:30px;width:auto;margin:0 auto 10px;display:block}
 @keyframes flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .gift::before{content:'';position:absolute;top:0;bottom:0;width:60%;left:-70%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);animation:shine 2.6s linear infinite}
 @keyframes shine{to{left:120%}}
@@ -153,10 +162,10 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 @keyframes slide{from{transform:translateY(100%)}}
 .grab{width:44px;height:5px;border-radius:5px;background:var(--line);margin:-8px auto 14px}
 .dhead{text-align:center}
-.dic{width:78px;height:78px;border-radius:22px;background:var(--pri-l);display:grid;place-items:center;font-size:42px;margin:0 auto 10px}
+.dic{width:78px;height:78px;border-radius:22px;background:var(--pri-l);color:var(--pri);display:grid;place-items:center;font-size:42px;margin:0 auto 10px}
 .dhead h3{font-size:22px;font-weight:800;margin-bottom:6px}
 .pill{display:inline-block;font-size:13px;font-weight:800;border-radius:20px;padding:3px 11px;margin:2px}
-.pill.gold{background:var(--gold-l);color:#7a5f0c}
+.pill.gold{background:var(--acc-l);color:var(--acc-d)}
 .pill.ok{background:var(--pri-l);color:var(--pri-d)}
 .ddesc{margin:14px 0;color:#34443f;line-height:1.8}
 .dloc{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:12px}
@@ -166,7 +175,7 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 .pinin{width:100%;padding:16px;border:2px solid var(--line);border-radius:14px;text-align:center;font-size:26px;letter-spacing:8px;margin:12px 0}
 .pinin:focus{outline:none;border-color:var(--pri)}
 .help li{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;list-style:none}
-.help li i{font-style:normal;width:38px;height:38px;border-radius:12px;background:var(--pri-l);display:grid;place-items:center;flex:0 0 auto;font-size:18px}
+.help li i{font-style:normal;width:38px;height:38px;border-radius:12px;background:var(--pri-l);color:var(--pri);display:grid;place-items:center;flex:0 0 auto;font-size:20px}
 
 /* الماسح */
 .scan{position:fixed;inset:0;z-index:70;background:#000;color:#fff;display:flex;flex-direction:column}
@@ -186,13 +195,15 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 .rbox .ico.ok{background:var(--pri-l);animation:pulse 1.2s ease 2}
 .rbox .ico.info{background:#e8f0fb}
 .rbox .ico.bad{background:#fdecea}
-@keyframes pulse{50%{box-shadow:0 0 0 18px rgba(14,124,102,0)}0%{box-shadow:0 0 0 0 rgba(14,124,102,.35)}}
+@keyframes pulse{50%{box-shadow:0 0 0 18px rgba(19,112,77,0)}0%{box-shadow:0 0 0 0 rgba(19,112,77,.35)}}
+.rbox .ico .ti{font-size:52px}
+.rbox .ico.ok{color:var(--pri)}.rbox .ico.info{color:var(--blue)}.rbox .ico.bad{color:var(--danger)}
 .rbox h3{font-size:21px;font-weight:800}
 .rbox .bn{font-size:18px;font-weight:700;color:var(--pri-d);margin:6px 0 14px}
 .rbox .cnt{background:var(--bg);border-radius:14px;padding:12px;margin-bottom:16px}
 .rbox .cnt b{font-size:17px}
 .pbar{height:10px;border-radius:10px;background:var(--line);overflow:hidden;margin-top:8px}
-.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--pri),#1fb592);border-radius:10px;transition:width .8s ease}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--pri),var(--acc));border-radius:10px;transition:width .8s ease}
 .rbox p.m{color:var(--muted);margin-bottom:16px}
 .rbox .btn + .btn{margin-top:8px}
 .spin{width:44px;height:44px;border:4px solid var(--pri-l);border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite;margin:10px auto 16px}
@@ -211,7 +222,7 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 
 <div class="loading view" id="v-error" hidden>
   <div style="padding:30px">
-    <div style="font-size:50px">📡</div>
+    <div style="font-size:54px;color:var(--muted)"><i class="ti ti-wifi-off"></i></div>
     <h3 style="margin:10px 0 6px">تعذر الاتصال</h3>
     <p style="margin-bottom:18px">تأكد من اتصال الإنترنت ثم حاول مرة أخرى</p>
     <button class="btn pri block" onclick="location.reload()">إعادة المحاولة</button>
@@ -222,15 +233,16 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 <section class="view" id="v-start" hidden>
   <div class="deco a"></div><div class="deco b"></div>
   <div class="st-in">
-    <div class="st-logo">🏛️</div>
+    <img class="st-logo" src="logo-white.png" alt="جامعة القصيم">
+    <span class="org" id="stOrg" hidden><i class="ti ti-building"></i><span></span></span>
     <h1 id="stName">المعرض</h1>
     <p class="sub" id="stSub"></p>
     <div class="steps">
-      <div class="step"><i>👤</i><b>اختر فئتك لنقترح عليك الخدمات الأنسب</b></div>
-      <div class="step"><i>📷</i><b>امسح رمز QR في كل بوث تزوره</b></div>
-      <div class="step"><i>⭐</i><b>شاركنا رأيك في نهاية جولتك</b></div>
+      <div class="step"><i class="ti ti-user-circle"></i><b>اختر فئتك لنقترح عليك الخدمات الأنسب</b></div>
+      <div class="step"><i class="ti ti-scan"></i><b>امسح رمز QR في كل بوث تزوره</b></div>
+      <div class="step"><i class="ti ti-star"></i><b>شاركنا رأيك في نهاية جولتك</b></div>
     </div>
-    <button class="btn white block" id="goTypes">ابدأ الجولة ←</button>
+    <button class="btn white block" id="goTypes">ابدأ الجولة <i class="ti ti-arrow-left"></i></button>
     <p class="st-note">بدون تسجيل دخول أو تحميل تطبيق</p>
   </div>
 </section>
@@ -238,7 +250,7 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 <!-- 2) اختيار النوع -->
 <section class="view wrap" id="v-types" hidden>
   <div class="pagehead">
-    <button class="backlnk" id="typesBack" hidden>→ رجوع</button>
+    <button class="backlnk" id="typesBack" hidden><i class="ti ti-arrow-right"></i> رجوع</button>
     <h2>عرّفنا بنفسك</h2>
     <p>سنبرز لك الخدمات الأقرب لك، ويمكنك زيارة جميع البوثات.</p>
   </div>
@@ -250,15 +262,15 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 <section class="view wrap" id="v-home" hidden>
   <div class="hhead">
     <div class="hrow">
-      <div><div class="expo" id="hExpo"></div><h2>أهلًا بك 👋</h2></div>
-      <button class="icbtn" id="helpBtn" aria-label="مساعدة">؟</button>
+      <div><img class="hlogo" src="logo-white.png" alt="جامعة القصيم"><div class="expo" id="hExpo"></div><h2>أهلًا بك 👋</h2></div>
+      <button class="icbtn" id="helpBtn" aria-label="مساعدة"><i class="ti ti-help-circle"></i></button>
     </div>
     <div class="tchip" id="tChip"></div>
   </div>
   <div class="prog">
     <div class="ring">
-      <svg width="76" height="76"><circle cx="38" cy="38" r="32" stroke="#e4f3ef" stroke-width="8" fill="none"/>
-        <circle id="ringC" cx="38" cy="38" r="32" stroke="#0e7c66" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="201" style="transition:stroke-dashoffset .8s"/></svg>
+      <svg width="76" height="76"><circle cx="38" cy="38" r="32" stroke="#e6f1ec" stroke-width="8" fill="none"/>
+        <circle id="ringC" cx="38" cy="38" r="32" stroke="#13704d" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="201" style="transition:stroke-dashoffset .8s"/></svg>
       <div class="n" id="ringN">0</div>
     </div>
     <div><b id="progT"></b><small id="progS"></small></div>
@@ -266,12 +278,12 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
   <button class="ratecard" id="rateCard"></button>
 
   <div class="sec" id="recSec">
-    <h3>⭐ بوثات ننصحك بزيارتها</h3>
+    <h3><i class="ti ti-star"></i> بوثات ننصحك بزيارتها</h3>
     <p>هذه البوثات مرتبطة بشكل مباشر بنوع الزائر الذي اخترته.</p>
     <div class="blist" id="recList"></div>
   </div>
   <div class="sec">
-    <h3>🏢 جميع البوثات</h3>
+    <h3><i class="ti ti-building"></i> جميع البوثات</h3>
     <div class="filters" id="filters">
       <button data-f="all" class="on">الكل</button>
       <button data-f="todo">لم أزرها</button>
@@ -285,8 +297,8 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 <!-- 4) التقييم -->
 <section class="view wrap" id="v-rate" hidden>
   <div class="pagehead">
-    <button class="backlnk" data-home>→ رجوع</button>
-    <h2>⭐ شاركنا رأيك</h2>
+    <button class="backlnk" data-home><i class="ti ti-arrow-right"></i> رجوع</button>
+    <h2>شاركنا رأيك</h2>
     <p>أسئلة سريعة تساعدنا على التطوير</p>
   </div>
   <div class="qwrap">
@@ -306,7 +318,8 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
     <p id="thxSub">تم استلام تقييمك، رأيك يهمنا</p>
     <div id="giftBox" hidden>
       <div class="gift" id="gift">
-        <div class="gtop">🎁 بطاقة هدية الزائر</div>
+        <img class="glogo" src="logo-white.png" alt="">
+        <div class="gtop"><i class="ti ti-gift"></i> بطاقة هدية الزائر</div>
         <div class="gname" id="gName"></div>
         <div class="gcode" id="gCode"></div>
         <div class="gclock"><span class="gdot"></span><span id="gClock">--:--:--</span></div>
@@ -319,16 +332,16 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
   </div>
 </section>
 
-<div class="dock" id="dock" hidden><button class="btn pri" id="scanBtn" style="width:100%">📷 مسح QR البوث</button></div>
+<div class="dock" id="dock" hidden><button class="btn pri" id="scanBtn" style="width:100%"><i class="ti ti-scan"></i> مسح QR البوث</button></div>
 
 <div class="ovl" id="ovl" hidden><div class="sheet" id="sheet"></div></div>
 
 <div class="scan" id="scan" hidden>
-  <div class="scan-top"><b>📷 امسح رمز البوث</b><button id="scanClose" aria-label="إغلاق">✕</button></div>
+  <div class="scan-top"><b><i class="ti ti-scan"></i> امسح رمز البوث</b><button id="scanClose" aria-label="إغلاق"><i class="ti ti-x"></i></button></div>
   <div id="reader"></div>
   <div class="scan-hint">وجّه الكاميرا نحو رمز QR الموجود في البوث</div>
   <div class="scan-err" id="scanErr" hidden>
-    <div class="e">📷</div>
+    <div class="e"><i class="ti ti-camera"></i></div>
     <b id="scanErrT"></b>
     <button class="btn white" id="scanRetry">حاول مرة أخرى</button>
     <button class="btn ghost" id="scanBack" style="color:#ccc">رجوع</button>
@@ -351,6 +364,8 @@ const WORDS = ['ضعيف', 'مقبول', 'جيد', 'جيد جدًا', 'ممتا�
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+/* أيقونة خطية من اسمها (مثل school) أو نص/إيموجي كما هو */
+const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"></i>` : esc(n || '');
 const LS = {
   get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} },
@@ -450,6 +465,8 @@ function brand() {
   $('#stSub').textContent = e.subtitle || '';
   $('#hExpo').textContent = e.name || '';
   $('#gName').textContent = e.name || '';
+  $('#stOrg').hidden = !e.organizer;
+  $('#stOrg span').textContent = e.organizer || '';
 }
 
 /* ---------- اختيار النوع ---------- */
@@ -458,7 +475,7 @@ $('#typesBack').onclick = () => goHome();
 function openTypes() {
   $('#typeGrid').innerHTML = CFG.types.map((t, i) =>
     `<button class="tcard ${ME && ME.type === t.id ? 'on' : ''}" data-t="${esc(t.id)}" style="animation-delay:${i * .06}s">
-       <span>${esc(t.icon)}</span><b>${esc(t.name)}</b></button>`).join('');
+       <span>${ico(t.icon)}</span><b>${esc(t.name)}</b></button>`).join('');
   const b = pending && boothOf(pending.b);
   $('#pendNote').hidden = !pending;
   if (pending) $('#pendNote').textContent = `📍 لتسجيل زيارتك${b ? ' لبوث «' + b.name + '»' : ''} اختر نوعك أولًا`;
@@ -488,15 +505,15 @@ function card(b, i) {
   const v = ME.visited.includes(b.id);
   const rec = b.types.includes(ME.type);
   return `<button class="bcard ${v ? 'done' : ''} ${rec ? 'rec' : ''}" data-b="${esc(b.id)}" style="animation-delay:${Math.min(i, 10) * .04}s">
-    <div class="bic">${esc(b.icon)}</div>
-    <div class="bt"><b>${esc(b.name)}</b><small>${rec ? '⭐ خدمات تهمك' : esc(b.description || b.location || '')}</small></div>
+    <div class="bic">${ico(b.icon)}</div>
+    <div class="bt"><b>${esc(b.name)}</b><small>${rec ? '<span class="recl"><i class="ti ti-star"></i> خدمات تهمك</span>' : esc(b.description || b.location || '')}</small></div>
     <span class="bst ${v ? 'ok' : 'no'}">${v ? '✓ تمت الزيارة' : 'لم تُزر'}</span></button>`;
 }
 
 function renderHome() {
-  const t = typeOf(ME.type) || { name: 'زائر', icon: '👤' };
+  const t = typeOf(ME.type) || { name: 'زائر', icon: 'user' };
   const canChange = !ME.visited.length;
-  $('#tChip').innerHTML = `نوع الزائر: <b>${esc(t.icon)} ${esc(t.name)}</b>${canChange ? ' · <button id="chgType">تغيير</button>' : ''}`;
+  $('#tChip').innerHTML = `نوع الزائر: <b>${ico(t.icon)} ${esc(t.name)}</b>${canChange ? ' · <button id="chgType">تغيير</button>' : ''}`;
   if (canChange) $('#chgType').onclick = openTypes;
 
   const total = CFG.booths.length;
@@ -525,11 +542,11 @@ function renderRateCard() {
   c.classList.toggle('lock', locked);
   if (ME.rated) {
     c.innerHTML = e.giftEnabled
-      ? `<span class="ri">🎁</span><div><b>${ME.giftGiven ? 'تم استلام هديتك' : 'بطاقة الهدية'}</b><small>${ME.giftGiven ? 'شكرًا لمشاركتك رأيك' : 'اعرضها لموظف الهدايا عند الخروج'}</small></div><span class="arrow">‹</span>`
-      : `<span class="ri">✅</span><div><b>شكرًا لتقييمك</b><small>تم استلام رأيك</small></div>`;
+      ? `<span class="ri"><i class="ti ti-gift"></i></span><div><b>${ME.giftGiven ? 'تم استلام هديتك' : 'بطاقة الهدية'}</b><small>${ME.giftGiven ? 'شكرًا لمشاركتك رأيك' : 'اعرضها لموظف الهدايا عند الخروج'}</small></div><span class="arrow"><i class="ti ti-chevron-left"></i></span>`
+      : `<span class="ri"><i class="ti ti-circle-check"></i></span><div><b>شكرًا لتقييمك</b><small>تم استلام رأيك</small></div>`;
   } else {
-    c.innerHTML = `<span class="ri">⭐</span><div><b>شاركنا رأيك${e.giftEnabled ? ' واستلم هديتك' : ''}</b>
-      <small>${locked ? `يُفتح بعد زيارة ${min} بوث` : 'أسئلة سريعة في نهاية جولتك'}</small></div><span class="arrow">‹</span>`;
+    c.innerHTML = `<span class="ri"><i class="ti ti-star"></i></span><div><b>شاركنا رأيك${e.giftEnabled ? ' واستلم هديتك' : ''}</b>
+      <small>${locked ? `يُفتح بعد زيارة ${min} بوث` : 'أسئلة سريعة في نهاية جولتك'}</small></div><span class="arrow"><i class="ti ti-chevron-left"></i></span>`;
   }
 }
 $('#rateCard').onclick = () => openRate();
@@ -559,27 +576,27 @@ function openBooth(id) {
   const b = boothOf(id);
   if (!b) return;
   const v = ME.visited.includes(id), rec = b.types.includes(ME.type);
-  const tl = b.types.map(t => typeOf(t)).filter(Boolean).map(t => t.icon + ' ' + t.name).join('، ');
+  const tl = b.types.map(t => typeOf(t)).filter(Boolean).map(t => t.name).join('، ');
   sheet(`
-    <div class="dhead"><div class="dic">${esc(b.icon)}</div><h3>${esc(b.name)}</h3>
-      ${rec ? '<span class="pill gold">⭐ خدمات تهمك</span>' : ''}${v ? '<span class="pill ok">✓ تمت الزيارة</span>' : ''}</div>
+    <div class="dhead"><div class="dic">${ico(b.icon)}</div><h3>${esc(b.name)}</h3>
+      ${rec ? '<span class="pill gold"><i class="ti ti-star"></i> خدمات تهمك</span>' : ''}${v ? '<span class="pill ok"><i class="ti ti-check"></i> تمت الزيارة</span>' : ''}</div>
     ${b.description ? `<p class="ddesc">${esc(b.description)}</p>` : '<div style="height:14px"></div>'}
-    ${b.location ? `<div class="dloc">📍 ${esc(b.location)}</div>` : ''}
+    ${b.location ? `<div class="dloc"><i class="ti ti-map-pin"></i> ${esc(b.location)}</div>` : ''}
     ${tl ? `<div class="dtypes">يهم: ${esc(tl)}</div>` : ''}
     ${v ? '<div class="dnote">سبق لك زيارة هذا البوث ✓</div>'
-        : '<button class="btn pri block" data-act="scan">📷 مسح QR هذا البوث</button>'}
+        : '<button class="btn pri block" data-act="scan"><i class="ti ti-scan"></i> مسح QR هذا البوث</button>'}
     <button class="btn ghost block" data-act="close">إغلاق</button>`);
 }
 
 $('#helpBtn').onclick = () => sheet(`
   <h3 style="font-size:20px;margin-bottom:14px">كيف أستخدم دليل المعرض؟</h3>
   <ul class="help">
-    <li><i>⭐</i><div><b>خدمات تهمك</b><br><small>البوثات المقترحة لك حسب فئتك، ويمكنك زيارة أي بوث آخر.</small></div></li>
-    <li><i>📷</i><div><b>سجّل زيارتك</b><br><small>عند كل بوث اضغط «مسح QR البوث» ووجّه الكاميرا نحو الرمز. يمكنك أيضًا مسحه بكاميرا جوالك مباشرة.</small></div></li>
-    <li><i>✓</i><div><b>تابع جولتك</b><br><small>تظهر علامة «تمت الزيارة» على كل بوث زرته، ولا تُحتسب الزيارة مرتين.</small></div></li>
-    <li><i>🎁</i><div><b>شاركنا رأيك</b><br><small>في نهاية جولتك قيّم تجربتك${CFG.expo.giftEnabled ? ' واعرض بطاقة الهدية عند الخروج' : ''}.</small></div></li>
+    <li><i class="ti ti-star"></i><div><b>خدمات تهمك</b><br><small>البوثات المقترحة لك حسب فئتك، ويمكنك زيارة أي بوث آخر.</small></div></li>
+    <li><i class="ti ti-scan"></i><div><b>سجّل زيارتك</b><br><small>عند كل بوث اضغط «مسح QR البوث» ووجّه الكاميرا نحو الرمز. يمكنك أيضًا مسحه بكاميرا جوالك مباشرة.</small></div></li>
+    <li><i class="ti ti-circle-check"></i><div><b>تابع جولتك</b><br><small>تظهر علامة «تمت الزيارة» على كل بوث زرته، ولا تُحتسب الزيارة مرتين.</small></div></li>
+    <li><i class="ti ti-gift"></i><div><b>شاركنا رأيك</b><br><small>في نهاية جولتك قيّم تجربتك${CFG.expo.giftEnabled ? ' واعرض بطاقة الهدية عند الخروج' : ''}.</small></div></li>
   </ul>
-  <p style="color:var(--muted);font-size:13px;margin-bottom:14px">📷 إذا لم تفتح الكاميرا: اسمح للمتصفح باستخدامها من إعدادات الجوال.</p>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:14px"><i class="ti ti-camera"></i> إذا لم تفتح الكاميرا: اسمح للمتصفح باستخدامها من إعدادات الجوال.</p>
   <button class="btn pri block" data-act="close">فهمت</button>`);
 
 /* ---------- الماسح ---------- */
@@ -650,23 +667,23 @@ function result(kind, r) {
   $('#res').hidden = false;
   if (kind === 'loading') { box.innerHTML = '<div class="spin"></div><b>جارٍ تسجيل الزيارة…</b>'; return; }
   const back = '<button class="btn pri block" data-close-res>العودة للبوثات</button>';
-  const again = '<button class="btn block" data-scan-again>📷 مسح بوث آخر</button>';
+  const again = '<button class="btn block" data-scan-again><i class="ti ti-scan"></i> مسح بوث آخر</button>';
   if (kind === 'new') {
     const pct = r.total ? Math.round(100 * r.count / r.total) : 0;
     const min = CFG.expo.ratingMinVisits || 0;
     const unlock = !ME.rated && r.count === Math.max(min, 1);
-    box.innerHTML = `<div class="ico ok">✅</div><h3>تمت زيارة البوث بنجاح</h3>
-      <div class="bn">${esc(r.booth.icon)} ${esc(r.booth.name)}</div>
+    box.innerHTML = `<div class="ico ok"><i class="ti ti-circle-check"></i></div><h3>تمت زيارة البوث بنجاح</h3>
+      <div class="bn">${ico(r.booth.icon)} ${esc(r.booth.name)}</div>
       <div class="cnt"><b>أكملت زيارة ${r.count} من ${r.total} بوثًا</b><div class="pbar"><i style="width:0%" id="pb"></i></div></div>
-      ${unlock ? `<p class="m">⭐ يمكنك الآن مشاركة رأيك متى ما أنهيت جولتك</p>` : ''}
+      ${unlock ? `<p class="m"><i class="ti ti-star"></i> يمكنك الآن مشاركة رأيك متى ما أنهيت جولتك</p>` : ''}
       ${back}${again}`;
     requestAnimationFrame(() => setTimeout(() => { const pb = $('#pb'); if (pb) pb.style.width = pct + '%'; }, 60));
   } else if (kind === 'duplicate') {
-    box.innerHTML = `<div class="ico info">ℹ️</div><h3>سبق لك زيارة هذا البوث</h3>
-      <div class="bn">${esc(r.booth.icon)} ${esc(r.booth.name)}</div>
+    box.innerHTML = `<div class="ico info"><i class="ti ti-info-circle"></i></div><h3>سبق لك زيارة هذا البوث</h3>
+      <div class="bn">${ico(r.booth.icon)} ${esc(r.booth.name)}</div>
       <p class="m">لم تُحتسب زيارة جديدة. زرت ${r.count} من ${r.total} بوثًا.</p>${back}${again}`;
   } else {
-    box.innerHTML = `<div class="ico bad">⚠️</div><h3>لم يتم تسجيل الزيارة</h3>
+    box.innerHTML = `<div class="ico bad"><i class="ti ti-alert-triangle"></i></div><h3>لم يتم تسجيل الزيارة</h3>
       <p class="m">${esc(r.msg || 'حدث خطأ')}</p>
       <button class="btn pri block" data-scan-again>حاول مرة أخرى</button>
       <button class="btn block" data-close-res>رجوع</button>`;
@@ -730,7 +747,7 @@ setInterval(() => {
 }, 1000);
 
 $('#staffBtn').onclick = () => {
-  sheet(`<h3 style="font-size:20px;text-align:center">🎁 تأكيد تسليم الهدية</h3>
+  sheet(`<h3 style="font-size:20px;text-align:center"><i class="ti ti-gift"></i> تأكيد تسليم الهدية</h3>
     <p style="text-align:center;color:var(--muted);font-size:14px">يُدخل الرمز من قِبل موظف الهدايا فقط</p>
     <form id="pinForm"><input class="pinin" id="pin" type="password" inputmode="numeric" autocomplete="off" required>
     <button class="btn pri block" type="submit">تأكيد التسليم</button></form>
