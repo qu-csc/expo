@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="icons.js"></script>
 <script src="config.js"></script>
+<script src="api.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
 :root{color-scheme:light;
@@ -258,7 +259,10 @@ main{max-width:1100px;margin:0 auto;padding:16px}
     <section id="tab-stats" hidden>
       <div class="bar">
         <h2>الإحصاءات التفصيلية</h2>
-        <button class="btn pri" id="reloadStats"><i class="ti ti-refresh"></i> تحديث</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="exportXlsx"><i class="ti ti-file-text"></i> تصدير Excel</button>
+          <button class="btn pri" id="reloadStats"><i class="ti ti-refresh"></i> تحديث</button>
+        </div>
       </div>
       <div id="statsBox"></div>
     </section>
@@ -273,6 +277,11 @@ main{max-width:1100px;margin:0 auto;padding:16px}
           <button class="btn" id="addType"><i class="ti ti-plus"></i> نوع جديد</button>
           <button class="btn pri" id="saveTypes"><i class="ti ti-device-floppy"></i> حفظ الأنواع</button>
         </div>
+      </div>
+      <div class="card">
+        <h3>بيانات التجربة</h3>
+        <p class="hint">يحذف جميع الزوار والزيارات والتقييمات، ويُبقي البوثات والإعدادات كما هي. استخدمه مرة واحدة قبل بدء المعرض بعد انتهاء التجارب.</p>
+        <button class="btn danger" id="resetData"><i class="ti ti-trash"></i> مسح بيانات التجربة</button>
       </div>
     </section>
 
@@ -302,7 +311,6 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 <div id="printArea"></div>
 
 <script>
-const API = (window.EXPO_CONFIG || {}).API_URL || '';
 const BASE = location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/, '');
 const Q_LABELS = { overall: 'التجربة العامة', benefit: 'الاستفادة', organization: 'التنظيم', content: 'محتوى البوثات' };
 const SET_LABELS = {
@@ -337,37 +345,15 @@ const typeOf = id => DATA.types.find(t => t.id === id);
 const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"></i>` : esc(n || '');
 const setVal = k => (DATA.settings.find(s => s.key === k) || {}).value || '';
 
-async function apiOnce(body, timeoutMs) {
-  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs) : 0;
-  try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(body),
-      signal: ctl ? ctl.signal : undefined,
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);   // مثل 404 من Google
-    return await res.json();
-  } finally { clearTimeout(timer); }
-}
 /* القراءات تُعاد تلقائيًا عند فقد الرد؛ عمليات الحفظ تُرسل مرة واحدة لتجنب التكرار */
-const READS = { login: 1, adminData: 1, stats: 1 };
+const READS = { login: 1, adminData: 1, stats: 1, export: 1 };
 async function api(action, data) {
-  if (!API || API.indexOf('http') !== 0) throw new Error('ضع رابط Web App في ملف config.js');
-  const body = Object.assign({ action, pass: PASS }, data || {});
-  const tries = READS[action] ? 3 : 1;
-  let j;
-  for (let i = 0; i < tries && !j; i++) {
-    try { j = await apiOnce(body, 25000); }
-    catch (e) {
-      if (i < tries - 1) { await new Promise(r => setTimeout(r, 700 + i * 900)); continue; }
-      throw new Error(READS[action] ? 'تعذر الاتصال بالخادم، حاول مرة أخرى' : 'لم يصل رد الخادم — حدّث الصفحة وتأكد هل تم الحفظ قبل إعادة المحاولة');
-    }
+  try {
+    return await expoApi(action, Object.assign({ pass: PASS }, data || {}), { tries: READS[action] ? 3 : 1, timeout: 20000 });
+  } catch (e) {
+    if (e.network && !READS[action]) throw new Error('لم يصل رد الخادم — حدّث الصفحة وتأكد هل تم الحفظ قبل إعادة المحاولة');
+    throw e;
   }
-  if (!j.ok) throw new Error(j.error || 'حدث خطأ');
-  return j;
 }
 
 let toastT;
@@ -695,8 +681,60 @@ function renderStats(s) {
     <div class="card"><h3>ملاحظات ومقترحات الزوار (${(s.notes || []).length})</h3>
       ${(s.notes || []).map(n => `<div class="note">${esc(n.text)}<br><small>${esc(n.source)} · ${esc(tName(n.type))} · ${n.overall ? n.overall + '★' : ''} · ${esc(n.time)}</small></div>`).join('') || '<p class="hint">لا توجد ملاحظات بعد</p>'}
     </div>
-    <p class="hint">آخر تحديث: ${esc(s.updated)} — جميع البيانات الخام في Google Sheet ويمكن تنزيلها Excel.</p>`;
+    <p class="hint">آخر تحديث: ${esc(s.updated)} — لتنزيل البيانات كاملة استخدم زر «تصدير Excel».</p>`;
 }
+
+/* ---------- التصدير ---------- */
+const XLSX_LIB = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+function loadXlsx() {
+  if (window.XLSX) return Promise.resolve();
+  return new Promise((ok, bad) => {
+    const s = document.createElement('script');
+    s.src = XLSX_LIB; s.onload = ok; s.onerror = () => bad(new Error('تعذر تحميل مكتبة Excel'));
+    document.head.appendChild(s);
+  });
+}
+function download(name, blob) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+function toCsv(rows) {
+  if (!rows.length) return '';
+  const head = Object.keys(rows[0]);
+  const cell = v => { v = v == null ? '' : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+  return [head.map(cell).join(',')].concat(rows.map(r => head.map(h => cell(r[h])).join(','))).join('\r\n');
+}
+$('#exportXlsx').onclick = () => run(async () => {
+  const d = await api('export');
+  const stamp = new Date().toISOString().slice(0, 10);
+  const sheets = [['الزوار', d.visitors], ['الزيارات', d.visits], ['التقييمات', d.ratings], ['البوثات', d.booths]];
+  try {
+    await loadXlsx();
+    const wb = XLSX.utils.book_new();
+    wb.Workbook = { Views: [{ RTL: true }] };
+    sheets.forEach(([name, rows]) => {
+      const ws = rows.length ? XLSX.utils.json_to_sheet(rows) : XLSX.utils.aoa_to_sheet([['لا توجد بيانات']]);
+      if (rows.length) ws['!cols'] = Object.keys(rows[0]).map(k => ({ wch: Math.max(12, k.length + 4) }));
+      XLSX.utils.book_append_sheet(wb, ws, name);
+    });
+    XLSX.writeFile(wb, `expo-data-${stamp}.xlsx`);
+  } catch (e) {
+    // بديل: ملفات CSV تفتح في Excel
+    sheets.forEach(([name, rows]) => download(`${name}-${stamp}.csv`, new Blob(['\ufeff' + toCsv(rows)], { type: 'text/csv;charset=utf-8' })));
+  }
+  toast('تم تنزيل البيانات');
+});
+
+$('#resetData').onclick = () => {
+  const c = prompt('سيتم حذف جميع الزوار والزيارات والتقييمات نهائيًا.\nللتأكيد اكتب كلمة: مسح');
+  if (c === null) return;
+  run(async () => {
+    await api('resetData', { confirm: c.trim() });
+    toast('تم مسح بيانات التجربة');
+  });
+};
 
 /* ---------- الإعدادات ---------- */
 function renderSettings() {
