@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="icons.js"></script>
 <script src="config.js"></script>
+<script src="api.js"></script>
 <style>
 :root{color-scheme:light;
   --pri:#13704d;--pri-d:#0d5237;--pri-dd:#093b28;--pri-l:#e6f1ec;
@@ -358,7 +359,6 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
 <div class="busy" id="busy" hidden><div class="spin"></div></div>
 
 <script>
-const API = (window.EXPO_CONFIG || {}).API_URL || '';
 const Q_TEXT = {
   overall: 'كيف تقيّم تجربتك بشكل عام في المعرض؟',
   benefit: 'ما مدى استفادتك من المعرض؟',
@@ -385,43 +385,15 @@ let filter = 'all';
 let ANS = {};
 
 /* ---------- الاتصال ---------- */
-/* محاولة واحدة: ترمي خطأ "شبكة" عند انقطاع الاتصال أو رد غير صالح من Google (مثل 404) */
-async function apiOnce(action, data, timeoutMs) {
-  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs) : 0;
-  try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(Object.assign({ action }, data || {})),
-      signal: ctl ? ctl.signal : undefined,
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
-  } catch (e) {
-    const err = new Error(e && e.name === 'AbortError' ? 'الاتصال بطيء، حاول مرة أخرى' : 'تعذر الاتصال، تحقق من الإنترنت');
-    err.network = true;
-    throw err;
-  } finally { clearTimeout(timer); }
-}
-/* كل العمليات آمنة للتكرار في الخادم، لذلك نعيد المحاولة تلقائيًا حتى 3 مرات */
-async function api(action, data, timeoutMs) {
-  if (!API || API.indexOf('http') !== 0) throw new Error('لم يتم ضبط رابط النظام في config.js');
-  let j, lastErr;
-  for (let i = 0; i < 3; i++) {
-    try { j = await apiOnce(action, data, timeoutMs || 12000); j._retried = i > 0; break; }
-    catch (e) { lastErr = e; if (i < 2) await new Promise(r => setTimeout(r, 500 + i * 900)); }
-  }
-  if (!j) throw lastErr;
-  if (!j.ok) throw new Error(j.error || 'حدث خطأ');
-  return j;
+/* الاتصال بقاعدة البيانات عبر api.js — يعيد المحاولة تلقائيًا، وكل العمليات آمنة للتكرار */
+function api(action, data, timeoutMs) {
+  return expoApi(action, data, { tries: 3, timeout: timeoutMs || 10000 });
 }
 let regVid = '';
 function newVid() {
   return 'V' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 7).toUpperCase().padEnd(5, '0');
 }
-function saveMe() { if (ME) LS.set('expo_me', JSON.stringify(ME)); }
+function saveMe() { if (ME) LS.set('xp_me', JSON.stringify(ME)); }
 let tT;
 function toast(m, bad) {
   const t = $('#toast');
@@ -432,8 +404,8 @@ function toast(m, bad) {
 }
 function lostVisitor() {
   ME = null;
-  LS.del('expo_vid');
-  LS.del('expo_me');
+  LS.del('xp_vid');
+  LS.del('xp_me');
   toast('يرجى اختيار نوع الزائر من جديد', true);
   openTypes();
 }
@@ -461,9 +433,9 @@ const boothOf = id => CFG.booths.find(b => b.id === id);
     pending = { b: p.get('b'), k: p.get('k') };
     history.replaceState(null, '', location.pathname);
   }
-  try { CFG = JSON.parse(LS.get('expo_cfg') || 'null'); } catch (e) { CFG = null; }
-  const vid = LS.get('expo_vid');
-  try { ME = JSON.parse(LS.get('expo_me') || 'null'); } catch (e) { ME = null; }
+  try { CFG = JSON.parse(LS.get('xp_cfg') || 'null'); } catch (e) { CFG = null; }
+  const vid = LS.get('xp_vid');
+  try { ME = JSON.parse(LS.get('xp_me') || 'null'); } catch (e) { ME = null; }
   if (!vid || !ME || ME.id !== vid) ME = null;
 
   /* المسار السريع: الزائر معروف والبيانات محفوظة في الجوال → اعرض فورًا وسجّل الزيارة مباشرة،
@@ -482,7 +454,7 @@ const boothOf = id => CFG.booths.find(b => b.id === id);
       vid ? api('visitor', { vid }) : Promise.resolve({ visitor: null })
     ]);
     CFG = { expo: c.expo, types: c.types, booths: c.booths };
-    LS.set('expo_cfg', JSON.stringify(CFG));
+    LS.set('xp_cfg', JSON.stringify(CFG));
     if (v.visitor) {
       const old = ME && ME.visited ? ME.visited : [];
       ME = v.visitor;
@@ -490,8 +462,8 @@ const boothOf = id => CFG.booths.find(b => b.id === id);
       saveMe();
     } else if (vid) {
       ME = null;
-      LS.del('expo_vid');
-      LS.del('expo_me');
+      LS.del('xp_vid');
+      LS.del('xp_me');
     }
   } catch (e) {
     if (!CFG) { show('error'); return; }
@@ -549,7 +521,7 @@ $('#typeGrid').onclick = e => {
       if (!regVid) regVid = newVid();
       ME = (await api('register', { type, vid: regVid, device: navigator.userAgent })).visitor;
       regVid = '';
-      LS.set('expo_vid', ME.id);
+      LS.set('xp_vid', ME.id);
       saveMe();
     }
     goHome();
