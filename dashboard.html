@@ -171,14 +171,28 @@ const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"><
 const fmt = (n, dec) => dec ? Number(n).toFixed(1) : Math.round(n).toLocaleString('en-US');
 let REFRESH = 10, lastRecent = '', TYPES = {};
 
-async function api(action) {
+async function apiOnce(body, timeoutMs) {
   const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const timer = ctl ? setTimeout(() => ctl.abort(), 20000) : 0;
-  let j;
+  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs) : 0;
   try {
-    const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action }), signal: ctl ? ctl.signal : undefined });
-    j = await res.json();
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(body),
+      signal: ctl ? ctl.signal : undefined,
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);   // مثل 404 من Google
+    return await res.json();
   } finally { clearTimeout(timer); }
+}
+async function api(action) {
+  let j;
+  try { j = await apiOnce({ action }, 15000); }
+  catch (e) {                      // رد مفقود من Google: محاولة ثانية سريعة بصمت
+    await new Promise(r => setTimeout(r, 1200));
+    j = await apiOnce({ action }, 15000);
+  }
   if (!j.ok) throw new Error(j.error);
   return j;
 }
@@ -298,17 +312,25 @@ function render(s, expo) {
   $('#upd').textContent = 'آخر تحديث ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
+let fails = 0;
 async function tick() {
+  if (document.hidden) { setTimeout(tick, 5000); return; }   // لا طلبات عندما تكون الشاشة مخفية
   try {
     const r = await api('dashboard');
     render(r.stats, r.expo);
+    fails = 0;
     $('#live').className = 'live';
     $('#live span').textContent = 'مباشر';
   } catch (e) {
-    $('#live').className = 'live off';
-    $('#live span').textContent = 'إعادة الاتصال…';
+    fails++;
+    if (fails >= 2) {                // لا نُظهر الانقطاع إلا إذا تكرر
+      $('#live').className = 'live off';
+      $('#live span').textContent = 'إعادة الاتصال…';
+    }
   } finally {
-    setTimeout(tick, REFRESH * 1000);
+    // تباعد بسيط عشوائي، ويزيد الانتظار تدريجيًا عند تكرر الأخطاء
+    const wait = REFRESH * 1000 * Math.min(1 + fails * 0.5, 3) + Math.random() * 1500;
+    setTimeout(tick, wait);
   }
 }
 

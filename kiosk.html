@@ -113,20 +113,29 @@ const LS = {
 
 let EXPO = null, QS = [], ANS = {}, idleT, resetT, cdT;
 
-async function api(action, data) {
-  if (!API || API.indexOf('http') !== 0) throw new Error('config');
+async function apiOnce(body, timeoutMs) {
   const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const timer = ctl ? setTimeout(() => ctl.abort(), 15000) : 0;
-  let j;
+  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs) : 0;
   try {
     const res = await fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(Object.assign({ action }, data || {})),
-      signal: ctl ? ctl.signal : undefined
+      body: JSON.stringify(body),
+      signal: ctl ? ctl.signal : undefined,
+      cache: 'no-store'
     });
-    j = await res.json();
+    if (!res.ok) throw new Error('HTTP ' + res.status);   // مثل 404 من Google
+    return await res.json();
   } finally { clearTimeout(timer); }
+}
+async function api(action, data) {
+  if (!API || API.indexOf('http') !== 0) throw new Error('config');
+  let j, lastErr;
+  for (let i = 0; i < 3; i++) {
+    try { j = await apiOnce(Object.assign({ action }, data || {}), 12000); break; }
+    catch (e) { lastErr = e; if (i < 2) await new Promise(r => setTimeout(r, 600 + i * 900)); }
+  }
+  if (!j) throw lastErr;
   if (!j.ok) throw new Error(j.error || 'خطأ');
   return j;
 }
@@ -190,7 +199,8 @@ $('#noteBtn').onclick = () => { $('#noteBtn').hidden = true; $('#note').hidden =
 $('#note').oninput = poke;
 
 $('#send').onclick = () => {
-  const item = { source: 'kiosk', answers: Object.assign({}, ANS), notes: $('#note').value.trim() };
+  // rid يمنع تكرار التقييم عند إعادة الإرسال بعد انقطاع
+  const item = { source: 'kiosk', rid: 'K' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), answers: Object.assign({}, ANS), notes: $('#note').value.trim() };
   thanks();
   api('rate', item).catch(() => { const q = queue(); q.push(item); saveQueue(q); status(); });
 };

@@ -337,14 +337,35 @@ const typeOf = id => DATA.types.find(t => t.id === id);
 const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"></i>` : esc(n || '');
 const setVal = k => (DATA.settings.find(s => s.key === k) || {}).value || '';
 
+async function apiOnce(body, timeoutMs) {
+  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs) : 0;
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(body),
+      signal: ctl ? ctl.signal : undefined,
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);   // مثل 404 من Google
+    return await res.json();
+  } finally { clearTimeout(timer); }
+}
+/* القراءات تُعاد تلقائيًا عند فقد الرد؛ عمليات الحفظ تُرسل مرة واحدة لتجنب التكرار */
+const READS = { login: 1, adminData: 1, stats: 1 };
 async function api(action, data) {
   if (!API || API.indexOf('http') !== 0) throw new Error('ضع رابط Web App في ملف config.js');
-  const res = await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(Object.assign({ action, pass: PASS }, data || {}))
-  });
-  const j = await res.json();
+  const body = Object.assign({ action, pass: PASS }, data || {});
+  const tries = READS[action] ? 3 : 1;
+  let j;
+  for (let i = 0; i < tries && !j; i++) {
+    try { j = await apiOnce(body, 25000); }
+    catch (e) {
+      if (i < tries - 1) { await new Promise(r => setTimeout(r, 700 + i * 900)); continue; }
+      throw new Error(READS[action] ? 'تعذر الاتصال بالخادم، حاول مرة أخرى' : 'لم يصل رد الخادم — حدّث الصفحة وتأكد هل تم الحفظ قبل إعادة المحاولة');
+    }
+  }
   if (!j.ok) throw new Error(j.error || 'حدث خطأ');
   return j;
 }
