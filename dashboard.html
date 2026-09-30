@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="icons.js"></script>
 <script src="config.js"></script>
+<script src="api.js"></script>
 <style>
 :root{color-scheme:dark;
   --bg:#05231a;--panel:rgba(255,255,255,.055);--line:rgba(255,255,255,.09);
@@ -163,38 +164,16 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px}
 </div>
 
 <script>
-const API = (window.EXPO_CONFIG || {}).API_URL || '';
 const COLORS = ['#2fbf7f', '#22b8b3', '#e0b832', '#4d8fe0', '#ff8a65', '#b388ff'];
 const $ = s => document.querySelector(s);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ico = n => /^[a-z0-9-]+$/.test(String(n || '')) ? `<i class="ti ti-${n}"></i>` : esc(n || '');
 const fmt = (n, dec) => dec ? Number(n).toFixed(1) : Math.round(n).toLocaleString('en-US');
-let REFRESH = 10, lastRecent = '', TYPES = {};
+let REFRESH = 5, lastRecent = '', TYPES = {};
 
-async function apiOnce(body, timeoutMs) {
-  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs) : 0;
-  try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(body),
-      signal: ctl ? ctl.signal : undefined,
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);   // مثل 404 من Google
-    return await res.json();
-  } finally { clearTimeout(timer); }
-}
-async function api(action) {
-  let j;
-  try { j = await apiOnce({ action }, 15000); }
-  catch (e) {                      // رد مفقود من Google: محاولة ثانية سريعة بصمت
-    await new Promise(r => setTimeout(r, 1200));
-    j = await apiOnce({ action }, 15000);
-  }
-  if (!j.ok) throw new Error(j.error);
-  return j;
+/* الاتصال عبر api.js — محاولة ثانية سريعة بصمت إذا ضاع الرد */
+function api(action) {
+  return expoApi(action, {}, { tries: 2, timeout: 10000 });
 }
 
 /* عدّاد متحرك */
@@ -220,7 +199,7 @@ function render(s, expo) {
   $('#expo').textContent = expo.name || 'المعرض';
   $('#org').textContent = expo.organizer ? expo.organizer + ' — لوحة المعرض المباشرة' : 'لوحة المعرض المباشرة';
   document.title = 'لوحة المعرض — ' + (expo.name || '');
-  REFRESH = Math.max(5, expo.dashboardRefreshSec || 10);
+  REFRESH = Math.max(3, expo.dashboardRefreshSec || 5);
   const T = s.totals;
   s.byType.forEach((t, i) => TYPES[t.id] = { name: t.name, icon: t.icon, color: COLORS[i % COLORS.length] });
 
@@ -329,7 +308,7 @@ async function tick() {
     }
   } finally {
     // تباعد بسيط عشوائي، ويزيد الانتظار تدريجيًا عند تكرر الأخطاء
-    const wait = REFRESH * 1000 * Math.min(1 + fails * 0.5, 3) + Math.random() * 1500;
+    const wait = REFRESH * 1000 * Math.min(1 + fails * 0.5, 3) + Math.random() * 500;
     setTimeout(tick, wait);
   }
 }
@@ -338,7 +317,7 @@ setInterval(() => {
   $('#clock').textContent = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 }, 1000);
 
-if (!API || API.indexOf('http') !== 0) $('#expo').textContent = 'ضع رابط النظام في config.js';
+if (!window.expoReady) $('#expo').textContent = 'ضع رابط Supabase والمفتاح في config.js';
 else tick();
 </script>
 </body>
