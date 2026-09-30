@@ -129,7 +129,7 @@ button{cursor:pointer;border:0;background:none}
 .qwrap{padding:8px 16px 20px}
 .q{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px;text-align:center}
 .q p{font-weight:700;font-size:16px;margin-bottom:8px}
-.stars{display:flex;justify-content:center;gap:4px;direction:ltr}
+.stars{display:flex;justify-content:center;gap:4px;direction:rtl}
 .stars button{font-size:40px;color:#d9dfdd;line-height:1;padding:2px 3px;transition:transform .15s,color .15s}
 .stars button.on{color:var(--gold)}
 .stars button:active{transform:scale(1.25)}
@@ -245,7 +245,7 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
     <p class="sub" id="stSub"></p>
     <div class="steps">
       <div class="step"><i class="ti ti-user-circle"></i><b>اختر فئتك لنقترح عليك الخدمات الأنسب</b></div>
-      <div class="step"><i class="ti ti-scan"></i><b>امسح رمز QR في كل بوث تزوره</b></div>
+      <div class="step"><i class="ti ti-scan"></i><b>امسح رمز QR لدى كل جهة تزورها</b></div>
       <div class="step"><i class="ti ti-star"></i><b>شاركنا رأيك في نهاية جولتك</b></div>
     </div>
     <button class="btn white block" id="goTypes">ابدأ الجولة <i class="ti ti-arrow-left"></i></button>
@@ -258,7 +258,7 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
   <div class="pagehead">
     <button class="backlnk" id="typesBack" hidden><i class="ti ti-arrow-right"></i> رجوع</button>
     <h2>عرّفنا بنفسك</h2>
-    <p>سنبرز لك الخدمات الأقرب لك، ويمكنك زيارة جميع البوثات.</p>
+    <p>سنبرز لك الخدمات الأقرب لك، ويمكنك زيارة جميع الجهات.</p>
   </div>
   <div class="pend" id="pendNote" hidden></div>
   <div class="tgrid" id="typeGrid"></div>
@@ -284,12 +284,12 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
   <button class="ratecard" id="rateCard"></button>
 
   <div class="sec" id="recSec">
-    <h3><i class="ti ti-star"></i> بوثات ننصحك بزيارتها</h3>
-    <p>هذه البوثات مرتبطة بشكل مباشر بنوع الزائر الذي اخترته.</p>
+    <h3><i class="ti ti-star"></i> جهات ننصحك بزيارتها</h3>
+    <p>هذه الجهات مرتبطة بشكل مباشر بنوع الزائر الذي اخترته.</p>
     <div class="blist" id="recList"></div>
   </div>
   <div class="sec">
-    <h3><i class="ti ti-building"></i> جميع البوثات</h3>
+    <h3><i class="ti ti-building"></i> جميع الجهات</h3>
     <div class="filters" id="filters">
       <button data-f="all" class="on">الكل</button>
       <button data-f="todo">لم أزرها</button>
@@ -334,18 +334,18 @@ textarea.notes:focus{outline:none;border-color:var(--pri)}
       <button class="stafflnk" id="staffBtn">للموظف: تأكيد تسليم الهدية</button>
     </div>
     <div style="height:22px"></div>
-    <button class="btn block" data-home>العودة للبوثات</button>
+    <button class="btn block" data-home>العودة للجهات</button>
   </div>
 </section>
 
-<div class="dock" id="dock" hidden><button class="btn pri" id="scanBtn" style="width:100%"><i class="ti ti-scan"></i> مسح QR البوث</button></div>
+<div class="dock" id="dock" hidden><button class="btn pri" id="scanBtn" style="width:100%"><i class="ti ti-scan"></i> مسح رمز الجهة</button></div>
 
 <div class="ovl" id="ovl" hidden><div class="sheet" id="sheet"></div></div>
 
 <div class="scan" id="scan" hidden>
-  <div class="scan-top"><b><i class="ti ti-scan"></i> امسح رمز البوث</b><button id="scanClose" aria-label="إغلاق"><i class="ti ti-x"></i></button></div>
+  <div class="scan-top"><b><i class="ti ti-scan"></i> امسح رمز الجهة</b><button id="scanClose" aria-label="إغلاق"><i class="ti ti-x"></i></button></div>
   <div id="reader"></div>
-  <div class="scan-hint" id="scanHint">وجّه الكاميرا نحو رمز QR الموجود في البوث</div>
+  <div class="scan-hint" id="scanHint">وجّه الكاميرا نحو رمز QR الموجود لدى الجهة</div>
   <div class="scan-err" id="scanErr" hidden>
     <div class="e"><i class="ti ti-camera"></i></div>
     <b id="scanErrT"></b>
@@ -363,7 +363,7 @@ const Q_TEXT = {
   overall: 'كيف تقيّم تجربتك بشكل عام في المعرض؟',
   benefit: 'ما مدى استفادتك من المعرض؟',
   organization: 'كيف تقيّم تنظيم المعرض؟',
-  content: 'كيف تقيّم محتوى البوثات؟'
+  content: 'كيف تقيّم محتوى الجهات المشاركة؟'
 };
 const WORDS = ['ضعيف', 'مقبول', 'جيد', 'جيد جدًا', 'ممتاز'];
 
@@ -506,7 +506,7 @@ function openTypes() {
        <span>${ico(t.icon)}</span><b>${esc(t.name)}</b></button>`).join('');
   const b = pending && boothOf(pending.b);
   $('#pendNote').hidden = !pending;
-  if (pending) $('#pendNote').textContent = `📍 لتسجيل زيارتك${b ? ' لبوث «' + b.name + '»' : ''} اختر نوعك أولًا`;
+  if (pending) $('#pendNote').textContent = `📍 لتسجيل زيارتك${b ? ' لجهة «' + b.name + '»' : ''} اختر نوعك أولًا`;
   $('#typesBack').hidden = !ME;
   show('types');
 }
@@ -552,9 +552,9 @@ function renderHome() {
   const done = CFG.booths.filter(b => ME.visited.includes(b.id)).length;
   $('#ringN').textContent = done;
   $('#ringC').style.strokeDashoffset = 201 - 201 * (total ? done / total : 0);
-  $('#progT').textContent = `زرت ${done} من ${total} بوث`;
-  $('#progS').textContent = done === 0 ? 'ابدأ بزيارة أول بوث ومسح رمزه'
-    : done === total ? 'أحسنت! زرت جميع البوثات 👏' : 'استمر في جولتك، يمكنك زيارة أي بوث';
+  $('#progT').textContent = `زرت ${done} من ${total} جهة`;
+  $('#progS').textContent = done === 0 ? 'ابدأ بزيارة أول جهة ومسح رمزها'
+    : done === total ? 'أحسنت! زرت جميع الجهات 👏' : 'استمر في جولتك، يمكنك زيارة أي جهة';
 
   renderRateCard();
 
@@ -564,7 +564,7 @@ function renderHome() {
   $('#recList').innerHTML = rec.map(card).join('');
   const list = others.filter(b => filter === 'all' || (filter === 'done') === ME.visited.includes(b.id));
   $('#allList').innerHTML = list.map(card).join('') ||
-    `<div class="empty">${filter === 'done' ? 'لم تزر أي بوث من هذا القسم بعد' : filter === 'todo' ? 'زرت جميع بوثات هذا القسم 👏' : 'لا توجد بوثات أخرى'}</div>`;
+    `<div class="empty">${filter === 'done' ? 'لم تزر أي جهة من هذا القسم بعد' : filter === 'todo' ? 'زرت جميع جهات هذا القسم 👏' : 'لا توجد جهات أخرى'}</div>`;
 }
 
 function renderRateCard() {
@@ -578,7 +578,7 @@ function renderRateCard() {
       : `<span class="ri"><i class="ti ti-circle-check"></i></span><div><b>شكرًا لتقييمك</b><small>تم استلام رأيك</small></div>`;
   } else {
     c.innerHTML = `<span class="ri"><i class="ti ti-star"></i></span><div><b>شاركنا رأيك${e.giftEnabled ? ' واستلم هديتك' : ''}</b>
-      <small>${locked ? `يُفتح بعد زيارة ${min} بوث` : 'أسئلة سريعة في نهاية جولتك'}</small></div><span class="arrow"><i class="ti ti-chevron-left"></i></span>`;
+      <small>${locked ? `يُفتح بعد زيارة ${min} جهة` : 'أسئلة سريعة في نهاية جولتك'}</small></div><span class="arrow"><i class="ti ti-chevron-left"></i></span>`;
   }
 }
 $('#rateCard').onclick = () => openRate();
@@ -596,7 +596,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-home]')) goHome();
 });
 
-/* ---------- تفاصيل البوث والمساعدة ---------- */
+/* ---------- تفاصيل الجهة والمساعدة ---------- */
 function sheet(html) { $('#sheet').innerHTML = '<div class="grab"></div>' + html; $('#ovl').hidden = false; }
 function closeSheet() { $('#ovl').hidden = true; }
 $('#ovl').onclick = e => {
@@ -615,17 +615,17 @@ function openBooth(id) {
     ${b.description ? `<p class="ddesc">${esc(b.description)}</p>` : '<div style="height:14px"></div>'}
     ${b.location ? `<div class="dloc"><i class="ti ti-map-pin"></i> ${esc(b.location)}</div>` : ''}
     ${tl ? `<div class="dtypes">يهم: ${esc(tl)}</div>` : ''}
-    ${v ? '<div class="dnote">سبق لك زيارة هذا البوث ✓</div>'
-        : '<button class="btn pri block" data-act="scan"><i class="ti ti-scan"></i> مسح QR هذا البوث</button>'}
+    ${v ? '<div class="dnote">سبق لك زيارة هذه الجهة ✓</div>'
+        : '<button class="btn pri block" data-act="scan"><i class="ti ti-scan"></i> مسح رمز هذه الجهة</button>'}
     <button class="btn ghost block" data-act="close">إغلاق</button>`);
 }
 
 $('#helpBtn').onclick = () => sheet(`
   <h3 style="font-size:20px;margin-bottom:14px">كيف أستخدم دليل المعرض؟</h3>
   <ul class="help">
-    <li><i class="ti ti-star"></i><div><b>خدمات تهمك</b><br><small>البوثات المقترحة لك حسب فئتك، ويمكنك زيارة أي بوث آخر.</small></div></li>
-    <li><i class="ti ti-scan"></i><div><b>سجّل زيارتك</b><br><small>عند كل بوث اضغط «مسح QR البوث» ووجّه الكاميرا نحو الرمز. يمكنك أيضًا مسحه بكاميرا جوالك مباشرة.</small></div></li>
-    <li><i class="ti ti-circle-check"></i><div><b>تابع جولتك</b><br><small>تظهر علامة «تمت الزيارة» على كل بوث زرته، ولا تُحتسب الزيارة مرتين.</small></div></li>
+    <li><i class="ti ti-star"></i><div><b>خدمات تهمك</b><br><small>الجهات المقترحة لك حسب فئتك، ويمكنك زيارة أي جهة أخرى.</small></div></li>
+    <li><i class="ti ti-scan"></i><div><b>سجّل زيارتك</b><br><small>عند كل جهة اضغط «مسح رمز الجهة» ووجّه الكاميرا نحو الرمز. يمكنك أيضًا مسحه بكاميرا جوالك مباشرة.</small></div></li>
+    <li><i class="ti ti-circle-check"></i><div><b>تابع جولتك</b><br><small>تظهر علامة «تمت الزيارة» على كل جهة زرتها، ولا تُحتسب الزيارة مرتين.</small></div></li>
     <li><i class="ti ti-gift"></i><div><b>شاركنا رأيك</b><br><small>في نهاية جولتك قيّم تجربتك${CFG.expo.giftEnabled ? ' واعرض بطاقة الهدية عند الخروج' : ''}.</small></div></li>
   </ul>
   <p style="color:var(--muted);font-size:13px;margin-bottom:14px"><i class="ti ti-camera"></i> إذا لم تفتح الكاميرا: اسمح للمتصفح باستخدامها من إعدادات الجوال.</p>
@@ -651,9 +651,9 @@ function preloadScanner() { setTimeout(() => loadScanner().catch(() => {}), 1200
 const IN_APP = /FBAN|FBAV|Instagram|Snapchat|Line\/|TikTok|musical_ly|MicroMessenger|GSA\//i.test(navigator.userAgent);
 const IS_IOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 function cameraHelp() {
-  if (IN_APP) return 'هذا المتصفح داخل تطبيق آخر ولا يسمح بالكاميرا. افتح الرابط في ' + (IS_IOS ? 'Safari' : 'Chrome') + '، أو امسح رمز البوث بكاميرا جوالك مباشرة.';
-  if (IS_IOS) return 'اسمح للمتصفح باستخدام الكاميرا (الإعدادات ← Safari ← الكاميرا ← السماح)، أو امسح رمز البوث بكاميرا جوالك مباشرة.';
-  return 'اسمح للمتصفح باستخدام الكاميرا من إعدادات الموقع، أو امسح رمز البوث بكاميرا جوالك مباشرة.';
+  if (IN_APP) return 'هذا المتصفح داخل تطبيق آخر ولا يسمح بالكاميرا. افتح الرابط في ' + (IS_IOS ? 'Safari' : 'Chrome') + '، أو امسح رمز الجهة بكاميرا جوالك مباشرة.';
+  if (IS_IOS) return 'اسمح للمتصفح باستخدام الكاميرا (الإعدادات ← Safari ← الكاميرا ← السماح)، أو امسح رمز الجهة بكاميرا جوالك مباشرة.';
+  return 'اسمح للمتصفح باستخدام الكاميرا من إعدادات الموقع، أو امسح رمز الجهة بكاميرا جوالك مباشرة.';
 }
 $('#scanBtn').onclick = () => openScanner();
 $('#scanClose').onclick = $('#scanBack').onclick = () => closeScanner();
@@ -664,7 +664,7 @@ async function openScanner() {
   $('#scanErr').hidden = true;
   $('#scanHint').textContent = 'جارٍ تشغيل الكاميرا…';
   try { await loadScanner(); }
-  catch (e) { return scanError('تعذر تحميل الماسح. تحقق من الإنترنت، أو امسح رمز البوث بكاميرا جوالك مباشرة.'); }
+  catch (e) { return scanError('تعذر تحميل الماسح. تحقق من الإنترنت، أو امسح رمز الجهة بكاميرا جوالك مباشرة.'); }
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return scanError(cameraHelp());
   try {
     if (!scanner) scanner = new Html5Qrcode('reader', {
@@ -678,7 +678,7 @@ async function openScanner() {
       { fps: 15, qrbox: (w, h) => { const s = Math.floor(Math.min(w, h) * 0.75); return { width: s, height: s }; } },
       onScan, () => {}
     );
-    $('#scanHint').textContent = 'وجّه الكاميرا نحو رمز QR الموجود في البوث';
+    $('#scanHint').textContent = 'وجّه الكاميرا نحو رمز QR الموجود لدى الجهة';
   } catch (e) {
     scanning = false;
     scanError('لم نتمكن من فتح الكاميرا. ' + cameraHelp());
@@ -704,7 +704,7 @@ function onScan(text) {
   vib(40);
   const p = parseQR(text);
   closeScanner();
-  if (!p) return result('bad', { msg: 'هذا الرمز لا يخص بوثات المعرض' });
+  if (!p) return result('bad', { msg: 'هذا الرمز لا يخص جهات المعرض' });
   doVisit(p, 'scan');
 }
 
@@ -730,22 +730,22 @@ function result(kind, r) {
   const box = $('#rbox');
   $('#res').hidden = false;
   if (kind === 'loading') { box.innerHTML = '<div class="spin"></div><b>جارٍ تسجيل الزيارة…</b>'; return; }
-  const back = '<button class="btn pri block" data-close-res>العودة للبوثات</button>';
-  const again = '<button class="btn block" data-scan-again><i class="ti ti-scan"></i> مسح بوث آخر</button>';
+  const back = '<button class="btn pri block" data-close-res>العودة للجهات</button>';
+  const again = '<button class="btn block" data-scan-again><i class="ti ti-scan"></i> مسح جهة أخرى</button>';
   if (kind === 'new') {
     const pct = r.total ? Math.round(100 * r.count / r.total) : 0;
     const min = CFG.expo.ratingMinVisits || 0;
     const unlock = !ME.rated && r.count === Math.max(min, 1);
-    box.innerHTML = `<div class="ico ok"><i class="ti ti-circle-check"></i></div><h3>تمت زيارة البوث بنجاح</h3>
+    box.innerHTML = `<div class="ico ok"><i class="ti ti-circle-check"></i></div><h3>تمت زيارة الجهة بنجاح</h3>
       <div class="bn">${ico(r.booth.icon)} ${esc(r.booth.name)}</div>
-      <div class="cnt"><b>أكملت زيارة ${r.count} من ${r.total} بوثًا</b><div class="pbar"><i style="width:0%" id="pb"></i></div></div>
+      <div class="cnt"><b>أكملت زيارة ${r.count} من ${r.total} جهة</b><div class="pbar"><i style="width:0%" id="pb"></i></div></div>
       ${unlock ? `<p class="m"><i class="ti ti-star"></i> يمكنك الآن مشاركة رأيك متى ما أنهيت جولتك</p>` : ''}
       ${back}${again}`;
     requestAnimationFrame(() => setTimeout(() => { const pb = $('#pb'); if (pb) pb.style.width = pct + '%'; }, 60));
   } else if (kind === 'duplicate') {
-    box.innerHTML = `<div class="ico info"><i class="ti ti-info-circle"></i></div><h3>سبق لك زيارة هذا البوث</h3>
+    box.innerHTML = `<div class="ico info"><i class="ti ti-info-circle"></i></div><h3>سبق لك زيارة هذه الجهة</h3>
       <div class="bn">${ico(r.booth.icon)} ${esc(r.booth.name)}</div>
-      <p class="m">لم تُحتسب زيارة جديدة. زرت ${r.count} من ${r.total} بوثًا.</p>${back}${again}`;
+      <p class="m">لم تُحتسب زيارة جديدة. زرت ${r.count} من ${r.total} جهة.</p>${back}${again}`;
   } else {
     box.innerHTML = `<div class="ico bad"><i class="ti ti-alert-triangle"></i></div><h3>لم يتم تسجيل الزيارة</h3>
       <p class="m">${esc(r.msg || 'حدث خطأ')}</p>
@@ -763,7 +763,7 @@ function rateQs() { return (CFG.expo.phoneQuestions || []).filter(k => Q_TEXT[k]
 function openRate() {
   if (ME.rated) return openThanks();
   const min = CFG.expo.ratingMinVisits || 0;
-  if (ME.visited.length < min) return toast(`يُفتح التقييم بعد زيارة ${min} بوث — امسح رمز أي بوث تزوره`);
+  if (ME.visited.length < min) return toast(`يُفتح التقييم بعد زيارة ${min} جهة — امسح رمز أي جهة تزورها`);
   ANS = {};
   $('#rateQs').innerHTML = rateQs().map(k => `
     <div class="q" data-q="${k}"><p>${Q_TEXT[k]}</p>

@@ -67,7 +67,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 .card h3{font-size:16px;margin-bottom:10px}
 .empty{text-align:center;color:var(--muted);padding:30px}
 
-/* البوثات */
+/* الجهات */
 .booth{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-bottom:10px}
 .booth.off{opacity:.55}
 .booth .ord{display:flex;flex-direction:column;gap:4px}
@@ -200,11 +200,11 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 
 <div id="app" hidden>
   <header class="top">
-    <div class="tl"><img src="logo-white.png" alt=""><div><b id="expoName">لوحة الإدارة</b><small>إدارة البوثات والإحصاءات</small></div></div>
+    <div class="tl"><img src="logo-white.png" alt=""><div><b id="expoName">لوحة الإدارة</b><small>إدارة الجهات والإحصاءات</small></div></div>
     <button class="btn" id="logout"><i class="ti ti-logout"></i> خروج</button>
   </header>
   <nav class="tabs">
-    <button data-tab="booths" class="on"><i class="ti ti-building"></i> البوثات</button>
+    <button data-tab="booths" class="on"><i class="ti ti-building"></i> الجهات</button>
     <button data-tab="matrix"><i class="ti ti-star"></i> الارتباط بالفئات</button>
     <button data-tab="qr"><i class="ti ti-qrcode"></i> رموز QR</button>
     <button data-tab="stats"><i class="ti ti-chart-bar"></i> الإحصاءات</button>
@@ -214,22 +214,22 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 
     <section id="tab-booths">
       <div class="bar">
-        <h2>البوثات</h2>
+        <h2>الجهات</h2>
         <div style="display:flex;gap:8px">
           <button class="btn gold" id="saveOrder" hidden><i class="ti ti-device-floppy"></i> حفظ الترتيب</button>
-          <button class="btn pri" id="addBooth"><i class="ti ti-plus"></i> إضافة بوث</button>
+          <button class="btn pri" id="addBooth"><i class="ti ti-plus"></i> إضافة جهة</button>
         </div>
       </div>
-      <p class="hint">استخدم الأسهم لتغيير ترتيب ظهور البوثات للزوار. البوث الذي له زيارات مسجلة يُعطَّل بدل حذفه حفاظًا على الإحصاءات.</p>
+      <p class="hint">استخدم الأسهم لتغيير ترتيب ظهور الجهات للزوار. الجهة التي لها زيارات مسجلة تُعطَّل بدل حذفها حفاظًا على الإحصاءات.</p>
       <div id="boothList"></div>
     </section>
 
     <section id="tab-matrix" hidden>
       <div class="bar">
-        <h2>ارتباط البوثات بأنواع الزوار</h2>
+        <h2>ارتباط الجهات بأنواع الزوار</h2>
         <button class="btn pri" id="saveMatrix"><i class="ti ti-device-floppy"></i> حفظ الارتباطات</button>
       </div>
-      <p class="hint">اضغط النجمة لتحديد البوثات التي تظهر في قسم «خدمات تهمك» لكل فئة. جميع البوثات تظهر لكل الزوار في كل الأحوال.</p>
+      <p class="hint">اضغط النجمة لتحديد الجهات التي تظهر في قسم «خدمات تهمك» لكل فئة. جميع الجهات تظهر لكل الزوار في كل الأحوال.</p>
       <div class="mx" id="matrix"></div>
     </section>
 
@@ -249,10 +249,10 @@ main{max-width:1100px;margin:0 auto;padding:16px}
         </div>
       </div>
       <div class="bar">
-        <h2>رموز البوثات</h2>
+        <h2>رموز الجهات</h2>
         <button class="btn pri" id="printAll"><i class="ti ti-printer"></i> طباعة الكل</button>
       </div>
-      <p class="hint">لكل بوث رمز سري داخل الـQR. «تجديد الرمز» يُبطل الـQR المطبوع سابقًا لهذا البوث.</p>
+      <p class="hint">لكل جهة رمز سري داخل الـQR. «تجديد الرمز» يُبطل الـQR المطبوع سابقًا لهذه الجهة.</p>
       <div class="qgrid" id="qrGrid"></div>
     </section>
 
@@ -271,7 +271,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
       <form class="card" id="setForm"></form>
       <div class="card">
         <h3>أنواع الزوار</h3>
-        <p class="hint">يمكن تعديل الاسم والأيقونة، أو إيقاف نوع، أو إضافة نوع جديد. الأيقونة تُكتب باسمها الإنجليزي مثل: school ، briefcase ، user (الأسماء المتاحة هي نفسها الظاهرة في نافذة إضافة البوث).</p>
+        <p class="hint">يمكن تعديل الاسم والأيقونة، أو إيقاف نوع، أو إضافة نوع جديد. الأيقونة تُكتب باسمها الإنجليزي مثل: school ، briefcase ، user (الأسماء المتاحة هي نفسها الظاهرة في نافذة إضافة الجهة).</p>
         <div id="typesBox"></div>
         <div style="display:flex;gap:8px;margin-top:10px">
           <button class="btn" id="addType"><i class="ti ti-plus"></i> نوع جديد</button>
@@ -280,7 +280,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
       </div>
       <div class="card">
         <h3>بيانات التجربة</h3>
-        <p class="hint">يحذف جميع الزوار والزيارات والتقييمات، ويُبقي البوثات والإعدادات كما هي. استخدمه مرة واحدة قبل بدء المعرض بعد انتهاء التجارب.</p>
+        <p class="hint">يحذف جميع الزوار والزيارات والتقييمات، ويُبقي الجهات والإعدادات كما هي. استخدمه مرة واحدة قبل بدء المعرض بعد انتهاء التجارب.</p>
         <button class="btn danger" id="resetData"><i class="ti ti-trash"></i> مسح بيانات التجربة</button>
       </div>
     </section>
@@ -290,15 +290,15 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 
 <div class="modal" id="modal" hidden>
   <form class="sheet" id="boothForm">
-    <h3 id="mTitle">إضافة بوث</h3>
+    <h3 id="mTitle">إضافة جهة</h3>
     <input type="hidden" id="fId">
-    <label class="fld"><span>اسم البوث *</span><input id="fName" required maxlength="80"></label>
+    <label class="fld"><span>اسم الجهة *</span><input id="fName" required maxlength="80"></label>
     <div class="fld"><span>الأيقونة</span><div class="icrow"><div class="icprev" id="fIconPrev"></div><input id="fIcon" maxlength="40" dir="ltr" placeholder="building" style="flex:1"></div>
       <div class="icons" id="iconPick"></div><small>اختر أيقونة من القائمة</small></div>
     <label class="fld"><span>الوصف</span><textarea id="fDesc" rows="3" maxlength="400"></textarea></label>
     <label class="fld"><span>الموقع داخل المعرض (اختياري)</span><input id="fLoc" maxlength="60" placeholder="مثال: الجناح A — يمين المدخل"></label>
     <div class="fld"><span>أنواع الزوار المرتبطة (خدمات تهمك)</span><div class="checks" id="fTypes"></div></div>
-    <div class="fld"><div class="checks"><label><input type="checkbox" id="fActive"> البوث نشط ويظهر للزوار</label></div></div>
+    <div class="fld"><div class="checks"><label><input type="checkbox" id="fActive"> الجهة نشطة وتظهر للزوار</label></div></div>
     <div class="foot">
       <button type="button" class="btn ghost" id="mClose">إلغاء</button>
       <button type="submit" class="btn pri">حفظ</button>
@@ -312,7 +312,7 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 
 <script>
 const BASE = location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/, '');
-const Q_LABELS = { overall: 'التجربة العامة', benefit: 'الاستفادة', organization: 'التنظيم', content: 'محتوى البوثات' };
+const Q_LABELS = { overall: 'التجربة العامة', benefit: 'الاستفادة', organization: 'التنظيم', content: 'محتوى الجهات المشاركة' };
 const SET_LABELS = {
   expo_name: 'اسم المعرض', expo_subtitle: 'العبارة التعريفية', organizer: 'الجهة المنظمة', admin_password: 'رمز الإدارة',
   gift_pin: 'رمز موظف الهدايا', gift_enabled: 'بطاقة الهدية بعد التقييم', rating_min_visits: 'أقل عدد زيارات لفتح التقييم',
@@ -407,10 +407,10 @@ document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
   window.scrollTo(0, 0);
 });
 
-/* ---------- البوثات ---------- */
+/* ---------- الجهات ---------- */
 function renderBooths() {
   const a = DATA.booths;
-  if (!a.length) { $('#boothList').innerHTML = '<div class="empty">لا توجد بوثات بعد — أضف أول بوث</div>'; return; }
+  if (!a.length) { $('#boothList').innerHTML = '<div class="empty">لا توجد جهات بعد — أضف أول جهة</div>'; return; }
   $('#boothList').innerHTML = a.map((b, i) => `
     <div class="booth ${b.active ? '' : 'off'}">
       <div class="ord">
@@ -452,15 +452,15 @@ $('#saveOrder').onclick = () => run(async () => {
 });
 function delBooth(id) {
   const b = DATA.booths.find(x => x.id === id);
-  if (!confirm('حذف البوث «' + b.name + '»؟\nإذا كانت له زيارات مسجلة سيتم تعطيله فقط.')) return;
+  if (!confirm('حذف الجهة «' + b.name + '»؟\nإذا كانت لها زيارات مسجلة سيتم تعطيلها فقط.')) return;
   run(async () => {
     const r = await api('deleteBooth', { id });
-    toast(r.mode === 'disabled' ? 'البوث له زيارات، تم تعطيله' : 'تم حذف البوث');
+    toast(r.mode === 'disabled' ? 'الجهة لها زيارات، تم تعطيلها' : 'تم حذف الجهة');
     await load();
   });
 }
 
-/* نافذة البوث */
+/* نافذة الجهة */
 $('#iconPick').innerHTML = ICONS.map(i => `<button type="button" data-i="${i}" title="${i}"><i class="ti ti-${i}"></i></button>`).join('');
 function iconPreview() {
   const v = $('#fIcon').value.trim();
@@ -475,7 +475,7 @@ $('#modal').onclick = e => { if (e.target.id === 'modal') $('#modal').hidden = t
 
 function openBooth(id) {
   const b = DATA.booths.find(x => x.id === id) || { id: '', name: '', icon: 'building', description: '', location: '', active: true, types: [] };
-  $('#mTitle').textContent = id ? 'تعديل بوث' : 'إضافة بوث';
+  $('#mTitle').textContent = id ? 'تعديل جهة' : 'إضافة جهة';
   $('#fId').value = b.id;
   $('#fName').value = b.name;
   $('#fIcon').value = b.icon;
@@ -514,11 +514,11 @@ function renderMatrix() {
 }
 function drawMatrix() {
   const types = DATA.types.filter(t => t.active);
-  if (!DATA.booths.length) { $('#matrix').innerHTML = '<div class="empty">أضف بوثات أولًا</div>'; return; }
-  const head = '<tr><th>البوث</th>' + types.map(t => `<th>${ico(t.icon)}<br>${esc(t.name)}</th>`).join('') + '</tr>';
+  if (!DATA.booths.length) { $('#matrix').innerHTML = '<div class="empty">أضف جهات أولًا</div>'; return; }
+  const head = '<tr><th>الجهة</th>' + types.map(t => `<th>${ico(t.icon)}<br>${esc(t.name)}</th>`).join('') + '</tr>';
   const rows = DATA.booths.map(b => `<tr class="${b.active ? '' : 'off'}"><td>${ico(b.icon)} ${esc(b.name)}</td>` +
     types.map(t => `<td><button class="star ${MX[b.id].has(t.id) ? 'on' : ''}" data-b="${esc(b.id)}" data-t="${esc(t.id)}">★</button></td>`).join('') + '</tr>').join('');
-  const foot = '<tr class="foot"><td>عدد البوثات الموصى بها</td>' +
+  const foot = '<tr class="foot"><td>عدد الجهات الموصى بها</td>' +
     types.map(t => `<td>${DATA.booths.filter(b => b.active && MX[b.id].has(t.id)).length}</td>`).join('') + '</tr>';
   $('#matrix').innerHTML = `<table>${head}${rows}${foot}</table>`;
 }
@@ -570,7 +570,7 @@ function renderQR() {
         <a class="btn" href="${esc(boothUrl(b))}" target="_blank"><i class="ti ti-link"></i> تجربة</a>
         <button class="btn ghost" data-regen="${esc(b.id)}">تجديد الرمز</button>
       </div>
-    </div>`).join('') || '<div class="empty">لا توجد بوثات</div>';
+    </div>`).join('') || '<div class="empty">لا توجد جهات</div>';
 }
 $('#links').onclick = e => {
   const b = e.target.closest('[data-copy]');
@@ -595,16 +595,16 @@ $('#qrGrid').onclick = e => {
     const b = DATA.booths.find(x => x.id === t.dataset.print);
     printCards([boothCard(b)]);
   } else if (t.dataset.regen) {
-    if (!confirm('تجديد الرمز سيُبطل الـQR المطبوع سابقًا لهذا البوث. متابعة؟')) return;
+    if (!confirm('تجديد الرمز سيُبطل الـQR المطبوع سابقًا لهذه الجهة. متابعة؟')) return;
     run(async () => { await api('regenToken', { id: t.dataset.regen }); toast('تم تجديد الرمز — اطبع الـQR الجديد'); await load(); });
   }
 };
-const boothCard = b => ({ title: ico(b.icon) + ' ' + esc(b.name), sub: 'امسح الرمز لتسجيل زيارتك لهذا البوث', url: boothUrl(b) });
+const boothCard = b => ({ title: ico(b.icon) + ' ' + esc(b.name), sub: 'امسح الرمز لتسجيل زيارتك لهذه الجهة', url: boothUrl(b) });
 $('#printAll').onclick = () => printCards(DATA.booths.filter(b => b.active).map(boothCard));
 $('#printMain').onclick = () => printCards([{ title: 'أهلًا بك', sub: 'امسح الرمز وابدأ جولتك في المعرض', url: BASE }]);
 
 function printCards(items) {
-  if (!items.length) return toast('لا توجد بوثات نشطة', true);
+  if (!items.length) return toast('لا توجد جهات نشطة', true);
   const name = setVal('expo_name'), org = setVal('organizer');
   $('#printArea').innerHTML = items.map(it => `
     <div class="pcard"><img class="plogo" src="logo.png" alt=""><div class="pexpo">${esc(name)}</div><div class="ptitle">${it.title}</div>
@@ -636,8 +636,8 @@ function renderStats(s) {
     <div class="kpis">
       ${kpi('إجمالي الزوار', T.visitors)}
       ${kpi('زوار سجلوا زيارة', T.engaged)}
-      ${kpi('إجمالي زيارات البوثات', T.visits)}
-      ${kpi('متوسط البوثات لكل زائر', T.avgBooths)}
+      ${kpi('إجمالي زيارات الجهات', T.visits)}
+      ${kpi('متوسط الجهات لكل زائر', T.avgBooths)}
       ${kpi('محاولات مكررة', T.duplicates)}
       ${kpi('عدد التقييمات', T.ratings)}
       ${kpi('متوسط التقييم العام', T.avgRating ? T.avgRating + ' / 5' : '—')}
@@ -645,20 +645,20 @@ function renderStats(s) {
     </div>
 
     <div class="card"><h3>الزوار حسب النوع وقياس التوصيات</h3><div class="tbl"><table>
-      <tr><th>الفئة</th><th>الزوار</th><th>الزيارات</th><th>متوسط البوثات</th><th>البوثات الموصى بها</th><th>متوسط ما زاره منها</th><th>تغطية التوصيات</th><th>نسبة الزيارات للموصى بها</th></tr>
+      <tr><th>الفئة</th><th>الزوار</th><th>الزيارات</th><th>متوسط الجهات</th><th>الجهات الموصى بها</th><th>متوسط ما زاره منها</th><th>تغطية التوصيات</th><th>نسبة الزيارات للموصى بها</th></tr>
       ${types.map(t => `<tr><td>${ico(t.icon)} ${esc(t.name)}</td><td>${t.visitors}</td><td>${t.visits}</td><td>${t.avgBooths}</td>
         <td>${t.recTotal}</td><td>${t.avgRecVisited} من ${t.recTotal}</td><td>${t.recCoverage}%</td><td>${t.recShare}%</td></tr>`).join('')}
     </table></div>
-    <p class="hint" style="margin:10px 0 0">«تغطية التوصيات» = نسبة ما زاره زوار الفئة من البوثات الموصى بها لهم. «نسبة الزيارات للموصى بها» = كم من زياراتهم كانت لبوثات موصى بها.</p></div>
+    <p class="hint" style="margin:10px 0 0">«تغطية التوصيات» = نسبة ما زاره زوار الفئة من الجهات الموصى بها لهم. «نسبة الزيارات للموصى بها» = كم من زياراتهم كانت لجهات موصى بها.</p></div>
 
-    <div class="card"><h3>زيارات كل بوث حسب نوع الزائر</h3><div class="tbl"><table>
-      <tr><th>البوث</th><th>الإجمالي</th>${types.map(t => `<th>${ico(t.icon)} ${esc(t.name)}</th>`).join('')}</tr>
+    <div class="card"><h3>زيارات كل جهة حسب نوع الزائر</h3><div class="tbl"><table>
+      <tr><th>الجهة</th><th>الإجمالي</th>${types.map(t => `<th>${ico(t.icon)} ${esc(t.name)}</th>`).join('')}</tr>
       ${s.booths.map((b, i) => `<tr><td>${i + 1}. ${ico(b.icon)} ${esc(b.name)}${b.active ? '' : ' <small class="tag-off">معطل</small>'}
         <div class="barln"><i style="width:${Math.round(100 * b.visits / maxB)}%"></i></div></td>
         <td><b>${b.visits}</b></td>${types.map(t => `<td>${b.byType[t.id] || 0}</td>`).join('')}</tr>`).join('')}
     </table></div></div>
 
-    <div class="card"><h3>أكثر البوثات زيارة لكل فئة</h3><div class="tops">
+    <div class="card"><h3>أكثر الجهات زيارة لكل فئة</h3><div class="tops">
       ${types.map(t => `<div><b>${ico(t.icon)} ${esc(t.name)}</b>${t.top.length
         ? '<ol>' + t.top.map(x => `<li>${esc(x.name)} — ${x.visits}</li>`).join('') + '</ol>'
         : '<p class="hint">لا توجد زيارات بعد</p>'}</div>`).join('')}
@@ -709,7 +709,7 @@ function toCsv(rows) {
 $('#exportXlsx').onclick = () => run(async () => {
   const d = await api('export');
   const stamp = new Date().toISOString().slice(0, 10);
-  const sheets = [['الزوار', d.visitors], ['الزيارات', d.visits], ['التقييمات', d.ratings], ['البوثات', d.booths]];
+  const sheets = [['الزوار', d.visitors], ['الزيارات', d.visits], ['التقييمات', d.ratings], ['الجهات', d.booths]];
   try {
     await loadXlsx();
     const wb = XLSX.utils.book_new();
